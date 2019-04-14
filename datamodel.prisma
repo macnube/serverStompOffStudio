@@ -8,46 +8,54 @@ type User {
 
 type Student {
     id: ID! @unique
-    name: String
-    email: String
+    name: String!
+    email: String!
     mobile: String
-    classes: [ClassStudent!]!
-    cards: [Card!]!
+    classes: [ClassStudent!]
+    cards: [Card!]
     hasReferralBonus: Boolean! @default(value: "false")
-}
+} 
 
 type Class {
     id: ID! @unique
-    name: String
+    name: String!
     description: String
     startDate: DateTime
     teachers: [Teacher!]!
-    students: [ClassStudent!]!
-    classHistory: [ClassInstance!]!
+    students: [ClassStudent!]
+    classHistory: [ClassInstance!]
     studentLimit: Int
-    location: Studio
 }
 
 type Attendee {
-    student: Student
-    classInstance: ClassInstance 
+    id: ID! @unique
+    student: Student!
+    classInstance: ClassInstance!
+}
+
+type Absentee {
+    id: ID! @unique
+    student: Student!
+    classInstance: ClassInstance!
 }
 
 
-enum Role {
+enum DanceRole {
     Leader, Follower, Solo
 }
 
 type ClassStudent {
-    student: Student
-    class: Class
-    role: Role
+    id: ID! @unique
+    student: Student!
+    class: Class!
+    role: DanceRole!
 }
 
 type Teacher {
     id: ID! @unique
     name: String
     email: String
+    classes: [Class!]
 }
 
 type ClassInstance {
@@ -56,20 +64,8 @@ type ClassInstance {
     date: DateTime
     topic: String
     notes: String
-    attendees: [Attendee!]!
-}
-
-type Studio {
-    id: ID! @unique
-    name: String @unique
-    rooms: [Room!]!
-    address: String
-}
-
-type Room {
-    id: ID! @unique
-    name: String
-    capacity: Int
+    attendees: [Attendee!]
+    absentees: [Absentee!]
 }
 
 type Card {
@@ -78,7 +74,7 @@ type Card {
     payment: Payment
     startDate: DateTime
     expirationDate: DateTime
-    validNumberOfClasses: Int
+    validNumberOfClasses: Int!
     classes: [ClassInstance]
 }
 
@@ -88,8 +84,9 @@ enum PaymentType {
 
 type Payment {
     id: ID! @unique
-    type: PaymentType
-    date: DateTime
-    amount: Int
+    type: PaymentType!
+    date: DateTime!
+    amount: Int!
     student: Student
+    card: Card
 }

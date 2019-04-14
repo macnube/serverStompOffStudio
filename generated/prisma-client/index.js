@@ -21,7 +21,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Role",
+    name: "Absentee",
+    embedded: false
+  },
+  {
+    name: "DanceRole",
     embedded: false
   },
   {
@@ -34,14 +38,6 @@ var models = [
   },
   {
     name: "ClassInstance",
-    embedded: false
-  },
-  {
-    name: "Studio",
-    embedded: false
-  },
-  {
-    name: "Room",
     embedded: false
   },
   {

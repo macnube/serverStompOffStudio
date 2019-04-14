@@ -18,7 +18,7 @@ const resolvers = {
                 name: args.name,
                 email: args.email,
                 password: args.password,
-                admin: ars.admin,
+                admin: args.admin,
             });
         },
         createStudent(root, args, context) {

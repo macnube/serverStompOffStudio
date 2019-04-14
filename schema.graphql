@@ -4,9 +4,15 @@ type Query {
     users: [User!]!
     classes: [Class!]!
     students: [Student!]!
+    teachers: [Teacher!]!
 }
 
 type Mutation {
-    createUser(name: String!): User
+    createUser(
+        name: String!
+        email: String
+        password: String!
+        admin: Boolean
+    ): User
     createStudent(name: String!, email: String!, mobile: String): Student
 }
