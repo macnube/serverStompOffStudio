@@ -1,0 +1,12 @@
+# import User, Class, Student from "./generated/prisma.graphql"
+
+type Query {
+    users: [User!]!
+    classes: [Class!]!
+    students: [Student!]!
+}
+
+type Mutation {
+    createUser(name: String!): User
+    createStudent(name: String!, email: String!, mobile: String): Student
+}

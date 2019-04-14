@@ -1,0 +1,95 @@
+type User {
+  id: ID! @unique
+  email: String @unique
+  password: String!
+  name: String!
+  admin: Boolean! @default(value: "false")
+}
+
+type Student {
+    id: ID! @unique
+    name: String
+    email: String
+    mobile: String
+    classes: [ClassStudent!]!
+    cards: [Card!]!
+    hasReferralBonus: Boolean! @default(value: "false")
+}
+
+type Class {
+    id: ID! @unique
+    name: String
+    description: String
+    startDate: DateTime
+    teachers: [Teacher!]!
+    students: [ClassStudent!]!
+    classHistory: [ClassInstance!]!
+    studentLimit: Int
+    location: Studio
+}
+
+type Attendee {
+    student: Student
+    classInstance: ClassInstance 
+}
+
+
+enum Role {
+    Leader, Follower, Solo
+}
+
+type ClassStudent {
+    student: Student
+    class: Class
+    role: Role
+}
+
+type Teacher {
+    id: ID! @unique
+    name: String
+    email: String
+}
+
+type ClassInstance {
+    id: ID! @unique
+    parent: Class
+    date: DateTime
+    topic: String
+    notes: String
+    attendees: [Attendee!]!
+}
+
+type Studio {
+    id: ID! @unique
+    name: String @unique
+    rooms: [Room!]!
+    address: String
+}
+
+type Room {
+    id: ID! @unique
+    name: String
+    capacity: Int
+}
+
+type Card {
+    id: ID! @unique
+    student: Student
+    payment: Payment
+    startDate: DateTime
+    expirationDate: DateTime
+    validNumberOfClasses: Int
+    classes: [ClassInstance]
+}
+
+enum PaymentType {
+    Class, Private, DropIn
+}
+
+type Payment {
+    id: ID! @unique
+    type: PaymentType
+    date: DateTime
+    amount: Int
+    student: Student
+}
