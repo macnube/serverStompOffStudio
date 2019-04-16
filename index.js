@@ -8,25 +8,57 @@ const { importSchema } = require('graphql-import');
 
 const resolvers = {
     Query: {
-        users(root, args, context) {
-            return context.prisma.users();
+        studios(root, args, context) {
+            return context.prisma.studios();
+        },
+        roomsByStudio(root, args, context) {
+            return context.prisma
+                .studio({
+                    id: args.studioId,
+                })
+                .rooms();
+        },
+        studioByRoom(root, args, context) {
+            return context.prisma
+                .room({
+                    id: args.roomId,
+                })
+                .studio();
         },
     },
     Mutation: {
-        createUser(root, args, context) {
-            return context.prisma.createUser({
+        createStudio(root, args, context) {
+            return context.prisma.createStudio({
                 name: args.name,
-                email: args.email,
-                password: args.password,
-                admin: args.admin,
+                address: args.address,
             });
         },
-        createStudent(root, args, context) {
-            return context.prisma.createStudent({
+        createRoom(root, args, context) {
+            return context.prisma.createRoom({
                 name: args.name,
-                email: args.email,
-                mobile: args.mobile,
+                capacity: args.capacity,
+                studio: {
+                    connect: { id: args.studioId },
+                },
             });
+        },
+    },
+    Studio: {
+        rooms(root, args, context) {
+            return context.prisma
+                .studio({
+                    id: root.id,
+                })
+                .rooms();
+        },
+    },
+    Room: {
+        studio(root, args, context) {
+            return context.prisma
+                .room({
+                    id: root.id,
+                })
+                .studio();
         },
     },
 };

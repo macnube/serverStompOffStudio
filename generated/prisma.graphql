@@ -165,7 +165,15 @@ type AggregatePayment {
   count: Int!
 }
 
+type AggregateRoom {
+  count: Int!
+}
+
 type AggregateStudent {
+  count: Int!
+}
+
+type AggregateStudio {
   count: Int!
 }
 
@@ -1579,12 +1587,24 @@ type Mutation {
   upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
   deletePayment(where: PaymentWhereUniqueInput!): Payment
   deleteManyPayments(where: PaymentWhereInput): BatchPayload!
+  createRoom(data: RoomCreateInput!): Room!
+  updateRoom(data: RoomUpdateInput!, where: RoomWhereUniqueInput!): Room
+  updateManyRooms(data: RoomUpdateManyMutationInput!, where: RoomWhereInput): BatchPayload!
+  upsertRoom(where: RoomWhereUniqueInput!, create: RoomCreateInput!, update: RoomUpdateInput!): Room!
+  deleteRoom(where: RoomWhereUniqueInput!): Room
+  deleteManyRooms(where: RoomWhereInput): BatchPayload!
   createStudent(data: StudentCreateInput!): Student!
   updateStudent(data: StudentUpdateInput!, where: StudentWhereUniqueInput!): Student
   updateManyStudents(data: StudentUpdateManyMutationInput!, where: StudentWhereInput): BatchPayload!
   upsertStudent(where: StudentWhereUniqueInput!, create: StudentCreateInput!, update: StudentUpdateInput!): Student!
   deleteStudent(where: StudentWhereUniqueInput!): Student
   deleteManyStudents(where: StudentWhereInput): BatchPayload!
+  createStudio(data: StudioCreateInput!): Studio!
+  updateStudio(data: StudioUpdateInput!, where: StudioWhereUniqueInput!): Studio
+  updateManyStudios(data: StudioUpdateManyMutationInput!, where: StudioWhereInput): BatchPayload!
+  upsertStudio(where: StudioWhereUniqueInput!, create: StudioCreateInput!, update: StudioUpdateInput!): Studio!
+  deleteStudio(where: StudioWhereUniqueInput!): Studio
+  deleteManyStudios(where: StudioWhereInput): BatchPayload!
   createTeacher(data: TeacherCreateInput!): Teacher!
   updateTeacher(data: TeacherUpdateInput!, where: TeacherWhereUniqueInput!): Teacher
   updateManyTeachers(data: TeacherUpdateManyMutationInput!, where: TeacherWhereInput): BatchPayload!
@@ -1805,9 +1825,15 @@ type Query {
   payment(where: PaymentWhereUniqueInput!): Payment
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
   paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
+  room(where: RoomWhereUniqueInput!): Room
+  rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room]!
+  roomsConnection(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoomConnection!
   student(where: StudentWhereUniqueInput!): Student
   students(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Student]!
   studentsConnection(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentConnection!
+  studio(where: StudioWhereUniqueInput!): Studio
+  studios(where: StudioWhereInput, orderBy: StudioOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Studio]!
+  studiosConnection(where: StudioWhereInput, orderBy: StudioOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudioConnection!
   teacher(where: TeacherWhereUniqueInput!): Teacher
   teachers(where: TeacherWhereInput, orderBy: TeacherOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Teacher]!
   teachersConnection(where: TeacherWhereInput, orderBy: TeacherOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeacherConnection!
@@ -1815,6 +1841,215 @@ type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
+}
+
+type Room {
+  id: ID!
+  name: String
+  capacity: Int
+  studio: Studio!
+}
+
+type RoomConnection {
+  pageInfo: PageInfo!
+  edges: [RoomEdge]!
+  aggregate: AggregateRoom!
+}
+
+input RoomCreateInput {
+  name: String
+  capacity: Int
+  studio: StudioCreateOneWithoutRoomsInput!
+}
+
+input RoomCreateManyWithoutStudioInput {
+  create: [RoomCreateWithoutStudioInput!]
+  connect: [RoomWhereUniqueInput!]
+}
+
+input RoomCreateWithoutStudioInput {
+  name: String
+  capacity: Int
+}
+
+type RoomEdge {
+  node: Room!
+  cursor: String!
+}
+
+enum RoomOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  capacity_ASC
+  capacity_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type RoomPreviousValues {
+  id: ID!
+  name: String
+  capacity: Int
+}
+
+input RoomScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  capacity: Int
+  capacity_not: Int
+  capacity_in: [Int!]
+  capacity_not_in: [Int!]
+  capacity_lt: Int
+  capacity_lte: Int
+  capacity_gt: Int
+  capacity_gte: Int
+  AND: [RoomScalarWhereInput!]
+  OR: [RoomScalarWhereInput!]
+  NOT: [RoomScalarWhereInput!]
+}
+
+type RoomSubscriptionPayload {
+  mutation: MutationType!
+  node: Room
+  updatedFields: [String!]
+  previousValues: RoomPreviousValues
+}
+
+input RoomSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RoomWhereInput
+  AND: [RoomSubscriptionWhereInput!]
+  OR: [RoomSubscriptionWhereInput!]
+  NOT: [RoomSubscriptionWhereInput!]
+}
+
+input RoomUpdateInput {
+  name: String
+  capacity: Int
+  studio: StudioUpdateOneRequiredWithoutRoomsInput
+}
+
+input RoomUpdateManyDataInput {
+  name: String
+  capacity: Int
+}
+
+input RoomUpdateManyMutationInput {
+  name: String
+  capacity: Int
+}
+
+input RoomUpdateManyWithoutStudioInput {
+  create: [RoomCreateWithoutStudioInput!]
+  delete: [RoomWhereUniqueInput!]
+  connect: [RoomWhereUniqueInput!]
+  set: [RoomWhereUniqueInput!]
+  disconnect: [RoomWhereUniqueInput!]
+  update: [RoomUpdateWithWhereUniqueWithoutStudioInput!]
+  upsert: [RoomUpsertWithWhereUniqueWithoutStudioInput!]
+  deleteMany: [RoomScalarWhereInput!]
+  updateMany: [RoomUpdateManyWithWhereNestedInput!]
+}
+
+input RoomUpdateManyWithWhereNestedInput {
+  where: RoomScalarWhereInput!
+  data: RoomUpdateManyDataInput!
+}
+
+input RoomUpdateWithoutStudioDataInput {
+  name: String
+  capacity: Int
+}
+
+input RoomUpdateWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput!
+  data: RoomUpdateWithoutStudioDataInput!
+}
+
+input RoomUpsertWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput!
+  update: RoomUpdateWithoutStudioDataInput!
+  create: RoomCreateWithoutStudioInput!
+}
+
+input RoomWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  capacity: Int
+  capacity_not: Int
+  capacity_in: [Int!]
+  capacity_not_in: [Int!]
+  capacity_lt: Int
+  capacity_lte: Int
+  capacity_gt: Int
+  capacity_gte: Int
+  studio: StudioWhereInput
+  AND: [RoomWhereInput!]
+  OR: [RoomWhereInput!]
+  NOT: [RoomWhereInput!]
+}
+
+input RoomWhereUniqueInput {
+  id: ID
 }
 
 type Student {
@@ -2083,6 +2318,161 @@ input StudentWhereUniqueInput {
   id: ID
 }
 
+type Studio {
+  id: ID!
+  name: String
+  rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
+  address: String
+}
+
+type StudioConnection {
+  pageInfo: PageInfo!
+  edges: [StudioEdge]!
+  aggregate: AggregateStudio!
+}
+
+input StudioCreateInput {
+  name: String
+  rooms: RoomCreateManyWithoutStudioInput
+  address: String
+}
+
+input StudioCreateOneWithoutRoomsInput {
+  create: StudioCreateWithoutRoomsInput
+  connect: StudioWhereUniqueInput
+}
+
+input StudioCreateWithoutRoomsInput {
+  name: String
+  address: String
+}
+
+type StudioEdge {
+  node: Studio!
+  cursor: String!
+}
+
+enum StudioOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  address_ASC
+  address_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type StudioPreviousValues {
+  id: ID!
+  name: String
+  address: String
+}
+
+type StudioSubscriptionPayload {
+  mutation: MutationType!
+  node: Studio
+  updatedFields: [String!]
+  previousValues: StudioPreviousValues
+}
+
+input StudioSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: StudioWhereInput
+  AND: [StudioSubscriptionWhereInput!]
+  OR: [StudioSubscriptionWhereInput!]
+  NOT: [StudioSubscriptionWhereInput!]
+}
+
+input StudioUpdateInput {
+  name: String
+  rooms: RoomUpdateManyWithoutStudioInput
+  address: String
+}
+
+input StudioUpdateManyMutationInput {
+  name: String
+  address: String
+}
+
+input StudioUpdateOneRequiredWithoutRoomsInput {
+  create: StudioCreateWithoutRoomsInput
+  update: StudioUpdateWithoutRoomsDataInput
+  upsert: StudioUpsertWithoutRoomsInput
+  connect: StudioWhereUniqueInput
+}
+
+input StudioUpdateWithoutRoomsDataInput {
+  name: String
+  address: String
+}
+
+input StudioUpsertWithoutRoomsInput {
+  update: StudioUpdateWithoutRoomsDataInput!
+  create: StudioCreateWithoutRoomsInput!
+}
+
+input StudioWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  rooms_every: RoomWhereInput
+  rooms_some: RoomWhereInput
+  rooms_none: RoomWhereInput
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  AND: [StudioWhereInput!]
+  OR: [StudioWhereInput!]
+  NOT: [StudioWhereInput!]
+}
+
+input StudioWhereUniqueInput {
+  id: ID
+  name: String
+}
+
 type Subscription {
   absentee(where: AbsenteeSubscriptionWhereInput): AbsenteeSubscriptionPayload
   attendee(where: AttendeeSubscriptionWhereInput): AttendeeSubscriptionPayload
@@ -2091,15 +2481,18 @@ type Subscription {
   classInstance(where: ClassInstanceSubscriptionWhereInput): ClassInstanceSubscriptionPayload
   classStudent(where: ClassStudentSubscriptionWhereInput): ClassStudentSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
+  room(where: RoomSubscriptionWhereInput): RoomSubscriptionPayload
   student(where: StudentSubscriptionWhereInput): StudentSubscriptionPayload
+  studio(where: StudioSubscriptionWhereInput): StudioSubscriptionPayload
   teacher(where: TeacherSubscriptionWhereInput): TeacherSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type Teacher {
   id: ID!
-  name: String
-  email: String
+  name: String!
+  email: String!
+  mobile: String
   classes(where: ClassWhereInput, orderBy: ClassOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Class!]
 }
 
@@ -2110,8 +2503,9 @@ type TeacherConnection {
 }
 
 input TeacherCreateInput {
-  name: String
-  email: String
+  name: String!
+  email: String!
+  mobile: String
   classes: ClassCreateManyWithoutTeachersInput
 }
 
@@ -2121,8 +2515,9 @@ input TeacherCreateManyWithoutClassesInput {
 }
 
 input TeacherCreateWithoutClassesInput {
-  name: String
-  email: String
+  name: String!
+  email: String!
+  mobile: String
 }
 
 type TeacherEdge {
@@ -2137,6 +2532,8 @@ enum TeacherOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  mobile_ASC
+  mobile_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -2145,8 +2542,9 @@ enum TeacherOrderByInput {
 
 type TeacherPreviousValues {
   id: ID!
-  name: String
-  email: String
+  name: String!
+  email: String!
+  mobile: String
 }
 
 input TeacherScalarWhereInput {
@@ -2192,6 +2590,20 @@ input TeacherScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  mobile: String
+  mobile_not: String
+  mobile_in: [String!]
+  mobile_not_in: [String!]
+  mobile_lt: String
+  mobile_lte: String
+  mobile_gt: String
+  mobile_gte: String
+  mobile_contains: String
+  mobile_not_contains: String
+  mobile_starts_with: String
+  mobile_not_starts_with: String
+  mobile_ends_with: String
+  mobile_not_ends_with: String
   AND: [TeacherScalarWhereInput!]
   OR: [TeacherScalarWhereInput!]
   NOT: [TeacherScalarWhereInput!]
@@ -2218,17 +2630,20 @@ input TeacherSubscriptionWhereInput {
 input TeacherUpdateInput {
   name: String
   email: String
+  mobile: String
   classes: ClassUpdateManyWithoutTeachersInput
 }
 
 input TeacherUpdateManyDataInput {
   name: String
   email: String
+  mobile: String
 }
 
 input TeacherUpdateManyMutationInput {
   name: String
   email: String
+  mobile: String
 }
 
 input TeacherUpdateManyWithoutClassesInput {
@@ -2251,6 +2666,7 @@ input TeacherUpdateManyWithWhereNestedInput {
 input TeacherUpdateWithoutClassesDataInput {
   name: String
   email: String
+  mobile: String
 }
 
 input TeacherUpdateWithWhereUniqueWithoutClassesInput {
@@ -2307,6 +2723,20 @@ input TeacherWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  mobile: String
+  mobile_not: String
+  mobile_in: [String!]
+  mobile_not_in: [String!]
+  mobile_lt: String
+  mobile_lte: String
+  mobile_gt: String
+  mobile_gte: String
+  mobile_contains: String
+  mobile_not_contains: String
+  mobile_starts_with: String
+  mobile_not_starts_with: String
+  mobile_ends_with: String
+  mobile_not_ends_with: String
   classes_every: ClassWhereInput
   classes_some: ClassWhereInput
   classes_none: ClassWhereInput

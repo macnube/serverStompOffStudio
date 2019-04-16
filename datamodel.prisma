@@ -53,8 +53,9 @@ type ClassStudent {
 
 type Teacher {
     id: ID! @unique
-    name: String
-    email: String
+    name: String!
+    email: String!
+    mobile: String
     classes: [Class!]
 }
 
@@ -90,3 +91,19 @@ type Payment {
     student: Student
     card: Card
 }
+
+type Studio {
+    id: ID! @unique
+    name: String @unique
+    rooms: [Room!]
+    address: String
+}
+
+type Room {
+    id: ID! @unique
+    name: String
+    capacity: Int
+    studio: Studio!
+}
+
+

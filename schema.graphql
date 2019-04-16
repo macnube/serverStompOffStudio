@@ -1,18 +1,12 @@
-# import User, Class, Student from "./generated/prisma.graphql"
+# import User, Class, Student, Studio, Room, Teacher from "./generated/prisma.graphql"
 
 type Query {
-    users: [User!]!
-    classes: [Class!]!
-    students: [Student!]!
-    teachers: [Teacher!]!
+    studios: [Studio!]!
+    roomsByStudio(studioId: ID!): [Room!]!
+    studioByRoom(roomId: ID!): Studio!
 }
 
 type Mutation {
-    createUser(
-        name: String!
-        email: String
-        password: String!
-        admin: Boolean
-    ): User
-    createStudent(name: String!, email: String!, mobile: String): Student
+    createStudio(name: String!, address: String!): Studio
+    createRoom(name: String!, capacity: Int!, studioId: ID!): Room
 }
