@@ -11,6 +11,11 @@ const resolvers = {
         studios(root, args, context) {
             return context.prisma.studios();
         },
+        studio(root, args, context) {
+            return context.prisma.studio({
+                id: args.id,
+            });
+        },
         roomsByStudio(root, args, context) {
             return context.prisma
                 .studio({
@@ -31,6 +36,12 @@ const resolvers = {
             return context.prisma.createStudio({
                 name: args.name,
                 address: args.address,
+            });
+        },
+        deleteStudio(root, args, context) {
+            return context.prisma.deleteStudio({
+                id: args.id,
+                name: args.name,
             });
         },
         createRoom(root, args, context) {

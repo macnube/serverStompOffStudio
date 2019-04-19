@@ -1,7 +1,8 @@
-# import User, Class, Student, Studio, Room, Teacher from "./generated/prisma.graphql"
+# import User, Class, Student, Studio, Room, RoomCreateInput Teacher from "./generated/prisma.graphql"
 
 type Query {
     studios: [Studio!]!
+    studio(id: ID!): Studio!
     roomsByStudio(studioId: ID!): [Room!]!
     studioByRoom(roomId: ID!): Studio!
 }
@@ -9,4 +10,5 @@ type Query {
 type Mutation {
     createStudio(name: String!, address: String!): Studio
     createRoom(name: String!, capacity: Int!, studioId: ID!): Room
+    deleteStudio(id: ID!, name: String!): Studio
 }

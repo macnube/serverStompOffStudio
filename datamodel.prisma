@@ -95,7 +95,7 @@ type Payment {
 type Studio {
     id: ID! @unique
     name: String @unique
-    rooms: [Room!]
+    rooms: [Room!] @relation(name: "RoomsByStudio")
     address: String
 }
 
@@ -103,7 +103,7 @@ type Room {
     id: ID! @unique
     name: String
     capacity: Int
-    studio: Studio!
+    studio: Studio! @relation(name: "RoomsByStudio" onDelete: CASCADE)
 }
 
 
