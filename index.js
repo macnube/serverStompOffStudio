@@ -41,7 +41,6 @@ const resolvers = {
         deleteStudio(root, args, context) {
             return context.prisma.deleteStudio({
                 id: args.id,
-                name: args.name,
             });
         },
         createRoom(root, args, context) {
