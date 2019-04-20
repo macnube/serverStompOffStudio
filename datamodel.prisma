@@ -11,34 +11,35 @@ type Student {
     name: String!
     email: String!
     mobile: String
-    classes: [ClassStudent!]
+    courses: [CourseStudent!]
     cards: [Card!]
     hasReferralBonus: Boolean! @default(value: "false")
 } 
 
-type Class {
+type Course {
     id: ID! @unique
     name: String!
     description: String
     startDate: DateTime
     startTime: String
     duration: Int
-    teachers: [Teacher!]!
-    students: [ClassStudent!]
-    classHistory: [ClassInstance!]
+    teachers: [Teacher!]
+    courseStudents: [CourseStudent!]
+    courseHistory: [CourseInstance!]
     studentLimit: Int
+    room: Room
 }
 
 type Attendee {
     id: ID! @unique
     student: Student!
-    classInstance: ClassInstance!
+    courseInstance: CourseInstance!
 }
 
 type Absentee {
     id: ID! @unique
     student: Student!
-    classInstance: ClassInstance!
+    courseInstance: CourseInstance!
 }
 
 
@@ -46,10 +47,10 @@ enum DanceRole {
     Leader, Follower, Solo
 }
 
-type ClassStudent {
+type CourseStudent {
     id: ID! @unique
     student: Student!
-    class: Class!
+    course: Course!
     role: DanceRole!
 }
 
@@ -58,12 +59,12 @@ type Teacher {
     name: String!
     email: String!
     mobile: String
-    classes: [Class!]
+    courses: [Course!]
 }
 
-type ClassInstance {
+type CourseInstance {
     id: ID! @unique
-    parent: Class
+    parent: Course
     date: DateTime
     topic: String
     notes: String
@@ -77,12 +78,12 @@ type Card {
     payment: Payment
     startDate: DateTime
     expirationDate: DateTime
-    validNumberOfClasses: Int!
-    classes: [ClassInstance]
+    validNumberOfCourses: Int!
+    courses: [CourseInstance]
 }
 
 enum PaymentType {
-    Class, Private, DropIn
+    Course, Private, DropIn
 }
 
 type Payment {

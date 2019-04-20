@@ -38,6 +38,9 @@ const resolvers = {
                 })
                 .studio();
         },
+        courses(root, args, context) {
+            return context.prisma.courses();
+        },
     },
     Mutation: {
         createTeacher(root, args, context) {
@@ -100,6 +103,24 @@ const resolvers = {
                 where: { id: args.id },
             });
         },
+        createCourse(root, args, context) {
+            return context.prisma.createCourse({
+                name: args.name,
+                description: args.description,
+                startDate: args.startDate,
+                startTime: args.startTime,
+                duration: args.duration,
+                studentLimit: args.studentLimit,
+                room: {
+                    connect: { id: args.roomId },
+                },
+            });
+        },
+        deleteCourse(root, args, context) {
+            return context.prisma.deleteCourse({
+                id: args.id,
+            });
+        },
     },
     Studio: {
         rooms(root, args, context) {
@@ -117,6 +138,15 @@ const resolvers = {
                     id: root.id,
                 })
                 .studio();
+        },
+    },
+    Course: {
+        room(root, args, context) {
+            return context.prisma
+                .course({
+                    id: root.id,
+                })
+                .room();
         },
     },
 };

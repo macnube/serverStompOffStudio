@@ -1,4 +1,4 @@
-# import User, Class, Student, Studio, Room, BatchPayload, Teacher from "./generated/prisma.graphql"
+# import User, Course, Student, Studio, Room, BatchPayload, Teacher from "./generated/prisma.graphql"
 
 type Query {
     teachers: [Teacher!]!
@@ -7,6 +7,8 @@ type Query {
     room(id: ID!): Room!
     roomsByStudio(studioId: ID!): [Room!]!
     studioByRoom(roomId: ID!): Studio!
+    courses: [Course!]!
+    course(id: ID!): Course!
 }
 
 type Mutation {
@@ -19,9 +21,19 @@ type Mutation {
         mobile: String
     ): Teacher
     createStudio(name: String!, address: String!): Studio
-    createRoom(name: String!, capacity: Int!, studioId: ID!): Room
-    deleteStudio(id: ID!): Studio
-    deleteRoom(id: ID!): Room
     updateStudio(id: ID!, name: String!, address: String!): Studio
+    deleteStudio(id: ID!): Studio
+    createRoom(name: String!, capacity: Int!, studioId: ID!): Room
+    deleteRoom(id: ID!): Room
     updateRoom(id: ID!, name: String!, capacity: Int!): Room
+    createCourse(
+        name: String!
+        description: String
+        startDate: DateTime
+        startTime: String
+        duration: Int
+        studentLimit: Int
+        roomId: ID!
+    ): Course
+    deleteCourse(id: ID!): Course
 }

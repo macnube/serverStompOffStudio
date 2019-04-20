@@ -13,7 +13,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Class",
+    name: "Course",
     embedded: false
   },
   {
@@ -29,7 +29,7 @@ var models = [
     embedded: false
   },
   {
-    name: "ClassStudent",
+    name: "CourseStudent",
     embedded: false
   },
   {
@@ -37,7 +37,7 @@ var models = [
     embedded: false
   },
   {
-    name: "ClassInstance",
+    name: "CourseInstance",
     embedded: false
   },
   {
