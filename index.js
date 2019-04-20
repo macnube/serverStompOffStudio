@@ -8,6 +8,9 @@ const { importSchema } = require('graphql-import');
 
 const resolvers = {
     Query: {
+        teachers(root, args, context) {
+            return context.prisma.teachers();
+        },
         studios(root, args, context) {
             return context.prisma.studios();
         },
@@ -37,6 +40,29 @@ const resolvers = {
         },
     },
     Mutation: {
+        createTeacher(root, args, context) {
+            return context.prisma.createTeacher({
+                name: args.name,
+                email: args.email,
+                mobile: args.mobile,
+            });
+        },
+        deleteTeacher(root, args, context) {
+            return context.prisma.deleteTeacher({
+                id: args.id,
+            });
+        },
+        //To-do: figure out how to batch add classes to update teeacher
+        updateTeacher(root, args, context) {
+            return context.prisma.updateTeacher({
+                data: {
+                    name: args.name,
+                    email: args.email,
+                    mobile: args.mobile,
+                },
+                where: { id: args.id },
+            });
+        },
         createStudio(root, args, context) {
             return context.prisma.createStudio({
                 name: args.name,

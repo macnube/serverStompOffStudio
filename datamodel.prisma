@@ -21,6 +21,8 @@ type Class {
     name: String!
     description: String
     startDate: DateTime
+    startTime: String
+    duration: Int
     teachers: [Teacher!]!
     students: [ClassStudent!]
     classHistory: [ClassInstance!]

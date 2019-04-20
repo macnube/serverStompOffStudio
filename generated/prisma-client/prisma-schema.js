@@ -610,6 +610,8 @@ type Class {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers(where: TeacherWhereInput, orderBy: TeacherOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Teacher!]
   students(where: ClassStudentWhereInput, orderBy: ClassStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ClassStudent!]
   classHistory(where: ClassInstanceWhereInput, orderBy: ClassInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ClassInstance!]
@@ -626,6 +628,8 @@ input ClassCreateInput {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherCreateManyWithoutClassesInput
   students: ClassStudentCreateManyWithoutClassInput
   classHistory: ClassInstanceCreateManyWithoutParentInput
@@ -651,6 +655,8 @@ input ClassCreateWithoutClassHistoryInput {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherCreateManyWithoutClassesInput
   students: ClassStudentCreateManyWithoutClassInput
   studentLimit: Int
@@ -660,6 +666,8 @@ input ClassCreateWithoutStudentsInput {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherCreateManyWithoutClassesInput
   classHistory: ClassInstanceCreateManyWithoutParentInput
   studentLimit: Int
@@ -669,6 +677,8 @@ input ClassCreateWithoutTeachersInput {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   students: ClassStudentCreateManyWithoutClassInput
   classHistory: ClassInstanceCreateManyWithoutParentInput
   studentLimit: Int
@@ -1054,6 +1064,10 @@ enum ClassOrderByInput {
   description_DESC
   startDate_ASC
   startDate_DESC
+  startTime_ASC
+  startTime_DESC
+  duration_ASC
+  duration_DESC
   studentLimit_ASC
   studentLimit_DESC
   createdAt_ASC
@@ -1067,6 +1081,8 @@ type ClassPreviousValues {
   name: String!
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   studentLimit: Int
 }
 
@@ -1121,6 +1137,28 @@ input ClassScalarWhereInput {
   startDate_lte: DateTime
   startDate_gt: DateTime
   startDate_gte: DateTime
+  startTime: String
+  startTime_not: String
+  startTime_in: [String!]
+  startTime_not_in: [String!]
+  startTime_lt: String
+  startTime_lte: String
+  startTime_gt: String
+  startTime_gte: String
+  startTime_contains: String
+  startTime_not_contains: String
+  startTime_starts_with: String
+  startTime_not_starts_with: String
+  startTime_ends_with: String
+  startTime_not_ends_with: String
+  duration: Int
+  duration_not: Int
+  duration_in: [Int!]
+  duration_not_in: [Int!]
+  duration_lt: Int
+  duration_lte: Int
+  duration_gt: Int
+  duration_gte: Int
   studentLimit: Int
   studentLimit_not: Int
   studentLimit_in: [Int!]
@@ -1363,6 +1401,8 @@ input ClassUpdateInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherUpdateManyWithoutClassesInput
   students: ClassStudentUpdateManyWithoutClassInput
   classHistory: ClassInstanceUpdateManyWithoutParentInput
@@ -1373,6 +1413,8 @@ input ClassUpdateManyDataInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   studentLimit: Int
 }
 
@@ -1380,6 +1422,8 @@ input ClassUpdateManyMutationInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   studentLimit: Int
 }
 
@@ -1420,6 +1464,8 @@ input ClassUpdateWithoutClassHistoryDataInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherUpdateManyWithoutClassesInput
   students: ClassStudentUpdateManyWithoutClassInput
   studentLimit: Int
@@ -1429,6 +1475,8 @@ input ClassUpdateWithoutStudentsDataInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   teachers: TeacherUpdateManyWithoutClassesInput
   classHistory: ClassInstanceUpdateManyWithoutParentInput
   studentLimit: Int
@@ -1438,6 +1486,8 @@ input ClassUpdateWithoutTeachersDataInput {
   name: String
   description: String
   startDate: DateTime
+  startTime: String
+  duration: Int
   students: ClassStudentUpdateManyWithoutClassInput
   classHistory: ClassInstanceUpdateManyWithoutParentInput
   studentLimit: Int
@@ -1515,6 +1565,28 @@ input ClassWhereInput {
   startDate_lte: DateTime
   startDate_gt: DateTime
   startDate_gte: DateTime
+  startTime: String
+  startTime_not: String
+  startTime_in: [String!]
+  startTime_not_in: [String!]
+  startTime_lt: String
+  startTime_lte: String
+  startTime_gt: String
+  startTime_gte: String
+  startTime_contains: String
+  startTime_not_contains: String
+  startTime_starts_with: String
+  startTime_not_starts_with: String
+  startTime_ends_with: String
+  startTime_not_ends_with: String
+  duration: Int
+  duration_not: Int
+  duration_in: [Int!]
+  duration_not_in: [Int!]
+  duration_lt: Int
+  duration_lte: Int
+  duration_gt: Int
+  duration_gte: Int
   teachers_every: TeacherWhereInput
   teachers_some: TeacherWhereInput
   teachers_none: TeacherWhereInput

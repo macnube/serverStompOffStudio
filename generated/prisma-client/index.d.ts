@@ -672,6 +672,10 @@ export type ClassOrderByInput =
   | "description_DESC"
   | "startDate_ASC"
   | "startDate_DESC"
+  | "startTime_ASC"
+  | "startTime_DESC"
+  | "duration_ASC"
+  | "duration_DESC"
   | "studentLimit_ASC"
   | "studentLimit_DESC"
   | "createdAt_ASC"
@@ -945,6 +949,28 @@ export interface ClassWhereInput {
   startDate_lte?: DateTimeInput;
   startDate_gt?: DateTimeInput;
   startDate_gte?: DateTimeInput;
+  startTime?: String;
+  startTime_not?: String;
+  startTime_in?: String[] | String;
+  startTime_not_in?: String[] | String;
+  startTime_lt?: String;
+  startTime_lte?: String;
+  startTime_gt?: String;
+  startTime_gte?: String;
+  startTime_contains?: String;
+  startTime_not_contains?: String;
+  startTime_starts_with?: String;
+  startTime_not_starts_with?: String;
+  startTime_ends_with?: String;
+  startTime_not_ends_with?: String;
+  duration?: Int;
+  duration_not?: Int;
+  duration_in?: Int[] | Int;
+  duration_not_in?: Int[] | Int;
+  duration_lt?: Int;
+  duration_lte?: Int;
+  duration_gt?: Int;
+  duration_gte?: Int;
   teachers_every?: TeacherWhereInput;
   teachers_some?: TeacherWhereInput;
   teachers_none?: TeacherWhereInput;
@@ -1129,6 +1155,8 @@ export interface ClassUpdateWithoutStudentsDataInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherUpdateManyWithoutClassesInput;
   classHistory?: ClassInstanceUpdateManyWithoutParentInput;
   studentLimit?: Int;
@@ -1164,6 +1192,8 @@ export interface ClassUpdateManyDataInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   studentLimit?: Int;
 }
 
@@ -1223,6 +1253,28 @@ export interface ClassScalarWhereInput {
   startDate_lte?: DateTimeInput;
   startDate_gt?: DateTimeInput;
   startDate_gte?: DateTimeInput;
+  startTime?: String;
+  startTime_not?: String;
+  startTime_in?: String[] | String;
+  startTime_not_in?: String[] | String;
+  startTime_lt?: String;
+  startTime_lte?: String;
+  startTime_gt?: String;
+  startTime_gte?: String;
+  startTime_contains?: String;
+  startTime_not_contains?: String;
+  startTime_starts_with?: String;
+  startTime_not_starts_with?: String;
+  startTime_ends_with?: String;
+  startTime_not_ends_with?: String;
+  duration?: Int;
+  duration_not?: Int;
+  duration_in?: Int[] | Int;
+  duration_not_in?: Int[] | Int;
+  duration_lt?: Int;
+  duration_lte?: Int;
+  duration_gt?: Int;
+  duration_gte?: Int;
   studentLimit?: Int;
   studentLimit_not?: Int;
   studentLimit_in?: Int[] | Int;
@@ -1348,6 +1400,8 @@ export interface ClassCreateWithoutTeachersInput {
   name: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   students?: ClassStudentCreateManyWithoutClassInput;
   classHistory?: ClassInstanceCreateManyWithoutParentInput;
   studentLimit?: Int;
@@ -2112,6 +2166,8 @@ export interface ClassUpdateWithoutClassHistoryDataInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherUpdateManyWithoutClassesInput;
   students?: ClassStudentUpdateManyWithoutClassInput;
   studentLimit?: Int;
@@ -2709,6 +2765,8 @@ export interface ClassCreateWithoutStudentsInput {
   name: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherCreateManyWithoutClassesInput;
   classHistory?: ClassInstanceCreateManyWithoutParentInput;
   studentLimit?: Int;
@@ -2735,6 +2793,8 @@ export interface ClassCreateWithoutClassHistoryInput {
   name: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherCreateManyWithoutClassesInput;
   students?: ClassStudentCreateManyWithoutClassInput;
   studentLimit?: Int;
@@ -2767,6 +2827,8 @@ export interface ClassCreateInput {
   name: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherCreateManyWithoutClassesInput;
   students?: ClassStudentCreateManyWithoutClassInput;
   classHistory?: ClassInstanceCreateManyWithoutParentInput;
@@ -2777,6 +2839,8 @@ export interface ClassUpdateWithoutTeachersDataInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   students?: ClassStudentUpdateManyWithoutClassInput;
   classHistory?: ClassInstanceUpdateManyWithoutParentInput;
   studentLimit?: Int;
@@ -2786,6 +2850,8 @@ export interface ClassUpdateInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   teachers?: TeacherUpdateManyWithoutClassesInput;
   students?: ClassStudentUpdateManyWithoutClassInput;
   classHistory?: ClassInstanceUpdateManyWithoutParentInput;
@@ -2802,6 +2868,8 @@ export interface ClassUpdateManyMutationInput {
   name?: String;
   description?: String;
   startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
   studentLimit?: Int;
 }
 
@@ -3029,6 +3097,8 @@ export interface Class {
   name: String;
   description?: String;
   startDate?: DateTimeOutput;
+  startTime?: String;
+  duration?: Int;
   studentLimit?: Int;
 }
 
@@ -3037,6 +3107,8 @@ export interface ClassPromise extends Promise<Class>, Fragmentable {
   name: () => Promise<String>;
   description: () => Promise<String>;
   startDate: () => Promise<DateTimeOutput>;
+  startTime: () => Promise<String>;
+  duration: () => Promise<Int>;
   teachers: <T = FragmentableArray<Teacher>>(
     args?: {
       where?: TeacherWhereInput;
@@ -3080,6 +3152,8 @@ export interface ClassSubscription
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startTime: () => Promise<AsyncIterator<String>>;
+  duration: () => Promise<AsyncIterator<Int>>;
   teachers: <T = Promise<AsyncIterator<TeacherSubscription>>>(
     args?: {
       where?: TeacherWhereInput;
@@ -3780,6 +3854,8 @@ export interface ClassPreviousValues {
   name: String;
   description?: String;
   startDate?: DateTimeOutput;
+  startTime?: String;
+  duration?: Int;
   studentLimit?: Int;
 }
 
@@ -3790,6 +3866,8 @@ export interface ClassPreviousValuesPromise
   name: () => Promise<String>;
   description: () => Promise<String>;
   startDate: () => Promise<DateTimeOutput>;
+  startTime: () => Promise<String>;
+  duration: () => Promise<Int>;
   studentLimit: () => Promise<Int>;
 }
 
@@ -3800,6 +3878,8 @@ export interface ClassPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startTime: () => Promise<AsyncIterator<String>>;
+  duration: () => Promise<AsyncIterator<Int>>;
   studentLimit: () => Promise<AsyncIterator<Int>>;
 }
 
