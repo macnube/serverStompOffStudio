@@ -3,6 +3,7 @@
 type Query {
     studios: [Studio!]!
     studio(id: ID!): Studio!
+    room(id: ID!): Room!
     roomsByStudio(studioId: ID!): [Room!]!
     studioByRoom(roomId: ID!): Studio!
 }
@@ -11,4 +12,5 @@ type Mutation {
     createStudio(name: String!, address: String!): Studio
     createRoom(name: String!, capacity: Int!, studioId: ID!): Room
     deleteStudio(id: ID!): Studio
+    deleteRoom(id: ID!): Room
 }

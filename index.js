@@ -16,6 +16,11 @@ const resolvers = {
                 id: args.id,
             });
         },
+        room(root, args, context) {
+            return context.prisma.room({
+                id: args.id,
+            });
+        },
         roomsByStudio(root, args, context) {
             return context.prisma
                 .studio({
@@ -50,6 +55,11 @@ const resolvers = {
                 studio: {
                     connect: { id: args.studioId },
                 },
+            });
+        },
+        deleteRoom(root, args, context) {
+            return context.prisma.deleteRoom({
+                id: args.id,
             });
         },
     },
