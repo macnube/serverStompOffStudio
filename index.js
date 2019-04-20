@@ -62,6 +62,12 @@ const resolvers = {
                 id: args.id,
             });
         },
+        updateRoom(root, args, context) {
+            return context.prisma.updateRoom({
+                data: { name: args.name, capacity: args.capacity },
+                where: { id: args.id },
+            });
+        },
     },
     Studio: {
         rooms(root, args, context) {

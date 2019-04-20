@@ -13,4 +13,5 @@ type Mutation {
     createRoom(name: String!, capacity: Int!, studioId: ID!): Room
     deleteStudio(id: ID!): Studio
     deleteRoom(id: ID!): Room
+    updateRoom(id: ID!, name: String!, capacity: Int!): Room
 }
