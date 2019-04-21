@@ -35,5 +35,17 @@ type Mutation {
         studentLimit: Int
         roomId: ID!
     ): Course
+    updateCourse(
+        id: ID!
+        name: String!
+        description: String
+        startDate: DateTime
+        startTime: String
+        duration: Int
+        studentLimit: Int
+        roomId: ID!
+    ): Course
+    addTeacherToCourse(id: ID!, teacherId: ID!): Course
+    removeTeacherFromCourse(id: ID!, teacherId: ID!): Course
     deleteCourse(id: ID!): Course
 }
