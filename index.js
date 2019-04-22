@@ -46,6 +46,9 @@ const resolvers = {
                 id: args.id,
             });
         },
+        students(root, args, context) {
+            return context.prisma.students();
+        },
     },
     Mutation: {
         createTeacher(root, args, context) {
@@ -130,9 +133,6 @@ const resolvers = {
                     startTime: args.startTime,
                     duration: args.duration,
                     studentLimit: args.studentLimit,
-                    room: {
-                        connect: { id: args.roomId },
-                    },
                 },
                 where: { id: args.id },
             });
@@ -160,6 +160,18 @@ const resolvers = {
                     },
                 },
                 where: { id: args.id },
+            });
+        },
+        createStudent(root, args, context) {
+            return context.prisma.createStudent({
+                name: args.name,
+                email: args.email,
+                mobile: args.mobile,
+            });
+        },
+        deleteStudent(root, args, context) {
+            return context.prisma.deleteStudent({
+                id: args.id,
             });
         },
     },

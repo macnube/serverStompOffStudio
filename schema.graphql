@@ -9,6 +9,7 @@ type Query {
     studioByRoom(roomId: ID!): Studio!
     courses: [Course!]!
     course(id: ID!): Course!
+    students: [Student!]!
 }
 
 type Mutation {
@@ -43,9 +44,10 @@ type Mutation {
         startTime: String
         duration: Int
         studentLimit: Int
-        roomId: ID!
     ): Course
     addTeacherToCourse(id: ID!, teacherId: ID!): Course
     removeTeacherFromCourse(id: ID!, teacherId: ID!): Course
     deleteCourse(id: ID!): Course
+    createStudent(name: String!, email: String!, mobile: String): Student
+    deleteStudent(id: ID!): Student
 }
