@@ -49,6 +49,11 @@ const resolvers = {
         students(root, args, context) {
             return context.prisma.students();
         },
+        student(root, args, context) {
+            return context.prisma.student({
+                id: args.id,
+            });
+        },
     },
     Mutation: {
         createTeacher(root, args, context) {
@@ -174,6 +179,38 @@ const resolvers = {
                 id: args.id,
             });
         },
+        updateStudent(root, args, context) {
+            return context.prisma.updateStudent({
+                data: {
+                    name: args.name,
+                    email: args.email,
+                    mobile: args.mobile,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        createCourseStudent(root, args, context) {
+            return context.prisma.createCourseStudent({
+                student: {
+                    connect: {
+                        id: args.studentId,
+                    },
+                },
+                course: {
+                    connect: {
+                        id: args.courseId,
+                    },
+                },
+                role: args.role,
+            });
+        },
+        deleteCourseStudent(root, args, context) {
+            return context.prisma.deleteCourseStudent({
+                id: args.id,
+            });
+        },
     },
     Studio: {
         rooms(root, args, context) {
@@ -207,6 +244,38 @@ const resolvers = {
                     id: root.id,
                 })
                 .teachers();
+        },
+        courseStudents(root, args, context) {
+            return context.prisma
+                .course({
+                    id: root.id,
+                })
+                .courseStudents();
+        },
+    },
+    Student: {
+        courses(root, args, context) {
+            return context.prisma
+                .student({
+                    id: root.id,
+                })
+                .courses();
+        },
+    },
+    CourseStudent: {
+        course(root, args, context) {
+            return context.prisma
+                .courseStudent({
+                    id: root.id,
+                })
+                .course();
+        },
+        student(root, args, context) {
+            return context.prisma
+                .courseStudent({
+                    id: root.id,
+                })
+                .student();
         },
     },
 };

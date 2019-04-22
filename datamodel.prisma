@@ -11,7 +11,7 @@ type Student {
     name: String!
     email: String!
     mobile: String
-    courses: [CourseStudent!]
+    courses: [CourseStudent!] @relation(name: "CourseInstanceByStudent" onDelete: CASCADE)
     cards: [Card!]
     hasReferralBonus: Boolean! @default(value: "false")
 } 
@@ -24,7 +24,7 @@ type Course {
     startTime: String
     duration: Int
     teachers: [Teacher!]
-    courseStudents: [CourseStudent!]
+    courseStudents: [CourseStudent!] @relation(name: "CourseInstanceByClass" onDelete: CASCADE)
     courseHistory: [CourseInstance!]
     studentLimit: Int
     room: Room
@@ -49,8 +49,8 @@ enum DanceRole {
 
 type CourseStudent {
     id: ID! @unique
-    student: Student!
-    course: Course!
+    student: Student! @relation(name: "CourseInstanceByStudent")
+    course: Course! @relation(name: "CourseInstanceByClass")
     role: DanceRole!
 }
 
