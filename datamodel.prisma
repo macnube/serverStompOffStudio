@@ -14,6 +14,7 @@ type Student {
     courses: [CourseStudent!] @relation(name: "CourseInstanceByStudent" onDelete: CASCADE)
     cards: [Card!]
     hasReferralBonus: Boolean! @default(value: "false")
+    payments: [Payment!]
 } 
 
 type Course {
@@ -74,12 +75,12 @@ type CourseInstance {
 
 type Card {
     id: ID! @unique
-    student: Student
+    student: Student!
     payment: Payment
-    startDate: DateTime
     expirationDate: DateTime
-    validNumberOfCourses: Int!
-    courses: [CourseInstance]
+    active: Boolean! @default(value: "true")
+    validCount: Int!
+    useHistory: [CourseInstance]
 }
 
 enum PaymentType {

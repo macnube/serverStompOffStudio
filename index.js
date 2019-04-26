@@ -54,6 +54,9 @@ const resolvers = {
                 id: args.id,
             });
         },
+        payments(root, args, context) {
+            return context.prisma.payments();
+        },
     },
     Mutation: {
         createTeacher(root, args, context) {
@@ -211,7 +214,79 @@ const resolvers = {
                 id: args.id,
             });
         },
+        createCard(root, args, context) {
+            return context.prisma.createCard({
+                student: {
+                    connect: {
+                        id: args.studentId,
+                    },
+                },
+                expirationDate: args.expirationDate,
+                validCount: args.validCount,
+            });
+        },
+        updateCard(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    expirationDate: args.expirationDate,
+                    validCount: args.validCount,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        deleteCard(root, args, context) {
+            return context.prisma.deleteCard({
+                id: args.id,
+            });
+        },
+        createPayment(root, args, context) {
+            return context.prisma.createPayment({
+                student: {
+                    connect: {
+                        id: args.studentId,
+                    },
+                },
+                card: {
+                    connect: {
+                        id: args.cardId,
+                    },
+                },
+                type: args.type,
+                amount: args.amount,
+                date: args.date,
+            });
+        },
+        updatePayment(root, args, context) {
+            return context.prisma.updatePayment({
+                data: {
+                    student: {
+                        connect: {
+                            id: args.studentId,
+                        },
+                    },
+                    card: {
+                        connect: {
+                            id: args.cardId,
+                        },
+                    },
+                    type: args.type,
+                    amount: args.amount,
+                    date: args.date,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        deletePayment(root, args, context) {
+            return context.prisma.deletePayment({
+                id: args.id,
+            });
+        },
     },
+
     Studio: {
         rooms(root, args, context) {
             return context.prisma
@@ -261,6 +336,20 @@ const resolvers = {
                 })
                 .courses();
         },
+        cards(root, args, context) {
+            return context.prisma
+                .student({
+                    id: root.id,
+                })
+                .cards();
+        },
+        payments(root, args, context) {
+            return context.prisma
+                .student({
+                    id: root.id,
+                })
+                .payments();
+        },
     },
     CourseStudent: {
         course(root, args, context) {
@@ -276,6 +365,31 @@ const resolvers = {
                     id: root.id,
                 })
                 .student();
+        },
+    },
+    Payment: {
+        card(root, args, context) {
+            return context.prisma
+                .payment({
+                    id: root.id,
+                })
+                .card();
+        },
+        student(root, args, context) {
+            return context.prisma
+                .payment({
+                    id: root.id,
+                })
+                .student();
+        },
+    },
+    Card: {
+        payment(root, args, context) {
+            return context.prisma
+                .card({
+                    id: root.id,
+                })
+                .payment();
         },
     },
 };

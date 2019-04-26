@@ -335,12 +335,12 @@ type BatchPayload {
 
 type Card {
   id: ID!
-  student: Student
+  student: Student!
   payment: Payment
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int!
-  courses(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
+  active: Boolean!
+  validCount: Int!
+  useHistory(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
 }
 
 type CardConnection {
@@ -350,12 +350,12 @@ type CardConnection {
 }
 
 input CardCreateInput {
-  student: StudentCreateOneWithoutCardsInput
+  student: StudentCreateOneWithoutCardsInput!
   payment: PaymentCreateOneWithoutCardInput
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int!
-  courses: CourseInstanceCreateManyInput
+  active: Boolean
+  validCount: Int!
+  useHistory: CourseInstanceCreateManyInput
 }
 
 input CardCreateManyWithoutStudentInput {
@@ -369,19 +369,19 @@ input CardCreateOneWithoutPaymentInput {
 }
 
 input CardCreateWithoutPaymentInput {
-  student: StudentCreateOneWithoutCardsInput
-  startDate: DateTime
+  student: StudentCreateOneWithoutCardsInput!
   expirationDate: DateTime
-  validNumberOfCourses: Int!
-  courses: CourseInstanceCreateManyInput
+  active: Boolean
+  validCount: Int!
+  useHistory: CourseInstanceCreateManyInput
 }
 
 input CardCreateWithoutStudentInput {
   payment: PaymentCreateOneWithoutCardInput
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int!
-  courses: CourseInstanceCreateManyInput
+  active: Boolean
+  validCount: Int!
+  useHistory: CourseInstanceCreateManyInput
 }
 
 type CardEdge {
@@ -392,12 +392,12 @@ type CardEdge {
 enum CardOrderByInput {
   id_ASC
   id_DESC
-  startDate_ASC
-  startDate_DESC
   expirationDate_ASC
   expirationDate_DESC
-  validNumberOfCourses_ASC
-  validNumberOfCourses_DESC
+  active_ASC
+  active_DESC
+  validCount_ASC
+  validCount_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -406,9 +406,9 @@ enum CardOrderByInput {
 
 type CardPreviousValues {
   id: ID!
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int!
+  active: Boolean!
+  validCount: Int!
 }
 
 input CardScalarWhereInput {
@@ -426,14 +426,6 @@ input CardScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  startDate: DateTime
-  startDate_not: DateTime
-  startDate_in: [DateTime!]
-  startDate_not_in: [DateTime!]
-  startDate_lt: DateTime
-  startDate_lte: DateTime
-  startDate_gt: DateTime
-  startDate_gte: DateTime
   expirationDate: DateTime
   expirationDate_not: DateTime
   expirationDate_in: [DateTime!]
@@ -442,14 +434,16 @@ input CardScalarWhereInput {
   expirationDate_lte: DateTime
   expirationDate_gt: DateTime
   expirationDate_gte: DateTime
-  validNumberOfCourses: Int
-  validNumberOfCourses_not: Int
-  validNumberOfCourses_in: [Int!]
-  validNumberOfCourses_not_in: [Int!]
-  validNumberOfCourses_lt: Int
-  validNumberOfCourses_lte: Int
-  validNumberOfCourses_gt: Int
-  validNumberOfCourses_gte: Int
+  active: Boolean
+  active_not: Boolean
+  validCount: Int
+  validCount_not: Int
+  validCount_in: [Int!]
+  validCount_not_in: [Int!]
+  validCount_lt: Int
+  validCount_lte: Int
+  validCount_gt: Int
+  validCount_gte: Int
   AND: [CardScalarWhereInput!]
   OR: [CardScalarWhereInput!]
   NOT: [CardScalarWhereInput!]
@@ -474,24 +468,24 @@ input CardSubscriptionWhereInput {
 }
 
 input CardUpdateInput {
-  student: StudentUpdateOneWithoutCardsInput
+  student: StudentUpdateOneRequiredWithoutCardsInput
   payment: PaymentUpdateOneWithoutCardInput
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int
-  courses: CourseInstanceUpdateManyInput
+  active: Boolean
+  validCount: Int
+  useHistory: CourseInstanceUpdateManyInput
 }
 
 input CardUpdateManyDataInput {
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int
+  active: Boolean
+  validCount: Int
 }
 
 input CardUpdateManyMutationInput {
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int
+  active: Boolean
+  validCount: Int
 }
 
 input CardUpdateManyWithoutStudentInput {
@@ -521,19 +515,19 @@ input CardUpdateOneWithoutPaymentInput {
 }
 
 input CardUpdateWithoutPaymentDataInput {
-  student: StudentUpdateOneWithoutCardsInput
-  startDate: DateTime
+  student: StudentUpdateOneRequiredWithoutCardsInput
   expirationDate: DateTime
-  validNumberOfCourses: Int
-  courses: CourseInstanceUpdateManyInput
+  active: Boolean
+  validCount: Int
+  useHistory: CourseInstanceUpdateManyInput
 }
 
 input CardUpdateWithoutStudentDataInput {
   payment: PaymentUpdateOneWithoutCardInput
-  startDate: DateTime
   expirationDate: DateTime
-  validNumberOfCourses: Int
-  courses: CourseInstanceUpdateManyInput
+  active: Boolean
+  validCount: Int
+  useHistory: CourseInstanceUpdateManyInput
 }
 
 input CardUpdateWithWhereUniqueWithoutStudentInput {
@@ -569,14 +563,6 @@ input CardWhereInput {
   id_not_ends_with: ID
   student: StudentWhereInput
   payment: PaymentWhereInput
-  startDate: DateTime
-  startDate_not: DateTime
-  startDate_in: [DateTime!]
-  startDate_not_in: [DateTime!]
-  startDate_lt: DateTime
-  startDate_lte: DateTime
-  startDate_gt: DateTime
-  startDate_gte: DateTime
   expirationDate: DateTime
   expirationDate_not: DateTime
   expirationDate_in: [DateTime!]
@@ -585,17 +571,19 @@ input CardWhereInput {
   expirationDate_lte: DateTime
   expirationDate_gt: DateTime
   expirationDate_gte: DateTime
-  validNumberOfCourses: Int
-  validNumberOfCourses_not: Int
-  validNumberOfCourses_in: [Int!]
-  validNumberOfCourses_not_in: [Int!]
-  validNumberOfCourses_lt: Int
-  validNumberOfCourses_lte: Int
-  validNumberOfCourses_gt: Int
-  validNumberOfCourses_gte: Int
-  courses_every: CourseInstanceWhereInput
-  courses_some: CourseInstanceWhereInput
-  courses_none: CourseInstanceWhereInput
+  active: Boolean
+  active_not: Boolean
+  validCount: Int
+  validCount_not: Int
+  validCount_in: [Int!]
+  validCount_not_in: [Int!]
+  validCount_lt: Int
+  validCount_lte: Int
+  validCount_gt: Int
+  validCount_gte: Int
+  useHistory_every: CourseInstanceWhereInput
+  useHistory_some: CourseInstanceWhereInput
+  useHistory_none: CourseInstanceWhereInput
   AND: [CardWhereInput!]
   OR: [CardWhereInput!]
   NOT: [CardWhereInput!]
@@ -1742,8 +1730,13 @@ input PaymentCreateInput {
   type: PaymentType!
   date: DateTime!
   amount: Int!
-  student: StudentCreateOneInput
+  student: StudentCreateOneWithoutPaymentsInput
   card: CardCreateOneWithoutPaymentInput
+}
+
+input PaymentCreateManyWithoutStudentInput {
+  create: [PaymentCreateWithoutStudentInput!]
+  connect: [PaymentWhereUniqueInput!]
 }
 
 input PaymentCreateOneWithoutCardInput {
@@ -1755,7 +1748,14 @@ input PaymentCreateWithoutCardInput {
   type: PaymentType!
   date: DateTime!
   amount: Int!
-  student: StudentCreateOneInput
+  student: StudentCreateOneWithoutPaymentsInput
+}
+
+input PaymentCreateWithoutStudentInput {
+  type: PaymentType!
+  date: DateTime!
+  amount: Int!
+  card: CardCreateOneWithoutPaymentInput
 }
 
 type PaymentEdge {
@@ -1783,6 +1783,46 @@ type PaymentPreviousValues {
   type: PaymentType!
   date: DateTime!
   amount: Int!
+}
+
+input PaymentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  type: PaymentType
+  type_not: PaymentType
+  type_in: [PaymentType!]
+  type_not_in: [PaymentType!]
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  AND: [PaymentScalarWhereInput!]
+  OR: [PaymentScalarWhereInput!]
+  NOT: [PaymentScalarWhereInput!]
 }
 
 type PaymentSubscriptionPayload {
@@ -1813,14 +1853,37 @@ input PaymentUpdateInput {
   type: PaymentType
   date: DateTime
   amount: Int
-  student: StudentUpdateOneInput
+  student: StudentUpdateOneWithoutPaymentsInput
   card: CardUpdateOneWithoutPaymentInput
+}
+
+input PaymentUpdateManyDataInput {
+  type: PaymentType
+  date: DateTime
+  amount: Int
 }
 
 input PaymentUpdateManyMutationInput {
   type: PaymentType
   date: DateTime
   amount: Int
+}
+
+input PaymentUpdateManyWithoutStudentInput {
+  create: [PaymentCreateWithoutStudentInput!]
+  delete: [PaymentWhereUniqueInput!]
+  connect: [PaymentWhereUniqueInput!]
+  set: [PaymentWhereUniqueInput!]
+  disconnect: [PaymentWhereUniqueInput!]
+  update: [PaymentUpdateWithWhereUniqueWithoutStudentInput!]
+  upsert: [PaymentUpsertWithWhereUniqueWithoutStudentInput!]
+  deleteMany: [PaymentScalarWhereInput!]
+  updateMany: [PaymentUpdateManyWithWhereNestedInput!]
+}
+
+input PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput!
+  data: PaymentUpdateManyDataInput!
 }
 
 input PaymentUpdateOneWithoutCardInput {
@@ -1836,12 +1899,30 @@ input PaymentUpdateWithoutCardDataInput {
   type: PaymentType
   date: DateTime
   amount: Int
-  student: StudentUpdateOneInput
+  student: StudentUpdateOneWithoutPaymentsInput
+}
+
+input PaymentUpdateWithoutStudentDataInput {
+  type: PaymentType
+  date: DateTime
+  amount: Int
+  card: CardUpdateOneWithoutPaymentInput
+}
+
+input PaymentUpdateWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput!
+  data: PaymentUpdateWithoutStudentDataInput!
 }
 
 input PaymentUpsertWithoutCardInput {
   update: PaymentUpdateWithoutCardDataInput!
   create: PaymentCreateWithoutCardInput!
+}
+
+input PaymentUpsertWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput!
+  update: PaymentUpdateWithoutStudentDataInput!
+  create: PaymentCreateWithoutStudentInput!
 }
 
 input PaymentWhereInput {
@@ -2172,6 +2253,7 @@ type Student {
   courses(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent!]
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
   hasReferralBonus: Boolean!
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
 }
 
 type StudentConnection {
@@ -2187,6 +2269,7 @@ input StudentCreateInput {
   courses: CourseStudentCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  payments: PaymentCreateManyWithoutStudentInput
 }
 
 input StudentCreateOneInput {
@@ -2204,18 +2287,34 @@ input StudentCreateOneWithoutCoursesInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentCreateOneWithoutPaymentsInput {
+  create: StudentCreateWithoutPaymentsInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentCreateWithoutCardsInput {
   name: String!
   email: String!
   mobile: String
   courses: CourseStudentCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  payments: PaymentCreateManyWithoutStudentInput
 }
 
 input StudentCreateWithoutCoursesInput {
   name: String!
   email: String!
   mobile: String
+  cards: CardCreateManyWithoutStudentInput
+  hasReferralBonus: Boolean
+  payments: PaymentCreateManyWithoutStudentInput
+}
+
+input StudentCreateWithoutPaymentsInput {
+  name: String!
+  email: String!
+  mobile: String
+  courses: CourseStudentCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
 }
@@ -2275,6 +2374,7 @@ input StudentUpdateDataInput {
   courses: CourseStudentUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateInput {
@@ -2284,6 +2384,7 @@ input StudentUpdateInput {
   courses: CourseStudentUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateManyMutationInput {
@@ -2293,19 +2394,17 @@ input StudentUpdateManyMutationInput {
   hasReferralBonus: Boolean
 }
 
-input StudentUpdateOneInput {
-  create: StudentCreateInput
-  update: StudentUpdateDataInput
-  upsert: StudentUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: StudentWhereUniqueInput
-}
-
 input StudentUpdateOneRequiredInput {
   create: StudentCreateInput
   update: StudentUpdateDataInput
   upsert: StudentUpsertNestedInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentUpdateOneRequiredWithoutCardsInput {
+  create: StudentCreateWithoutCardsInput
+  update: StudentUpdateWithoutCardsDataInput
+  upsert: StudentUpsertWithoutCardsInput
   connect: StudentWhereUniqueInput
 }
 
@@ -2316,10 +2415,10 @@ input StudentUpdateOneRequiredWithoutCoursesInput {
   connect: StudentWhereUniqueInput
 }
 
-input StudentUpdateOneWithoutCardsInput {
-  create: StudentCreateWithoutCardsInput
-  update: StudentUpdateWithoutCardsDataInput
-  upsert: StudentUpsertWithoutCardsInput
+input StudentUpdateOneWithoutPaymentsInput {
+  create: StudentCreateWithoutPaymentsInput
+  update: StudentUpdateWithoutPaymentsDataInput
+  upsert: StudentUpsertWithoutPaymentsInput
   delete: Boolean
   disconnect: Boolean
   connect: StudentWhereUniqueInput
@@ -2331,12 +2430,23 @@ input StudentUpdateWithoutCardsDataInput {
   mobile: String
   courses: CourseStudentUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateWithoutCoursesDataInput {
   name: String
   email: String
   mobile: String
+  cards: CardUpdateManyWithoutStudentInput
+  hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateWithoutPaymentsDataInput {
+  name: String
+  email: String
+  mobile: String
+  courses: CourseStudentUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
 }
@@ -2354,6 +2464,11 @@ input StudentUpsertWithoutCardsInput {
 input StudentUpsertWithoutCoursesInput {
   update: StudentUpdateWithoutCoursesDataInput!
   create: StudentCreateWithoutCoursesInput!
+}
+
+input StudentUpsertWithoutPaymentsInput {
+  update: StudentUpdateWithoutPaymentsDataInput!
+  create: StudentCreateWithoutPaymentsInput!
 }
 
 input StudentWhereInput {
@@ -2421,6 +2536,9 @@ input StudentWhereInput {
   cards_none: CardWhereInput
   hasReferralBonus: Boolean
   hasReferralBonus_not: Boolean
+  payments_every: PaymentWhereInput
+  payments_some: PaymentWhereInput
+  payments_none: PaymentWhereInput
   AND: [StudentWhereInput!]
   OR: [StudentWhereInput!]
   NOT: [StudentWhereInput!]

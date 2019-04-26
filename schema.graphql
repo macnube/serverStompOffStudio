@@ -1,4 +1,4 @@
-# import User, Course, Student, Studio, Room, BatchPayload, Teacher, DanceRole, CourseStudent from "./generated/prisma.graphql"
+# import User, Payment, PaymentType, Course, Student, Studio, Room, BatchPayload, Teacher, DanceRole, CourseStudent, Card from "./generated/prisma.graphql"
 
 type Query {
     teachers: [Teacher!]!
@@ -11,6 +11,7 @@ type Query {
     course(id: ID!): Course!
     students: [Student!]!
     student(id: ID!): Student!
+    payments: [Payment!]!
 }
 
 type Mutation {
@@ -63,4 +64,32 @@ type Mutation {
         role: DanceRole!
     ): CourseStudent
     deleteCourseStudent(id: ID!): CourseStudent
+    createCard(
+        studentId: ID!
+        validCount: Int!
+        expirationDate: DateTime!
+    ): Card
+    updateCard(
+        id: ID!
+        studentId: ID!
+        validCount: Int!
+        expirationDate: DateTime!
+    ): Card
+    deleteCard(id: ID!): Card
+    createPayment(
+        type: PaymentType!
+        studentId: ID!
+        amount: Int!
+        date: DateTime!
+        cardId: ID
+    ): Payment
+    updatePayment(
+        id: ID!
+        type: PaymentType!
+        studentId: ID!
+        amount: Int!
+        date: DateTime!
+        cardId: ID
+    ): Payment
+    deletePayment(id: ID!): Payment
 }
