@@ -690,6 +690,7 @@ type CourseInstance {
   notes: String
   attendees(where: AttendeeWhereInput, orderBy: AttendeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Attendee!]
   absentees(where: AbsenteeWhereInput, orderBy: AbsenteeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Absentee!]
+  youTubeUrl: String
 }
 
 type CourseInstanceConnection {
@@ -705,6 +706,7 @@ input CourseInstanceCreateInput {
   notes: String
   attendees: AttendeeCreateManyWithoutCourseInstanceInput
   absentees: AbsenteeCreateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceCreateManyInput {
@@ -733,6 +735,7 @@ input CourseInstanceCreateWithoutAbsenteesInput {
   topic: String
   notes: String
   attendees: AttendeeCreateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceCreateWithoutAttendeesInput {
@@ -741,6 +744,7 @@ input CourseInstanceCreateWithoutAttendeesInput {
   topic: String
   notes: String
   absentees: AbsenteeCreateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceCreateWithoutParentInput {
@@ -749,6 +753,7 @@ input CourseInstanceCreateWithoutParentInput {
   notes: String
   attendees: AttendeeCreateManyWithoutCourseInstanceInput
   absentees: AbsenteeCreateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 type CourseInstanceEdge {
@@ -765,6 +770,8 @@ enum CourseInstanceOrderByInput {
   topic_DESC
   notes_ASC
   notes_DESC
+  youTubeUrl_ASC
+  youTubeUrl_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -776,6 +783,7 @@ type CourseInstancePreviousValues {
   date: DateTime
   topic: String
   notes: String
+  youTubeUrl: String
 }
 
 input CourseInstanceScalarWhereInput {
@@ -829,6 +837,20 @@ input CourseInstanceScalarWhereInput {
   notes_not_starts_with: String
   notes_ends_with: String
   notes_not_ends_with: String
+  youTubeUrl: String
+  youTubeUrl_not: String
+  youTubeUrl_in: [String!]
+  youTubeUrl_not_in: [String!]
+  youTubeUrl_lt: String
+  youTubeUrl_lte: String
+  youTubeUrl_gt: String
+  youTubeUrl_gte: String
+  youTubeUrl_contains: String
+  youTubeUrl_not_contains: String
+  youTubeUrl_starts_with: String
+  youTubeUrl_not_starts_with: String
+  youTubeUrl_ends_with: String
+  youTubeUrl_not_ends_with: String
   AND: [CourseInstanceScalarWhereInput!]
   OR: [CourseInstanceScalarWhereInput!]
   NOT: [CourseInstanceScalarWhereInput!]
@@ -859,6 +881,7 @@ input CourseInstanceUpdateDataInput {
   notes: String
   attendees: AttendeeUpdateManyWithoutCourseInstanceInput
   absentees: AbsenteeUpdateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateInput {
@@ -868,12 +891,14 @@ input CourseInstanceUpdateInput {
   notes: String
   attendees: AttendeeUpdateManyWithoutCourseInstanceInput
   absentees: AbsenteeUpdateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateManyDataInput {
   date: DateTime
   topic: String
   notes: String
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateManyInput {
@@ -892,6 +917,7 @@ input CourseInstanceUpdateManyMutationInput {
   date: DateTime
   topic: String
   notes: String
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateManyWithoutParentInput {
@@ -931,6 +957,7 @@ input CourseInstanceUpdateWithoutAbsenteesDataInput {
   topic: String
   notes: String
   attendees: AttendeeUpdateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateWithoutAttendeesDataInput {
@@ -939,6 +966,7 @@ input CourseInstanceUpdateWithoutAttendeesDataInput {
   topic: String
   notes: String
   absentees: AbsenteeUpdateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateWithoutParentDataInput {
@@ -947,6 +975,7 @@ input CourseInstanceUpdateWithoutParentDataInput {
   notes: String
   attendees: AttendeeUpdateManyWithoutCourseInstanceInput
   absentees: AbsenteeUpdateManyWithoutCourseInstanceInput
+  youTubeUrl: String
 }
 
 input CourseInstanceUpdateWithWhereUniqueNestedInput {
@@ -1039,6 +1068,20 @@ input CourseInstanceWhereInput {
   absentees_every: AbsenteeWhereInput
   absentees_some: AbsenteeWhereInput
   absentees_none: AbsenteeWhereInput
+  youTubeUrl: String
+  youTubeUrl_not: String
+  youTubeUrl_in: [String!]
+  youTubeUrl_not_in: [String!]
+  youTubeUrl_lt: String
+  youTubeUrl_lte: String
+  youTubeUrl_gt: String
+  youTubeUrl_gte: String
+  youTubeUrl_contains: String
+  youTubeUrl_not_contains: String
+  youTubeUrl_starts_with: String
+  youTubeUrl_not_starts_with: String
+  youTubeUrl_ends_with: String
+  youTubeUrl_not_ends_with: String
   AND: [CourseInstanceWhereInput!]
   OR: [CourseInstanceWhereInput!]
   NOT: [CourseInstanceWhereInput!]
@@ -1612,9 +1655,9 @@ input CourseWhereUniqueInput {
 }
 
 enum DanceRole {
-  Leader
-  Follower
-  Solo
+  LEADER
+  FOLLOWER
+  SOLO
 }
 
 scalar DateTime
@@ -1844,9 +1887,9 @@ input PaymentSubscriptionWhereInput {
 }
 
 enum PaymentType {
-  Course
-  Private
-  DropIn
+  CARD
+  PRIVATE
+  DROP_IN
 }
 
 input PaymentUpdateInput {
@@ -2546,6 +2589,8 @@ input StudentWhereInput {
 
 input StudentWhereUniqueInput {
   id: ID
+  name: String
+  email: String
 }
 
 type Studio {

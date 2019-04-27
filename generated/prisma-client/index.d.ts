@@ -594,9 +594,9 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type PaymentType = "Course" | "Private" | "DropIn";
+export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
 
-export type DanceRole = "Leader" | "Follower" | "Solo";
+export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
 
 export type AbsenteeOrderByInput =
   | "id_ASC"
@@ -699,6 +699,8 @@ export type CourseInstanceOrderByInput =
   | "topic_DESC"
   | "notes_ASC"
   | "notes_DESC"
+  | "youTubeUrl_ASC"
+  | "youTubeUrl_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -842,6 +844,7 @@ export interface CourseInstanceUpdateManyDataInput {
   date?: DateTimeInput;
   topic?: String;
   notes?: String;
+  youTubeUrl?: String;
 }
 
 export interface AbsenteeWhereInput {
@@ -1028,6 +1031,20 @@ export interface CourseInstanceWhereInput {
   absentees_every?: AbsenteeWhereInput;
   absentees_some?: AbsenteeWhereInput;
   absentees_none?: AbsenteeWhereInput;
+  youTubeUrl?: String;
+  youTubeUrl_not?: String;
+  youTubeUrl_in?: String[] | String;
+  youTubeUrl_not_in?: String[] | String;
+  youTubeUrl_lt?: String;
+  youTubeUrl_lte?: String;
+  youTubeUrl_gt?: String;
+  youTubeUrl_gte?: String;
+  youTubeUrl_contains?: String;
+  youTubeUrl_not_contains?: String;
+  youTubeUrl_starts_with?: String;
+  youTubeUrl_not_starts_with?: String;
+  youTubeUrl_ends_with?: String;
+  youTubeUrl_not_ends_with?: String;
   AND?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
   OR?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
   NOT?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
@@ -1075,6 +1092,7 @@ export interface CourseInstanceCreateWithoutAbsenteesInput {
   topic?: String;
   notes?: String;
   attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface CourseStudentSubscriptionWhereInput {
@@ -1550,6 +1568,7 @@ export interface CourseInstanceUpdateWithoutParentDataInput {
   notes?: String;
   attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
   absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface RoomUpdateWithoutStudioDataInput {
@@ -1650,6 +1669,7 @@ export interface CourseInstanceUpdateInput {
   notes?: String;
   attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
   absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface StudentUpdateManyMutationInput {
@@ -1805,6 +1825,20 @@ export interface CourseInstanceScalarWhereInput {
   notes_not_starts_with?: String;
   notes_ends_with?: String;
   notes_not_ends_with?: String;
+  youTubeUrl?: String;
+  youTubeUrl_not?: String;
+  youTubeUrl_in?: String[] | String;
+  youTubeUrl_not_in?: String[] | String;
+  youTubeUrl_lt?: String;
+  youTubeUrl_lte?: String;
+  youTubeUrl_gt?: String;
+  youTubeUrl_gte?: String;
+  youTubeUrl_contains?: String;
+  youTubeUrl_not_contains?: String;
+  youTubeUrl_starts_with?: String;
+  youTubeUrl_not_starts_with?: String;
+  youTubeUrl_ends_with?: String;
+  youTubeUrl_not_ends_with?: String;
   AND?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
   OR?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
   NOT?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
@@ -2408,6 +2442,7 @@ export interface CourseInstanceUpdateDataInput {
   notes?: String;
   attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
   absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface CourseCreateWithoutTeachersInput {
@@ -2915,6 +2950,7 @@ export interface CourseInstanceUpdateManyMutationInput {
   date?: DateTimeInput;
   topic?: String;
   notes?: String;
+  youTubeUrl?: String;
 }
 
 export interface CardUpdateManyWithWhereNestedInput {
@@ -2974,6 +3010,7 @@ export interface CourseInstanceUpdateWithoutAbsenteesDataInput {
   topic?: String;
   notes?: String;
   attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface PaymentSubscriptionWhereInput {
@@ -3067,6 +3104,7 @@ export interface CourseInstanceCreateWithoutAttendeesInput {
   topic?: String;
   notes?: String;
   absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface PaymentCreateWithoutStudentInput {
@@ -3185,6 +3223,7 @@ export interface CourseInstanceUpdateWithoutAttendeesDataInput {
   topic?: String;
   notes?: String;
   absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface CourseInstanceCreateWithoutParentInput {
@@ -3193,10 +3232,13 @@ export interface CourseInstanceCreateWithoutParentInput {
   notes?: String;
   attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
   absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export type StudentWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  name?: String;
+  email?: String;
 }>;
 
 export interface AttendeeSubscriptionWhereInput {
@@ -3217,6 +3259,7 @@ export interface CourseInstanceCreateInput {
   notes?: String;
   attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
   absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
+  youTubeUrl?: String;
 }
 
 export interface NodeNode {
@@ -4128,6 +4171,7 @@ export interface CourseInstancePreviousValues {
   date?: DateTimeOutput;
   topic?: String;
   notes?: String;
+  youTubeUrl?: String;
 }
 
 export interface CourseInstancePreviousValuesPromise
@@ -4137,6 +4181,7 @@ export interface CourseInstancePreviousValuesPromise
   date: () => Promise<DateTimeOutput>;
   topic: () => Promise<String>;
   notes: () => Promise<String>;
+  youTubeUrl: () => Promise<String>;
 }
 
 export interface CourseInstancePreviousValuesSubscription
@@ -4146,6 +4191,7 @@ export interface CourseInstancePreviousValuesSubscription
   date: () => Promise<AsyncIterator<DateTimeOutput>>;
   topic: () => Promise<AsyncIterator<String>>;
   notes: () => Promise<AsyncIterator<String>>;
+  youTubeUrl: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CardConnection {
@@ -4867,6 +4913,7 @@ export interface CourseInstance {
   date?: DateTimeOutput;
   topic?: String;
   notes?: String;
+  youTubeUrl?: String;
 }
 
 export interface CourseInstancePromise
@@ -4899,6 +4946,7 @@ export interface CourseInstancePromise
       last?: Int;
     }
   ) => T;
+  youTubeUrl: () => Promise<String>;
 }
 
 export interface CourseInstanceSubscription
@@ -4931,6 +4979,7 @@ export interface CourseInstanceSubscription
       last?: Int;
     }
   ) => T;
+  youTubeUrl: () => Promise<AsyncIterator<String>>;
 }
 
 export interface StudentPreviousValues {
