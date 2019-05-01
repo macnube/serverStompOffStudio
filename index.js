@@ -511,6 +511,15 @@ const resolvers = {
                 .courseInstance();
         },
     },
+    Teacher: {
+        courses(root, args, context) {
+            return context.prisma
+                .teacher({
+                    id: root.id,
+                })
+                .courses();
+        },
+    },
 };
 
 const server = new ApolloServer({
