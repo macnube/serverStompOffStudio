@@ -14,12 +14,11 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  absentee: (where?: AbsenteeWhereInput) => Promise<boolean>;
-  attendee: (where?: AttendeeWhereInput) => Promise<boolean>;
   card: (where?: CardWhereInput) => Promise<boolean>;
   course: (where?: CourseWhereInput) => Promise<boolean>;
   courseInstance: (where?: CourseInstanceWhereInput) => Promise<boolean>;
   courseStudent: (where?: CourseStudentWhereInput) => Promise<boolean>;
+  participant: (where?: ParticipantWhereInput) => Promise<boolean>;
   payment: (where?: PaymentWhereInput) => Promise<boolean>;
   room: (where?: RoomWhereInput) => Promise<boolean>;
   student: (where?: StudentWhereInput) => Promise<boolean>;
@@ -47,52 +46,6 @@ export interface Prisma {
    * Queries
    */
 
-  absentee: (where: AbsenteeWhereUniqueInput) => AbsenteePromise;
-  absentees: (
-    args?: {
-      where?: AbsenteeWhereInput;
-      orderBy?: AbsenteeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => FragmentableArray<Absentee>;
-  absenteesConnection: (
-    args?: {
-      where?: AbsenteeWhereInput;
-      orderBy?: AbsenteeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => AbsenteeConnectionPromise;
-  attendee: (where: AttendeeWhereUniqueInput) => AttendeePromise;
-  attendees: (
-    args?: {
-      where?: AttendeeWhereInput;
-      orderBy?: AttendeeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => FragmentableArray<Attendee>;
-  attendeesConnection: (
-    args?: {
-      where?: AttendeeWhereInput;
-      orderBy?: AttendeeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => AttendeeConnectionPromise;
   card: (where: CardWhereUniqueInput) => CardPromise;
   cards: (
     args?: {
@@ -187,6 +140,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => CourseStudentConnectionPromise;
+  participant: (where: ParticipantWhereUniqueInput) => ParticipantPromise;
+  participants: (
+    args?: {
+      where?: ParticipantWhereInput;
+      orderBy?: ParticipantOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Participant>;
+  participantsConnection: (
+    args?: {
+      where?: ParticipantWhereInput;
+      orderBy?: ParticipantOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ParticipantConnectionPromise;
   payment: (where: PaymentWhereUniqueInput) => PaymentPromise;
   payments: (
     args?: {
@@ -331,32 +307,6 @@ export interface Prisma {
    * Mutations
    */
 
-  createAbsentee: (data: AbsenteeCreateInput) => AbsenteePromise;
-  updateAbsentee: (
-    args: { data: AbsenteeUpdateInput; where: AbsenteeWhereUniqueInput }
-  ) => AbsenteePromise;
-  upsertAbsentee: (
-    args: {
-      where: AbsenteeWhereUniqueInput;
-      create: AbsenteeCreateInput;
-      update: AbsenteeUpdateInput;
-    }
-  ) => AbsenteePromise;
-  deleteAbsentee: (where: AbsenteeWhereUniqueInput) => AbsenteePromise;
-  deleteManyAbsentees: (where?: AbsenteeWhereInput) => BatchPayloadPromise;
-  createAttendee: (data: AttendeeCreateInput) => AttendeePromise;
-  updateAttendee: (
-    args: { data: AttendeeUpdateInput; where: AttendeeWhereUniqueInput }
-  ) => AttendeePromise;
-  upsertAttendee: (
-    args: {
-      where: AttendeeWhereUniqueInput;
-      create: AttendeeCreateInput;
-      update: AttendeeUpdateInput;
-    }
-  ) => AttendeePromise;
-  deleteAttendee: (where: AttendeeWhereUniqueInput) => AttendeePromise;
-  deleteManyAttendees: (where?: AttendeeWhereInput) => BatchPayloadPromise;
   createCard: (data: CardCreateInput) => CardPromise;
   updateCard: (
     args: { data: CardUpdateInput; where: CardWhereUniqueInput }
@@ -442,6 +392,27 @@ export interface Prisma {
   ) => CourseStudentPromise;
   deleteManyCourseStudents: (
     where?: CourseStudentWhereInput
+  ) => BatchPayloadPromise;
+  createParticipant: (data: ParticipantCreateInput) => ParticipantPromise;
+  updateParticipant: (
+    args: { data: ParticipantUpdateInput; where: ParticipantWhereUniqueInput }
+  ) => ParticipantPromise;
+  updateManyParticipants: (
+    args: {
+      data: ParticipantUpdateManyMutationInput;
+      where?: ParticipantWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertParticipant: (
+    args: {
+      where: ParticipantWhereUniqueInput;
+      create: ParticipantCreateInput;
+      update: ParticipantUpdateInput;
+    }
+  ) => ParticipantPromise;
+  deleteParticipant: (where: ParticipantWhereUniqueInput) => ParticipantPromise;
+  deleteManyParticipants: (
+    where?: ParticipantWhereInput
   ) => BatchPayloadPromise;
   createPayment: (data: PaymentCreateInput) => PaymentPromise;
   updatePayment: (
@@ -548,12 +519,6 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  absentee: (
-    where?: AbsenteeSubscriptionWhereInput
-  ) => AbsenteeSubscriptionPayloadSubscription;
-  attendee: (
-    where?: AttendeeSubscriptionWhereInput
-  ) => AttendeeSubscriptionPayloadSubscription;
   card: (
     where?: CardSubscriptionWhereInput
   ) => CardSubscriptionPayloadSubscription;
@@ -566,6 +531,9 @@ export interface Subscription {
   courseStudent: (
     where?: CourseStudentSubscriptionWhereInput
   ) => CourseStudentSubscriptionPayloadSubscription;
+  participant: (
+    where?: ParticipantSubscriptionWhereInput
+  ) => ParticipantSubscriptionPayloadSubscription;
   payment: (
     where?: PaymentSubscriptionWhereInput
   ) => PaymentSubscriptionPayloadSubscription;
@@ -596,11 +564,13 @@ export interface ClientConstructor<T> {
 
 export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
 
-export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
+export type ParticipantStatus = "PRESENT" | "ABSENT";
 
-export type AbsenteeOrderByInput =
+export type ParticipantOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "status_ASC"
+  | "status_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -622,9 +592,17 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type AttendeeOrderByInput =
+export type CourseInstanceOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "date_ASC"
+  | "date_DESC"
+  | "topic_ASC"
+  | "topic_DESC"
+  | "notes_ASC"
+  | "notes_DESC"
+  | "recapUrl_ASC"
+  | "recapUrl_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -645,6 +623,8 @@ export type StudentOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
+
+export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
 
 export type CourseStudentOrderByInput =
   | "id_ASC"
@@ -685,22 +665,6 @@ export type CourseOrderByInput =
   | "duration_DESC"
   | "studentLimit_ASC"
   | "studentLimit_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type CourseInstanceOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "date_ASC"
-  | "date_DESC"
-  | "topic_ASC"
-  | "topic_DESC"
-  | "notes_ASC"
-  | "notes_DESC"
-  | "youTubeUrl_ASC"
-  | "youTubeUrl_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -760,33 +724,23 @@ export type CardOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export interface AttendeeScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  AND?: AttendeeScalarWhereInput[] | AttendeeScalarWhereInput;
-  OR?: AttendeeScalarWhereInput[] | AttendeeScalarWhereInput;
-  NOT?: AttendeeScalarWhereInput[] | AttendeeScalarWhereInput;
+export interface CourseStudentUpdateDataInput {
+  student?: StudentUpdateOneRequiredWithoutCoursesInput;
+  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
+  role?: DanceRole;
 }
 
-export type AbsenteeWhereUniqueInput = AtLeastOne<{
+export type CardWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface CourseInstanceUpdateManyWithWhereNestedInput {
-  where: CourseInstanceScalarWhereInput;
-  data: CourseInstanceUpdateManyDataInput;
+export interface StudentUpdateOneWithoutPaymentsInput {
+  create?: StudentCreateWithoutPaymentsInput;
+  update?: StudentUpdateWithoutPaymentsDataInput;
+  upsert?: StudentUpsertWithoutPaymentsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: StudentWhereUniqueInput;
 }
 
 export interface StudioWhereInput {
@@ -840,1042 +794,13 @@ export interface StudioWhereInput {
   NOT?: StudioWhereInput[] | StudioWhereInput;
 }
 
-export interface CourseInstanceUpdateManyDataInput {
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  youTubeUrl?: String;
-}
-
-export interface AbsenteeWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  student?: StudentWhereInput;
-  courseInstance?: CourseInstanceWhereInput;
-  AND?: AbsenteeWhereInput[] | AbsenteeWhereInput;
-  OR?: AbsenteeWhereInput[] | AbsenteeWhereInput;
-  NOT?: AbsenteeWhereInput[] | AbsenteeWhereInput;
-}
-
-export interface RoomUpdateOneInput {
-  create?: RoomCreateInput;
-  update?: RoomUpdateDataInput;
-  upsert?: RoomUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: RoomWhereUniqueInput;
-}
-
-export interface TeacherWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  mobile?: String;
-  mobile_not?: String;
-  mobile_in?: String[] | String;
-  mobile_not_in?: String[] | String;
-  mobile_lt?: String;
-  mobile_lte?: String;
-  mobile_gt?: String;
-  mobile_gte?: String;
-  mobile_contains?: String;
-  mobile_not_contains?: String;
-  mobile_starts_with?: String;
-  mobile_not_starts_with?: String;
-  mobile_ends_with?: String;
-  mobile_not_ends_with?: String;
-  courses_every?: CourseWhereInput;
-  courses_some?: CourseWhereInput;
-  courses_none?: CourseWhereInput;
-  AND?: TeacherWhereInput[] | TeacherWhereInput;
-  OR?: TeacherWhereInput[] | TeacherWhereInput;
-  NOT?: TeacherWhereInput[] | TeacherWhereInput;
-}
-
-export interface CardCreateOneWithoutPaymentInput {
-  create?: CardCreateWithoutPaymentInput;
-  connect?: CardWhereUniqueInput;
-}
-
-export interface CardUpdateManyMutationInput {
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount?: Int;
-}
-
-export interface CardCreateWithoutPaymentInput {
-  student: StudentCreateOneWithoutCardsInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount: Int;
-  useHistory?: CourseInstanceCreateManyInput;
-}
-
-export interface RoomUpdateDataInput {
-  name?: String;
-  capacity?: Int;
-  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
-}
-
-export interface StudentCreateOneWithoutCardsInput {
-  create?: StudentCreateWithoutCardsInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface CourseInstanceWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  parent?: CourseWhereInput;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
-  topic?: String;
-  topic_not?: String;
-  topic_in?: String[] | String;
-  topic_not_in?: String[] | String;
-  topic_lt?: String;
-  topic_lte?: String;
-  topic_gt?: String;
-  topic_gte?: String;
-  topic_contains?: String;
-  topic_not_contains?: String;
-  topic_starts_with?: String;
-  topic_not_starts_with?: String;
-  topic_ends_with?: String;
-  topic_not_ends_with?: String;
-  notes?: String;
-  notes_not?: String;
-  notes_in?: String[] | String;
-  notes_not_in?: String[] | String;
-  notes_lt?: String;
-  notes_lte?: String;
-  notes_gt?: String;
-  notes_gte?: String;
-  notes_contains?: String;
-  notes_not_contains?: String;
-  notes_starts_with?: String;
-  notes_not_starts_with?: String;
-  notes_ends_with?: String;
-  notes_not_ends_with?: String;
-  attendees_every?: AttendeeWhereInput;
-  attendees_some?: AttendeeWhereInput;
-  attendees_none?: AttendeeWhereInput;
-  absentees_every?: AbsenteeWhereInput;
-  absentees_some?: AbsenteeWhereInput;
-  absentees_none?: AbsenteeWhereInput;
-  youTubeUrl?: String;
-  youTubeUrl_not?: String;
-  youTubeUrl_in?: String[] | String;
-  youTubeUrl_not_in?: String[] | String;
-  youTubeUrl_lt?: String;
-  youTubeUrl_lte?: String;
-  youTubeUrl_gt?: String;
-  youTubeUrl_gte?: String;
-  youTubeUrl_contains?: String;
-  youTubeUrl_not_contains?: String;
-  youTubeUrl_starts_with?: String;
-  youTubeUrl_not_starts_with?: String;
-  youTubeUrl_ends_with?: String;
-  youTubeUrl_not_ends_with?: String;
-  AND?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
-  OR?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
-  NOT?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
-}
-
-export interface StudentCreateWithoutCardsInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  courses?: CourseStudentCreateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentCreateManyWithoutStudentInput;
-}
-
-export interface StudioSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: StudioWhereInput;
-  AND?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
-  OR?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
-  NOT?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
-}
-
-export interface CourseInstanceCreateOneWithoutAbsenteesInput {
-  create?: CourseInstanceCreateWithoutAbsenteesInput;
-  connect?: CourseInstanceWhereUniqueInput;
-}
-
-export interface RoomSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: RoomWhereInput;
-  AND?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-  OR?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-  NOT?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-}
-
-export interface CourseInstanceCreateWithoutAbsenteesInput {
-  parent?: CourseCreateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export interface CourseStudentSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CourseStudentWhereInput;
-  AND?:
-    | CourseStudentSubscriptionWhereInput[]
-    | CourseStudentSubscriptionWhereInput;
-  OR?:
-    | CourseStudentSubscriptionWhereInput[]
-    | CourseStudentSubscriptionWhereInput;
-  NOT?:
-    | CourseStudentSubscriptionWhereInput[]
-    | CourseStudentSubscriptionWhereInput;
-}
-
-export interface AbsenteeUpdateInput {
-  student?: StudentUpdateOneRequiredInput;
-  courseInstance?: CourseInstanceUpdateOneRequiredWithoutAbsenteesInput;
-}
-
-export interface PaymentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  type?: PaymentType;
-  type_not?: PaymentType;
-  type_in?: PaymentType[] | PaymentType;
-  type_not_in?: PaymentType[] | PaymentType;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
-  amount?: Int;
-  amount_not?: Int;
-  amount_in?: Int[] | Int;
-  amount_not_in?: Int[] | Int;
-  amount_lt?: Int;
-  amount_lte?: Int;
-  amount_gt?: Int;
-  amount_gte?: Int;
-  student?: StudentWhereInput;
-  card?: CardWhereInput;
-  AND?: PaymentWhereInput[] | PaymentWhereInput;
-  OR?: PaymentWhereInput[] | PaymentWhereInput;
-  NOT?: PaymentWhereInput[] | PaymentWhereInput;
-}
-
-export interface StudentUpdateOneRequiredInput {
-  create?: StudentCreateInput;
-  update?: StudentUpdateDataInput;
-  upsert?: StudentUpsertNestedInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface CourseSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CourseWhereInput;
-  AND?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-  OR?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-  NOT?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-}
-
-export interface StudentUpdateDataInput {
+export interface StudentUpdateWithoutPaymentsDataInput {
   name?: String;
   email?: String;
   mobile?: String;
   courses?: CourseStudentUpdateManyWithoutStudentInput;
   cards?: CardUpdateManyWithoutStudentInput;
   hasReferralBonus?: Boolean;
-  payments?: PaymentUpdateManyWithoutStudentInput;
-}
-
-export interface StudentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  mobile?: String;
-  mobile_not?: String;
-  mobile_in?: String[] | String;
-  mobile_not_in?: String[] | String;
-  mobile_lt?: String;
-  mobile_lte?: String;
-  mobile_gt?: String;
-  mobile_gte?: String;
-  mobile_contains?: String;
-  mobile_not_contains?: String;
-  mobile_starts_with?: String;
-  mobile_not_starts_with?: String;
-  mobile_ends_with?: String;
-  mobile_not_ends_with?: String;
-  courses_every?: CourseStudentWhereInput;
-  courses_some?: CourseStudentWhereInput;
-  courses_none?: CourseStudentWhereInput;
-  cards_every?: CardWhereInput;
-  cards_some?: CardWhereInput;
-  cards_none?: CardWhereInput;
-  hasReferralBonus?: Boolean;
-  hasReferralBonus_not?: Boolean;
-  payments_every?: PaymentWhereInput;
-  payments_some?: PaymentWhereInput;
-  payments_none?: PaymentWhereInput;
-  AND?: StudentWhereInput[] | StudentWhereInput;
-  OR?: StudentWhereInput[] | StudentWhereInput;
-  NOT?: StudentWhereInput[] | StudentWhereInput;
-}
-
-export interface CourseStudentUpdateManyWithoutStudentInput {
-  create?:
-    | CourseStudentCreateWithoutStudentInput[]
-    | CourseStudentCreateWithoutStudentInput;
-  delete?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  set?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  disconnect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  update?:
-    | CourseStudentUpdateWithWhereUniqueWithoutStudentInput[]
-    | CourseStudentUpdateWithWhereUniqueWithoutStudentInput;
-  upsert?:
-    | CourseStudentUpsertWithWhereUniqueWithoutStudentInput[]
-    | CourseStudentUpsertWithWhereUniqueWithoutStudentInput;
-  deleteMany?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
-  updateMany?:
-    | CourseStudentUpdateManyWithWhereNestedInput[]
-    | CourseStudentUpdateManyWithWhereNestedInput;
-}
-
-export interface AbsenteeSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: AbsenteeWhereInput;
-  AND?: AbsenteeSubscriptionWhereInput[] | AbsenteeSubscriptionWhereInput;
-  OR?: AbsenteeSubscriptionWhereInput[] | AbsenteeSubscriptionWhereInput;
-  NOT?: AbsenteeSubscriptionWhereInput[] | AbsenteeSubscriptionWhereInput;
-}
-
-export interface CourseStudentUpdateWithWhereUniqueWithoutStudentInput {
-  where: CourseStudentWhereUniqueInput;
-  data: CourseStudentUpdateWithoutStudentDataInput;
-}
-
-export interface UserUpdateInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  admin?: Boolean;
-}
-
-export interface CourseStudentUpdateWithoutStudentDataInput {
-  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
-  role?: DanceRole;
-}
-
-export interface UserCreateInput {
-  email?: String;
-  password: String;
-  name: String;
-  admin?: Boolean;
-}
-
-export interface CourseUpdateOneRequiredWithoutCourseStudentsInput {
-  create?: CourseCreateWithoutCourseStudentsInput;
-  update?: CourseUpdateWithoutCourseStudentsDataInput;
-  upsert?: CourseUpsertWithoutCourseStudentsInput;
-  connect?: CourseWhereUniqueInput;
-}
-
-export interface CourseUpdateManyDataInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  studentLimit?: Int;
-}
-
-export interface CourseUpdateWithoutCourseStudentsDataInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherUpdateManyWithoutCoursesInput;
-  courseHistory?: CourseInstanceUpdateManyWithoutParentInput;
-  studentLimit?: Int;
-  room?: RoomUpdateOneInput;
-}
-
-export interface CourseUpdateManyWithWhereNestedInput {
-  where: CourseScalarWhereInput;
-  data: CourseUpdateManyDataInput;
-}
-
-export interface TeacherUpdateManyWithoutCoursesInput {
-  create?:
-    | TeacherCreateWithoutCoursesInput[]
-    | TeacherCreateWithoutCoursesInput;
-  delete?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
-  connect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
-  set?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
-  disconnect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
-  update?:
-    | TeacherUpdateWithWhereUniqueWithoutCoursesInput[]
-    | TeacherUpdateWithWhereUniqueWithoutCoursesInput;
-  upsert?:
-    | TeacherUpsertWithWhereUniqueWithoutCoursesInput[]
-    | TeacherUpsertWithWhereUniqueWithoutCoursesInput;
-  deleteMany?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
-  updateMany?:
-    | TeacherUpdateManyWithWhereNestedInput[]
-    | TeacherUpdateManyWithWhereNestedInput;
-}
-
-export interface CourseUpsertWithWhereUniqueWithoutTeachersInput {
-  where: CourseWhereUniqueInput;
-  update: CourseUpdateWithoutTeachersDataInput;
-  create: CourseCreateWithoutTeachersInput;
-}
-
-export interface TeacherUpdateWithWhereUniqueWithoutCoursesInput {
-  where: TeacherWhereUniqueInput;
-  data: TeacherUpdateWithoutCoursesDataInput;
-}
-
-export interface CourseUpdateWithoutTeachersDataInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
-  courseHistory?: CourseInstanceUpdateManyWithoutParentInput;
-  studentLimit?: Int;
-  room?: RoomUpdateOneInput;
-}
-
-export interface TeacherUpdateWithoutCoursesDataInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-}
-
-export interface CourseUpdateManyWithoutTeachersInput {
-  create?:
-    | CourseCreateWithoutTeachersInput[]
-    | CourseCreateWithoutTeachersInput;
-  delete?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
-  connect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
-  set?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
-  disconnect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
-  update?:
-    | CourseUpdateWithWhereUniqueWithoutTeachersInput[]
-    | CourseUpdateWithWhereUniqueWithoutTeachersInput;
-  upsert?:
-    | CourseUpsertWithWhereUniqueWithoutTeachersInput[]
-    | CourseUpsertWithWhereUniqueWithoutTeachersInput;
-  deleteMany?: CourseScalarWhereInput[] | CourseScalarWhereInput;
-  updateMany?:
-    | CourseUpdateManyWithWhereNestedInput[]
-    | CourseUpdateManyWithWhereNestedInput;
-}
-
-export interface TeacherUpsertWithWhereUniqueWithoutCoursesInput {
-  where: TeacherWhereUniqueInput;
-  update: TeacherUpdateWithoutCoursesDataInput;
-  create: TeacherCreateWithoutCoursesInput;
-}
-
-export interface TeacherUpdateInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-  courses?: CourseUpdateManyWithoutTeachersInput;
-}
-
-export interface TeacherScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  mobile?: String;
-  mobile_not?: String;
-  mobile_in?: String[] | String;
-  mobile_not_in?: String[] | String;
-  mobile_lt?: String;
-  mobile_lte?: String;
-  mobile_gt?: String;
-  mobile_gte?: String;
-  mobile_contains?: String;
-  mobile_not_contains?: String;
-  mobile_starts_with?: String;
-  mobile_not_starts_with?: String;
-  mobile_ends_with?: String;
-  mobile_not_ends_with?: String;
-  AND?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
-  OR?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
-  NOT?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
-}
-
-export interface CourseCreateManyWithoutTeachersInput {
-  create?:
-    | CourseCreateWithoutTeachersInput[]
-    | CourseCreateWithoutTeachersInput;
-  connect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
-}
-
-export interface TeacherUpdateManyWithWhereNestedInput {
-  where: TeacherScalarWhereInput;
-  data: TeacherUpdateManyDataInput;
-}
-
-export interface TeacherCreateInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  courses?: CourseCreateManyWithoutTeachersInput;
-}
-
-export interface TeacherUpdateManyDataInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-}
-
-export interface RoomUpdateManyDataInput {
-  name?: String;
-  capacity?: Int;
-}
-
-export interface CourseInstanceUpdateManyWithoutParentInput {
-  create?:
-    | CourseInstanceCreateWithoutParentInput[]
-    | CourseInstanceCreateWithoutParentInput;
-  delete?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  set?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  disconnect?:
-    | CourseInstanceWhereUniqueInput[]
-    | CourseInstanceWhereUniqueInput;
-  update?:
-    | CourseInstanceUpdateWithWhereUniqueWithoutParentInput[]
-    | CourseInstanceUpdateWithWhereUniqueWithoutParentInput;
-  upsert?:
-    | CourseInstanceUpsertWithWhereUniqueWithoutParentInput[]
-    | CourseInstanceUpsertWithWhereUniqueWithoutParentInput;
-  deleteMany?:
-    | CourseInstanceScalarWhereInput[]
-    | CourseInstanceScalarWhereInput;
-  updateMany?:
-    | CourseInstanceUpdateManyWithWhereNestedInput[]
-    | CourseInstanceUpdateManyWithWhereNestedInput;
-}
-
-export interface RoomUpdateManyWithWhereNestedInput {
-  where: RoomScalarWhereInput;
-  data: RoomUpdateManyDataInput;
-}
-
-export interface CourseInstanceUpdateWithWhereUniqueWithoutParentInput {
-  where: CourseInstanceWhereUniqueInput;
-  data: CourseInstanceUpdateWithoutParentDataInput;
-}
-
-export interface RoomUpsertWithWhereUniqueWithoutStudioInput {
-  where: RoomWhereUniqueInput;
-  update: RoomUpdateWithoutStudioDataInput;
-  create: RoomCreateWithoutStudioInput;
-}
-
-export interface CourseInstanceUpdateWithoutParentDataInput {
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
-  absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export interface RoomUpdateWithoutStudioDataInput {
-  name?: String;
-  capacity?: Int;
-}
-
-export interface AttendeeUpdateManyWithoutCourseInstanceInput {
-  create?:
-    | AttendeeCreateWithoutCourseInstanceInput[]
-    | AttendeeCreateWithoutCourseInstanceInput;
-  delete?: AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput;
-  connect?: AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput;
-  set?: AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput;
-  disconnect?: AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput;
-  update?:
-    | AttendeeUpdateWithWhereUniqueWithoutCourseInstanceInput[]
-    | AttendeeUpdateWithWhereUniqueWithoutCourseInstanceInput;
-  upsert?:
-    | AttendeeUpsertWithWhereUniqueWithoutCourseInstanceInput[]
-    | AttendeeUpsertWithWhereUniqueWithoutCourseInstanceInput;
-  deleteMany?: AttendeeScalarWhereInput[] | AttendeeScalarWhereInput;
-}
-
-export interface RoomUpdateManyWithoutStudioInput {
-  create?: RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput;
-  delete?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
-  connect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
-  set?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
-  disconnect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
-  update?:
-    | RoomUpdateWithWhereUniqueWithoutStudioInput[]
-    | RoomUpdateWithWhereUniqueWithoutStudioInput;
-  upsert?:
-    | RoomUpsertWithWhereUniqueWithoutStudioInput[]
-    | RoomUpsertWithWhereUniqueWithoutStudioInput;
-  deleteMany?: RoomScalarWhereInput[] | RoomScalarWhereInput;
-  updateMany?:
-    | RoomUpdateManyWithWhereNestedInput[]
-    | RoomUpdateManyWithWhereNestedInput;
-}
-
-export interface AttendeeUpdateWithWhereUniqueWithoutCourseInstanceInput {
-  where: AttendeeWhereUniqueInput;
-  data: AttendeeUpdateWithoutCourseInstanceDataInput;
-}
-
-export interface CourseStudentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  student?: StudentWhereInput;
-  course?: CourseWhereInput;
-  role?: DanceRole;
-  role_not?: DanceRole;
-  role_in?: DanceRole[] | DanceRole;
-  role_not_in?: DanceRole[] | DanceRole;
-  AND?: CourseStudentWhereInput[] | CourseStudentWhereInput;
-  OR?: CourseStudentWhereInput[] | CourseStudentWhereInput;
-  NOT?: CourseStudentWhereInput[] | CourseStudentWhereInput;
-}
-
-export interface AttendeeUpdateWithoutCourseInstanceDataInput {
-  student?: StudentUpdateOneRequiredInput;
-}
-
-export interface RoomCreateWithoutStudioInput {
-  name?: String;
-  capacity?: Int;
-}
-
-export interface AttendeeUpsertWithWhereUniqueWithoutCourseInstanceInput {
-  where: AttendeeWhereUniqueInput;
-  update: AttendeeUpdateWithoutCourseInstanceDataInput;
-  create: AttendeeCreateWithoutCourseInstanceInput;
-}
-
-export type StudioWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  name?: String;
-}>;
-
-export interface CourseInstanceUpdateInput {
-  parent?: CourseUpdateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
-  absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export interface StudentUpdateManyMutationInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-  hasReferralBonus?: Boolean;
-}
-
-export interface AbsenteeUpdateManyWithoutCourseInstanceInput {
-  create?:
-    | AbsenteeCreateWithoutCourseInstanceInput[]
-    | AbsenteeCreateWithoutCourseInstanceInput;
-  delete?: AbsenteeWhereUniqueInput[] | AbsenteeWhereUniqueInput;
-  connect?: AbsenteeWhereUniqueInput[] | AbsenteeWhereUniqueInput;
-  set?: AbsenteeWhereUniqueInput[] | AbsenteeWhereUniqueInput;
-  disconnect?: AbsenteeWhereUniqueInput[] | AbsenteeWhereUniqueInput;
-  update?:
-    | AbsenteeUpdateWithWhereUniqueWithoutCourseInstanceInput[]
-    | AbsenteeUpdateWithWhereUniqueWithoutCourseInstanceInput;
-  upsert?:
-    | AbsenteeUpsertWithWhereUniqueWithoutCourseInstanceInput[]
-    | AbsenteeUpsertWithWhereUniqueWithoutCourseInstanceInput;
-  deleteMany?: AbsenteeScalarWhereInput[] | AbsenteeScalarWhereInput;
-}
-
-export interface RoomUpdateManyMutationInput {
-  name?: String;
-  capacity?: Int;
-}
-
-export interface AbsenteeUpdateWithWhereUniqueWithoutCourseInstanceInput {
-  where: AbsenteeWhereUniqueInput;
-  data: AbsenteeUpdateWithoutCourseInstanceDataInput;
-}
-
-export interface RoomUpdateInput {
-  name?: String;
-  capacity?: Int;
-  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
-}
-
-export interface AbsenteeUpdateWithoutCourseInstanceDataInput {
-  student?: StudentUpdateOneRequiredInput;
-}
-
-export interface PaymentUpdateInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-  student?: StudentUpdateOneWithoutPaymentsInput;
-  card?: CardUpdateOneWithoutPaymentInput;
-}
-
-export interface AbsenteeUpsertWithWhereUniqueWithoutCourseInstanceInput {
-  where: AbsenteeWhereUniqueInput;
-  update: AbsenteeUpdateWithoutCourseInstanceDataInput;
-  create: AbsenteeCreateWithoutCourseInstanceInput;
-}
-
-export interface PaymentCreateInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  student?: StudentCreateOneWithoutPaymentsInput;
-  card?: CardCreateOneWithoutPaymentInput;
-}
-
-export interface AbsenteeScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  AND?: AbsenteeScalarWhereInput[] | AbsenteeScalarWhereInput;
-  OR?: AbsenteeScalarWhereInput[] | AbsenteeScalarWhereInput;
-  NOT?: AbsenteeScalarWhereInput[] | AbsenteeScalarWhereInput;
-}
-
-export interface CourseStudentUpdateManyMutationInput {
-  role?: DanceRole;
-}
-
-export interface CourseInstanceUpsertWithWhereUniqueWithoutParentInput {
-  where: CourseInstanceWhereUniqueInput;
-  update: CourseInstanceUpdateWithoutParentDataInput;
-  create: CourseInstanceCreateWithoutParentInput;
-}
-
-export interface CourseStudentCreateInput {
-  student: StudentCreateOneWithoutCoursesInput;
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
-}
-
-export interface CourseInstanceScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
-  topic?: String;
-  topic_not?: String;
-  topic_in?: String[] | String;
-  topic_not_in?: String[] | String;
-  topic_lt?: String;
-  topic_lte?: String;
-  topic_gt?: String;
-  topic_gte?: String;
-  topic_contains?: String;
-  topic_not_contains?: String;
-  topic_starts_with?: String;
-  topic_not_starts_with?: String;
-  topic_ends_with?: String;
-  topic_not_ends_with?: String;
-  notes?: String;
-  notes_not?: String;
-  notes_in?: String[] | String;
-  notes_not_in?: String[] | String;
-  notes_lt?: String;
-  notes_lte?: String;
-  notes_gt?: String;
-  notes_gte?: String;
-  notes_contains?: String;
-  notes_not_contains?: String;
-  notes_starts_with?: String;
-  notes_not_starts_with?: String;
-  notes_ends_with?: String;
-  notes_not_ends_with?: String;
-  youTubeUrl?: String;
-  youTubeUrl_not?: String;
-  youTubeUrl_in?: String[] | String;
-  youTubeUrl_not_in?: String[] | String;
-  youTubeUrl_lt?: String;
-  youTubeUrl_lte?: String;
-  youTubeUrl_gt?: String;
-  youTubeUrl_gte?: String;
-  youTubeUrl_contains?: String;
-  youTubeUrl_not_contains?: String;
-  youTubeUrl_starts_with?: String;
-  youTubeUrl_not_starts_with?: String;
-  youTubeUrl_ends_with?: String;
-  youTubeUrl_not_ends_with?: String;
-  AND?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
-  OR?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
-  NOT?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
-}
-
-export interface StudentCreateOneInput {
-  create?: StudentCreateInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface AttendeeWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  student?: StudentWhereInput;
-  courseInstance?: CourseInstanceWhereInput;
-  AND?: AttendeeWhereInput[] | AttendeeWhereInput;
-  OR?: AttendeeWhereInput[] | AttendeeWhereInput;
-  NOT?: AttendeeWhereInput[] | AttendeeWhereInput;
-}
-
-export interface CourseStudentCreateManyWithoutStudentInput {
-  create?:
-    | CourseStudentCreateWithoutStudentInput[]
-    | CourseStudentCreateWithoutStudentInput;
-  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
 }
 
 export interface RoomWhereInput {
@@ -1921,25 +846,9 @@ export interface RoomWhereInput {
   NOT?: RoomWhereInput[] | RoomWhereInput;
 }
 
-export interface CourseCreateOneWithoutCourseStudentsInput {
-  create?: CourseCreateWithoutCourseStudentsInput;
-  connect?: CourseWhereUniqueInput;
-}
-
-export interface CourseUpdateManyMutationInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  studentLimit?: Int;
-}
-
-export interface TeacherCreateManyWithoutCoursesInput {
-  create?:
-    | TeacherCreateWithoutCoursesInput[]
-    | TeacherCreateWithoutCoursesInput;
-  connect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
+export interface StudentUpsertWithoutPaymentsInput {
+  update: StudentUpdateWithoutPaymentsDataInput;
+  create: StudentCreateWithoutPaymentsInput;
 }
 
 export interface CourseWhereInput {
@@ -2021,9 +930,9 @@ export interface CourseWhereInput {
   courseStudents_every?: CourseStudentWhereInput;
   courseStudents_some?: CourseStudentWhereInput;
   courseStudents_none?: CourseStudentWhereInput;
-  courseHistory_every?: CourseInstanceWhereInput;
-  courseHistory_some?: CourseInstanceWhereInput;
-  courseHistory_none?: CourseInstanceWhereInput;
+  instances_every?: CourseInstanceWhereInput;
+  instances_some?: CourseInstanceWhereInput;
+  instances_none?: CourseInstanceWhereInput;
   studentLimit?: Int;
   studentLimit_not?: Int;
   studentLimit_in?: Int[] | Int;
@@ -2038,62 +947,930 @@ export interface CourseWhereInput {
   NOT?: CourseWhereInput[] | CourseWhereInput;
 }
 
-export interface CourseInstanceCreateManyWithoutParentInput {
-  create?:
-    | CourseInstanceCreateWithoutParentInput[]
-    | CourseInstanceCreateWithoutParentInput;
-  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+export interface PaymentCreateWithoutStudentInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  card?: CardCreateOneWithoutPaymentInput;
 }
 
-export interface StudioUpdateOneRequiredWithoutRoomsInput {
-  create?: StudioCreateWithoutRoomsInput;
-  update?: StudioUpdateWithoutRoomsDataInput;
-  upsert?: StudioUpsertWithoutRoomsInput;
-  connect?: StudioWhereUniqueInput;
+export interface ParticipantUpdateInput {
+  courseStudent?: CourseStudentUpdateOneRequiredInput;
+  courseInstance?: CourseInstanceUpdateOneRequiredWithoutParticipantsInput;
+  status?: ParticipantStatus;
 }
 
-export interface AttendeeCreateManyWithoutCourseInstanceInput {
-  create?:
-    | AttendeeCreateWithoutCourseInstanceInput[]
-    | AttendeeCreateWithoutCourseInstanceInput;
-  connect?: AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput;
+export interface CardCreateOneWithoutPaymentInput {
+  create?: CardCreateWithoutPaymentInput;
+  connect?: CardWhereUniqueInput;
 }
 
-export interface StudioUpdateWithoutRoomsDataInput {
+export interface PaymentUpsertWithoutCardInput {
+  update: PaymentUpdateWithoutCardDataInput;
+  create: PaymentCreateWithoutCardInput;
+}
+
+export interface CardCreateWithoutPaymentInput {
+  student: StudentCreateOneWithoutCardsInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount: Int;
+  useHistory?: CourseInstanceCreateManyInput;
+}
+
+export interface TeacherSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: TeacherWhereInput;
+  AND?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
+  OR?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
+  NOT?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
+}
+
+export interface CardUpdateInput {
+  student?: StudentUpdateOneRequiredWithoutCardsInput;
+  payment?: PaymentUpdateOneWithoutCardInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount?: Int;
+  useHistory?: CourseInstanceUpdateManyInput;
+}
+
+export interface StudentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: StudentWhereInput;
+  AND?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
+  OR?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
+  NOT?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
+}
+
+export interface StudentUpdateOneRequiredWithoutCardsInput {
+  create?: StudentCreateWithoutCardsInput;
+  update?: StudentUpdateWithoutCardsDataInput;
+  upsert?: StudentUpsertWithoutCardsInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface PaymentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PaymentWhereInput;
+  AND?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+  OR?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+  NOT?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+}
+
+export interface StudentUpdateWithoutCardsDataInput {
   name?: String;
+  email?: String;
+  mobile?: String;
+  courses?: CourseStudentUpdateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentUpdateManyWithoutStudentInput;
+}
+
+export interface CourseStudentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CourseStudentWhereInput;
+  AND?:
+    | CourseStudentSubscriptionWhereInput[]
+    | CourseStudentSubscriptionWhereInput;
+  OR?:
+    | CourseStudentSubscriptionWhereInput[]
+    | CourseStudentSubscriptionWhereInput;
+  NOT?:
+    | CourseStudentSubscriptionWhereInput[]
+    | CourseStudentSubscriptionWhereInput;
+}
+
+export interface CourseStudentUpdateManyWithoutStudentInput {
+  create?:
+    | CourseStudentCreateWithoutStudentInput[]
+    | CourseStudentCreateWithoutStudentInput;
+  delete?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  set?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  disconnect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  update?:
+    | CourseStudentUpdateWithWhereUniqueWithoutStudentInput[]
+    | CourseStudentUpdateWithWhereUniqueWithoutStudentInput;
+  upsert?:
+    | CourseStudentUpsertWithWhereUniqueWithoutStudentInput[]
+    | CourseStudentUpsertWithWhereUniqueWithoutStudentInput;
+  deleteMany?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+  updateMany?:
+    | CourseStudentUpdateManyWithWhereNestedInput[]
+    | CourseStudentUpdateManyWithWhereNestedInput;
+}
+
+export interface CardWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  student?: StudentWhereInput;
+  payment?: PaymentWhereInput;
+  expirationDate?: DateTimeInput;
+  expirationDate_not?: DateTimeInput;
+  expirationDate_in?: DateTimeInput[] | DateTimeInput;
+  expirationDate_not_in?: DateTimeInput[] | DateTimeInput;
+  expirationDate_lt?: DateTimeInput;
+  expirationDate_lte?: DateTimeInput;
+  expirationDate_gt?: DateTimeInput;
+  expirationDate_gte?: DateTimeInput;
+  active?: Boolean;
+  active_not?: Boolean;
+  validCount?: Int;
+  validCount_not?: Int;
+  validCount_in?: Int[] | Int;
+  validCount_not_in?: Int[] | Int;
+  validCount_lt?: Int;
+  validCount_lte?: Int;
+  validCount_gt?: Int;
+  validCount_gte?: Int;
+  useHistory_every?: CourseInstanceWhereInput;
+  useHistory_some?: CourseInstanceWhereInput;
+  useHistory_none?: CourseInstanceWhereInput;
+  AND?: CardWhereInput[] | CardWhereInput;
+  OR?: CardWhereInput[] | CardWhereInput;
+  NOT?: CardWhereInput[] | CardWhereInput;
+}
+
+export interface CourseStudentUpdateWithWhereUniqueWithoutStudentInput {
+  where: CourseStudentWhereUniqueInput;
+  data: CourseStudentUpdateWithoutStudentDataInput;
+}
+
+export interface CourseInstanceSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CourseInstanceWhereInput;
+  AND?:
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput;
+  OR?:
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput;
+  NOT?:
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput;
+}
+
+export interface CourseStudentUpdateWithoutStudentDataInput {
+  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
+  role?: DanceRole;
+}
+
+export interface CardSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CardWhereInput;
+  AND?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
+  OR?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
+  NOT?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
+}
+
+export interface CourseUpdateOneRequiredWithoutCourseStudentsInput {
+  create?: CourseCreateWithoutCourseStudentsInput;
+  update?: CourseUpdateWithoutCourseStudentsDataInput;
+  upsert?: CourseUpsertWithoutCourseStudentsInput;
+  connect?: CourseWhereUniqueInput;
+}
+
+export interface UserUpdateInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  admin?: Boolean;
+}
+
+export interface CourseUpdateWithoutCourseStudentsDataInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherUpdateManyWithoutCoursesInput;
+  instances?: CourseInstanceUpdateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomUpdateOneInput;
+}
+
+export interface UserCreateInput {
+  email?: String;
+  password: String;
+  name: String;
+  admin?: Boolean;
+}
+
+export interface TeacherUpdateManyWithoutCoursesInput {
+  create?:
+    | TeacherCreateWithoutCoursesInput[]
+    | TeacherCreateWithoutCoursesInput;
+  delete?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
+  connect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
+  set?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
+  disconnect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
+  update?:
+    | TeacherUpdateWithWhereUniqueWithoutCoursesInput[]
+    | TeacherUpdateWithWhereUniqueWithoutCoursesInput;
+  upsert?:
+    | TeacherUpsertWithWhereUniqueWithoutCoursesInput[]
+    | TeacherUpsertWithWhereUniqueWithoutCoursesInput;
+  deleteMany?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
+  updateMany?:
+    | TeacherUpdateManyWithWhereNestedInput[]
+    | TeacherUpdateManyWithWhereNestedInput;
+}
+
+export interface CourseUpdateManyDataInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  studentLimit?: Int;
+}
+
+export interface TeacherUpdateWithWhereUniqueWithoutCoursesInput {
+  where: TeacherWhereUniqueInput;
+  data: TeacherUpdateWithoutCoursesDataInput;
+}
+
+export interface CourseUpdateManyWithWhereNestedInput {
+  where: CourseScalarWhereInput;
+  data: CourseUpdateManyDataInput;
+}
+
+export interface TeacherUpdateWithoutCoursesDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+}
+
+export interface CourseUpsertWithWhereUniqueWithoutTeachersInput {
+  where: CourseWhereUniqueInput;
+  update: CourseUpdateWithoutTeachersDataInput;
+  create: CourseCreateWithoutTeachersInput;
+}
+
+export interface TeacherUpsertWithWhereUniqueWithoutCoursesInput {
+  where: TeacherWhereUniqueInput;
+  update: TeacherUpdateWithoutCoursesDataInput;
+  create: TeacherCreateWithoutCoursesInput;
+}
+
+export interface CourseUpdateWithoutTeachersDataInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
+  instances?: CourseInstanceUpdateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomUpdateOneInput;
+}
+
+export interface TeacherScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  mobile?: String;
+  mobile_not?: String;
+  mobile_in?: String[] | String;
+  mobile_not_in?: String[] | String;
+  mobile_lt?: String;
+  mobile_lte?: String;
+  mobile_gt?: String;
+  mobile_gte?: String;
+  mobile_contains?: String;
+  mobile_not_contains?: String;
+  mobile_starts_with?: String;
+  mobile_not_starts_with?: String;
+  mobile_ends_with?: String;
+  mobile_not_ends_with?: String;
+  AND?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
+  OR?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
+  NOT?: TeacherScalarWhereInput[] | TeacherScalarWhereInput;
+}
+
+export interface CourseUpdateManyWithoutTeachersInput {
+  create?:
+    | CourseCreateWithoutTeachersInput[]
+    | CourseCreateWithoutTeachersInput;
+  delete?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
+  connect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
+  set?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
+  disconnect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
+  update?:
+    | CourseUpdateWithWhereUniqueWithoutTeachersInput[]
+    | CourseUpdateWithWhereUniqueWithoutTeachersInput;
+  upsert?:
+    | CourseUpsertWithWhereUniqueWithoutTeachersInput[]
+    | CourseUpsertWithWhereUniqueWithoutTeachersInput;
+  deleteMany?: CourseScalarWhereInput[] | CourseScalarWhereInput;
+  updateMany?:
+    | CourseUpdateManyWithWhereNestedInput[]
+    | CourseUpdateManyWithWhereNestedInput;
+}
+
+export interface TeacherUpdateManyWithWhereNestedInput {
+  where: TeacherScalarWhereInput;
+  data: TeacherUpdateManyDataInput;
+}
+
+export interface TeacherUpdateInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  courses?: CourseUpdateManyWithoutTeachersInput;
+}
+
+export interface TeacherUpdateManyDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+}
+
+export interface CourseCreateManyWithoutTeachersInput {
+  create?:
+    | CourseCreateWithoutTeachersInput[]
+    | CourseCreateWithoutTeachersInput;
+  connect?: CourseWhereUniqueInput[] | CourseWhereUniqueInput;
+}
+
+export interface CourseInstanceUpdateManyWithoutCourseInput {
+  create?:
+    | CourseInstanceCreateWithoutCourseInput[]
+    | CourseInstanceCreateWithoutCourseInput;
+  delete?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  set?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  disconnect?:
+    | CourseInstanceWhereUniqueInput[]
+    | CourseInstanceWhereUniqueInput;
+  update?:
+    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput[]
+    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput;
+  upsert?:
+    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput[]
+    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput;
+  deleteMany?:
+    | CourseInstanceScalarWhereInput[]
+    | CourseInstanceScalarWhereInput;
+  updateMany?:
+    | CourseInstanceUpdateManyWithWhereNestedInput[]
+    | CourseInstanceUpdateManyWithWhereNestedInput;
+}
+
+export interface TeacherCreateInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  courses?: CourseCreateManyWithoutTeachersInput;
+}
+
+export interface CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
+  where: CourseInstanceWhereUniqueInput;
+  data: CourseInstanceUpdateWithoutCourseDataInput;
+}
+
+export interface RoomUpdateManyDataInput {
+  name?: String;
+  capacity?: Int;
+}
+
+export interface CourseInstanceUpdateWithoutCourseDataInput {
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  participants?: ParticipantUpdateManyWithoutCourseInstanceInput;
+  recapUrl?: String;
+}
+
+export interface RoomUpdateManyWithWhereNestedInput {
+  where: RoomScalarWhereInput;
+  data: RoomUpdateManyDataInput;
+}
+
+export interface ParticipantUpdateManyWithoutCourseInstanceInput {
+  create?:
+    | ParticipantCreateWithoutCourseInstanceInput[]
+    | ParticipantCreateWithoutCourseInstanceInput;
+  delete?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  set?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  disconnect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  update?:
+    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput[]
+    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput;
+  upsert?:
+    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput[]
+    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput;
+  deleteMany?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  updateMany?:
+    | ParticipantUpdateManyWithWhereNestedInput[]
+    | ParticipantUpdateManyWithWhereNestedInput;
+}
+
+export interface RoomUpsertWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput;
+  update: RoomUpdateWithoutStudioDataInput;
+  create: RoomCreateWithoutStudioInput;
+}
+
+export interface ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput {
+  where: ParticipantWhereUniqueInput;
+  data: ParticipantUpdateWithoutCourseInstanceDataInput;
+}
+
+export interface CourseStudentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  student?: StudentWhereInput;
+  course?: CourseWhereInput;
+  role?: DanceRole;
+  role_not?: DanceRole;
+  role_in?: DanceRole[] | DanceRole;
+  role_not_in?: DanceRole[] | DanceRole;
+  AND?: CourseStudentWhereInput[] | CourseStudentWhereInput;
+  OR?: CourseStudentWhereInput[] | CourseStudentWhereInput;
+  NOT?: CourseStudentWhereInput[] | CourseStudentWhereInput;
+}
+
+export interface ParticipantUpdateWithoutCourseInstanceDataInput {
+  courseStudent?: CourseStudentUpdateOneRequiredInput;
+  status?: ParticipantStatus;
+}
+
+export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput;
+  data: RoomUpdateWithoutStudioDataInput;
+}
+
+export interface CourseStudentUpdateOneRequiredInput {
+  create?: CourseStudentCreateInput;
+  update?: CourseStudentUpdateDataInput;
+  upsert?: CourseStudentUpsertNestedInput;
+  connect?: CourseStudentWhereUniqueInput;
+}
+
+export type StudioWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  name?: String;
+}>;
+
+export interface ParticipantUpdateManyMutationInput {
+  status?: ParticipantStatus;
+}
+
+export interface RoomCreateWithoutStudioInput {
+  name?: String;
+  capacity?: Int;
+}
+
+export interface StudentUpdateOneRequiredWithoutCoursesInput {
+  create?: StudentCreateWithoutCoursesInput;
+  update?: StudentUpdateWithoutCoursesDataInput;
+  upsert?: StudentUpsertWithoutCoursesInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface StudioCreateInput {
+  name?: String;
+  rooms?: RoomCreateManyWithoutStudioInput;
   address?: String;
 }
 
-export interface AbsenteeCreateManyWithoutCourseInstanceInput {
+export interface StudentUpdateWithoutCoursesDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  cards?: CardUpdateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentUpdateManyWithoutStudentInput;
+}
+
+export interface StudentUpdateManyMutationInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  hasReferralBonus?: Boolean;
+}
+
+export interface CardUpdateManyWithoutStudentInput {
+  create?: CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput;
+  delete?: CardWhereUniqueInput[] | CardWhereUniqueInput;
+  connect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
+  set?: CardWhereUniqueInput[] | CardWhereUniqueInput;
+  disconnect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
+  update?:
+    | CardUpdateWithWhereUniqueWithoutStudentInput[]
+    | CardUpdateWithWhereUniqueWithoutStudentInput;
+  upsert?:
+    | CardUpsertWithWhereUniqueWithoutStudentInput[]
+    | CardUpsertWithWhereUniqueWithoutStudentInput;
+  deleteMany?: CardScalarWhereInput[] | CardScalarWhereInput;
+  updateMany?:
+    | CardUpdateManyWithWhereNestedInput[]
+    | CardUpdateManyWithWhereNestedInput;
+}
+
+export interface StudentCreateInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  courses?: CourseStudentCreateManyWithoutStudentInput;
+  cards?: CardCreateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentCreateManyWithoutStudentInput;
+}
+
+export interface CardUpdateWithWhereUniqueWithoutStudentInput {
+  where: CardWhereUniqueInput;
+  data: CardUpdateWithoutStudentDataInput;
+}
+
+export interface RoomUpdateManyMutationInput {
+  name?: String;
+  capacity?: Int;
+}
+
+export interface CardUpdateWithoutStudentDataInput {
+  payment?: PaymentUpdateOneWithoutCardInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount?: Int;
+  useHistory?: CourseInstanceUpdateManyInput;
+}
+
+export interface RoomUpdateInput {
+  name?: String;
+  capacity?: Int;
+  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
+}
+
+export interface PaymentUpdateOneWithoutCardInput {
+  create?: PaymentCreateWithoutCardInput;
+  update?: PaymentUpdateWithoutCardDataInput;
+  upsert?: PaymentUpsertWithoutCardInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: PaymentWhereUniqueInput;
+}
+
+export interface PaymentUpdateInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+  student?: StudentUpdateOneWithoutPaymentsInput;
+  card?: CardUpdateOneWithoutPaymentInput;
+}
+
+export interface PaymentUpdateWithoutCardDataInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+  student?: StudentUpdateOneWithoutPaymentsInput;
+}
+
+export interface StudentCreateOneWithoutCardsInput {
+  create?: StudentCreateWithoutCardsInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface ParticipantWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  courseStudent?: CourseStudentWhereInput;
+  courseInstance?: CourseInstanceWhereInput;
+  status?: ParticipantStatus;
+  status_not?: ParticipantStatus;
+  status_in?: ParticipantStatus[] | ParticipantStatus;
+  status_not_in?: ParticipantStatus[] | ParticipantStatus;
+  AND?: ParticipantWhereInput[] | ParticipantWhereInput;
+  OR?: ParticipantWhereInput[] | ParticipantWhereInput;
+  NOT?: ParticipantWhereInput[] | ParticipantWhereInput;
+}
+
+export interface CourseStudentCreateManyWithoutStudentInput {
   create?:
-    | AbsenteeCreateWithoutCourseInstanceInput[]
-    | AbsenteeCreateWithoutCourseInstanceInput;
-  connect?: AbsenteeWhereUniqueInput[] | AbsenteeWhereUniqueInput;
+    | CourseStudentCreateWithoutStudentInput[]
+    | CourseStudentCreateWithoutStudentInput;
+  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
 }
 
-export interface StudioUpsertWithoutRoomsInput {
-  update: StudioUpdateWithoutRoomsDataInput;
-  create: StudioCreateWithoutRoomsInput;
+export interface TeacherWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  mobile?: String;
+  mobile_not?: String;
+  mobile_in?: String[] | String;
+  mobile_not_in?: String[] | String;
+  mobile_lt?: String;
+  mobile_lte?: String;
+  mobile_gt?: String;
+  mobile_gte?: String;
+  mobile_contains?: String;
+  mobile_not_contains?: String;
+  mobile_starts_with?: String;
+  mobile_not_starts_with?: String;
+  mobile_ends_with?: String;
+  mobile_not_ends_with?: String;
+  courses_every?: CourseWhereInput;
+  courses_some?: CourseWhereInput;
+  courses_none?: CourseWhereInput;
+  AND?: TeacherWhereInput[] | TeacherWhereInput;
+  OR?: TeacherWhereInput[] | TeacherWhereInput;
+  NOT?: TeacherWhereInput[] | TeacherWhereInput;
 }
 
-export interface RoomCreateOneInput {
-  create?: RoomCreateInput;
-  connect?: RoomWhereUniqueInput;
+export interface CourseCreateOneWithoutCourseStudentsInput {
+  create?: CourseCreateWithoutCourseStudentsInput;
+  connect?: CourseWhereUniqueInput;
 }
 
-export interface RoomUpsertNestedInput {
-  update: RoomUpdateDataInput;
-  create: RoomCreateInput;
+export interface CourseInstanceUpsertWithoutParticipantsInput {
+  update: CourseInstanceUpdateWithoutParticipantsDataInput;
+  create: CourseInstanceCreateWithoutParticipantsInput;
 }
 
-export interface StudioCreateOneWithoutRoomsInput {
-  create?: StudioCreateWithoutRoomsInput;
-  connect?: StudioWhereUniqueInput;
+export interface TeacherCreateManyWithoutCoursesInput {
+  create?:
+    | TeacherCreateWithoutCoursesInput[]
+    | TeacherCreateWithoutCoursesInput;
+  connect?: TeacherWhereUniqueInput[] | TeacherWhereUniqueInput;
 }
 
-export interface CourseUpsertWithoutCourseStudentsInput {
-  update: CourseUpdateWithoutCourseStudentsDataInput;
-  create: CourseCreateWithoutCourseStudentsInput;
+export interface CourseInstanceWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  course?: CourseWhereInput;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  topic?: String;
+  topic_not?: String;
+  topic_in?: String[] | String;
+  topic_not_in?: String[] | String;
+  topic_lt?: String;
+  topic_lte?: String;
+  topic_gt?: String;
+  topic_gte?: String;
+  topic_contains?: String;
+  topic_not_contains?: String;
+  topic_starts_with?: String;
+  topic_not_starts_with?: String;
+  topic_ends_with?: String;
+  topic_not_ends_with?: String;
+  notes?: String;
+  notes_not?: String;
+  notes_in?: String[] | String;
+  notes_not_in?: String[] | String;
+  notes_lt?: String;
+  notes_lte?: String;
+  notes_gt?: String;
+  notes_gte?: String;
+  notes_contains?: String;
+  notes_not_contains?: String;
+  notes_starts_with?: String;
+  notes_not_starts_with?: String;
+  notes_ends_with?: String;
+  notes_not_ends_with?: String;
+  participants_every?: ParticipantWhereInput;
+  participants_some?: ParticipantWhereInput;
+  participants_none?: ParticipantWhereInput;
+  recapUrl?: String;
+  recapUrl_not?: String;
+  recapUrl_in?: String[] | String;
+  recapUrl_not_in?: String[] | String;
+  recapUrl_lt?: String;
+  recapUrl_lte?: String;
+  recapUrl_gt?: String;
+  recapUrl_gte?: String;
+  recapUrl_contains?: String;
+  recapUrl_not_contains?: String;
+  recapUrl_starts_with?: String;
+  recapUrl_not_starts_with?: String;
+  recapUrl_ends_with?: String;
+  recapUrl_not_ends_with?: String;
+  AND?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
+  OR?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
+  NOT?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
+}
+
+export interface CourseInstanceCreateManyWithoutCourseInput {
+  create?:
+    | CourseInstanceCreateWithoutCourseInput[]
+    | CourseInstanceCreateWithoutCourseInput;
+  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+}
+
+export interface CourseInstanceUpdateManyInput {
+  create?: CourseInstanceCreateInput[] | CourseInstanceCreateInput;
+  update?:
+    | CourseInstanceUpdateWithWhereUniqueNestedInput[]
+    | CourseInstanceUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | CourseInstanceUpsertWithWhereUniqueNestedInput[]
+    | CourseInstanceUpsertWithWhereUniqueNestedInput;
+  delete?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  set?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+  disconnect?:
+    | CourseInstanceWhereUniqueInput[]
+    | CourseInstanceWhereUniqueInput;
+  deleteMany?:
+    | CourseInstanceScalarWhereInput[]
+    | CourseInstanceScalarWhereInput;
+  updateMany?:
+    | CourseInstanceUpdateManyWithWhereNestedInput[]
+    | CourseInstanceUpdateManyWithWhereNestedInput;
+}
+
+export interface ParticipantCreateManyWithoutCourseInstanceInput {
+  create?:
+    | ParticipantCreateWithoutCourseInstanceInput[]
+    | ParticipantCreateWithoutCourseInstanceInput;
+  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+}
+
+export interface CourseInstanceUpdateWithWhereUniqueNestedInput {
+  where: CourseInstanceWhereUniqueInput;
+  data: CourseInstanceUpdateDataInput;
+}
+
+export interface CourseStudentCreateOneInput {
+  create?: CourseStudentCreateInput;
+  connect?: CourseStudentWhereUniqueInput;
+}
+
+export interface CourseInstanceUpdateDataInput {
+  course?: CourseUpdateOneWithoutInstancesInput;
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  participants?: ParticipantUpdateManyWithoutCourseInstanceInput;
+  recapUrl?: String;
+}
+
+export interface StudentCreateOneWithoutCoursesInput {
+  create?: StudentCreateWithoutCoursesInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface CourseUpdateOneWithoutInstancesInput {
+  create?: CourseCreateWithoutInstancesInput;
+  update?: CourseUpdateWithoutInstancesDataInput;
+  upsert?: CourseUpsertWithoutInstancesInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: CourseWhereUniqueInput;
 }
 
 export interface CardCreateManyWithoutStudentInput {
@@ -2101,15 +1878,79 @@ export interface CardCreateManyWithoutStudentInput {
   connect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
 }
 
-export interface CourseStudentUpsertWithWhereUniqueWithoutStudentInput {
-  where: CourseStudentWhereUniqueInput;
-  update: CourseStudentUpdateWithoutStudentDataInput;
-  create: CourseStudentCreateWithoutStudentInput;
+export interface CourseUpdateWithoutInstancesDataInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherUpdateManyWithoutCoursesInput;
+  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomUpdateOneInput;
 }
 
 export interface PaymentCreateOneWithoutCardInput {
   create?: PaymentCreateWithoutCardInput;
   connect?: PaymentWhereUniqueInput;
+}
+
+export interface CourseStudentUpdateManyWithoutCourseInput {
+  create?:
+    | CourseStudentCreateWithoutCourseInput[]
+    | CourseStudentCreateWithoutCourseInput;
+  delete?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  set?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  disconnect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+  update?:
+    | CourseStudentUpdateWithWhereUniqueWithoutCourseInput[]
+    | CourseStudentUpdateWithWhereUniqueWithoutCourseInput;
+  upsert?:
+    | CourseStudentUpsertWithWhereUniqueWithoutCourseInput[]
+    | CourseStudentUpsertWithWhereUniqueWithoutCourseInput;
+  deleteMany?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+  updateMany?:
+    | CourseStudentUpdateManyWithWhereNestedInput[]
+    | CourseStudentUpdateManyWithWhereNestedInput;
+}
+
+export interface StudentCreateOneWithoutPaymentsInput {
+  create?: StudentCreateWithoutPaymentsInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
+  where: CourseStudentWhereUniqueInput;
+  data: CourseStudentUpdateWithoutCourseDataInput;
+}
+
+export interface CourseInstanceCreateManyInput {
+  create?: CourseInstanceCreateInput[] | CourseInstanceCreateInput;
+  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+}
+
+export interface CourseStudentUpdateWithoutCourseDataInput {
+  student?: StudentUpdateOneRequiredWithoutCoursesInput;
+  role?: DanceRole;
+}
+
+export interface CourseCreateOneWithoutInstancesInput {
+  create?: CourseCreateWithoutInstancesInput;
+  connect?: CourseWhereUniqueInput;
+}
+
+export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
+  where: CourseStudentWhereUniqueInput;
+  update: CourseStudentUpdateWithoutCourseDataInput;
+  create: CourseStudentCreateWithoutCourseInput;
+}
+
+export interface CourseStudentCreateManyWithoutCourseInput {
+  create?:
+    | CourseStudentCreateWithoutCourseInput[]
+    | CourseStudentCreateWithoutCourseInput;
+  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
 }
 
 export interface CourseStudentScalarWhereInput {
@@ -2136,9 +1977,9 @@ export interface CourseStudentScalarWhereInput {
   NOT?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
 }
 
-export interface StudentCreateOneWithoutPaymentsInput {
-  create?: StudentCreateWithoutPaymentsInput;
-  connect?: StudentWhereUniqueInput;
+export interface RoomCreateOneInput {
+  create?: RoomCreateInput;
+  connect?: RoomWhereUniqueInput;
 }
 
 export interface CourseStudentUpdateManyWithWhereNestedInput {
@@ -2146,61 +1987,13 @@ export interface CourseStudentUpdateManyWithWhereNestedInput {
   data: CourseStudentUpdateManyDataInput;
 }
 
-export interface CourseInstanceCreateManyInput {
-  create?: CourseInstanceCreateInput[] | CourseInstanceCreateInput;
-  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
+export interface StudioCreateOneWithoutRoomsInput {
+  create?: StudioCreateWithoutRoomsInput;
+  connect?: StudioWhereUniqueInput;
 }
 
 export interface CourseStudentUpdateManyDataInput {
   role?: DanceRole;
-}
-
-export interface CourseCreateOneWithoutCourseHistoryInput {
-  create?: CourseCreateWithoutCourseHistoryInput;
-  connect?: CourseWhereUniqueInput;
-}
-
-export interface CardUpdateManyWithoutStudentInput {
-  create?: CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput;
-  delete?: CardWhereUniqueInput[] | CardWhereUniqueInput;
-  connect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
-  set?: CardWhereUniqueInput[] | CardWhereUniqueInput;
-  disconnect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
-  update?:
-    | CardUpdateWithWhereUniqueWithoutStudentInput[]
-    | CardUpdateWithWhereUniqueWithoutStudentInput;
-  upsert?:
-    | CardUpsertWithWhereUniqueWithoutStudentInput[]
-    | CardUpsertWithWhereUniqueWithoutStudentInput;
-  deleteMany?: CardScalarWhereInput[] | CardScalarWhereInput;
-  updateMany?:
-    | CardUpdateManyWithWhereNestedInput[]
-    | CardUpdateManyWithWhereNestedInput;
-}
-
-export interface CourseStudentCreateManyWithoutCourseInput {
-  create?:
-    | CourseStudentCreateWithoutCourseInput[]
-    | CourseStudentCreateWithoutCourseInput;
-  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-}
-
-export interface CardUpdateWithWhereUniqueWithoutStudentInput {
-  where: CardWhereUniqueInput;
-  data: CardUpdateWithoutStudentDataInput;
-}
-
-export interface StudentCreateOneWithoutCoursesInput {
-  create?: StudentCreateWithoutCoursesInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface CardUpdateWithoutStudentDataInput {
-  payment?: PaymentUpdateOneWithoutCardInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount?: Int;
-  useHistory?: CourseInstanceUpdateManyInput;
 }
 
 export interface PaymentCreateManyWithoutStudentInput {
@@ -2210,93 +2003,126 @@ export interface PaymentCreateManyWithoutStudentInput {
   connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
 }
 
-export interface PaymentUpdateOneWithoutCardInput {
-  create?: PaymentCreateWithoutCardInput;
-  update?: PaymentUpdateWithoutCardDataInput;
-  upsert?: PaymentUpsertWithoutCardInput;
+export interface RoomUpdateOneInput {
+  create?: RoomCreateInput;
+  update?: RoomUpdateDataInput;
+  upsert?: RoomUpsertNestedInput;
   delete?: Boolean;
   disconnect?: Boolean;
-  connect?: PaymentWhereUniqueInput;
+  connect?: RoomWhereUniqueInput;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface StudioSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  node?: StudioWhereInput;
+  AND?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
+  OR?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
+  NOT?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
 }
 
-export interface PaymentUpdateWithoutCardDataInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-  student?: StudentUpdateOneWithoutPaymentsInput;
-}
-
-export interface StudentSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: StudentWhereInput;
-  AND?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
-  OR?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
-  NOT?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
-}
-
-export interface StudentUpdateOneWithoutPaymentsInput {
-  create?: StudentCreateWithoutPaymentsInput;
-  update?: StudentUpdateWithoutPaymentsDataInput;
-  upsert?: StudentUpsertWithoutPaymentsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface CourseInstanceSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CourseInstanceWhereInput;
-  AND?:
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput;
-  OR?:
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput;
-  NOT?:
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput;
-}
-
-export interface StudentUpdateWithoutPaymentsDataInput {
+export interface RoomUpdateDataInput {
   name?: String;
-  email?: String;
-  mobile?: String;
-  courses?: CourseStudentUpdateManyWithoutStudentInput;
-  cards?: CardUpdateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
+  capacity?: Int;
+  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
 }
 
-export interface CardSubscriptionWhereInput {
+export interface ParticipantSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: CardWhereInput;
-  AND?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
-  OR?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
-  NOT?: CardSubscriptionWhereInput[] | CardSubscriptionWhereInput;
+  node?: ParticipantWhereInput;
+  AND?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
+  OR?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
+  NOT?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
 }
 
-export interface StudentUpsertWithoutPaymentsInput {
-  update: StudentUpdateWithoutPaymentsDataInput;
-  create: StudentCreateWithoutPaymentsInput;
+export interface StudioUpdateOneRequiredWithoutRoomsInput {
+  create?: StudioCreateWithoutRoomsInput;
+  update?: StudioUpdateWithoutRoomsDataInput;
+  upsert?: StudioUpsertWithoutRoomsInput;
+  connect?: StudioWhereUniqueInput;
+}
+
+export interface StudentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  mobile?: String;
+  mobile_not?: String;
+  mobile_in?: String[] | String;
+  mobile_not_in?: String[] | String;
+  mobile_lt?: String;
+  mobile_lte?: String;
+  mobile_gt?: String;
+  mobile_gte?: String;
+  mobile_contains?: String;
+  mobile_not_contains?: String;
+  mobile_starts_with?: String;
+  mobile_not_starts_with?: String;
+  mobile_ends_with?: String;
+  mobile_not_ends_with?: String;
+  courses_every?: CourseStudentWhereInput;
+  courses_some?: CourseStudentWhereInput;
+  courses_none?: CourseStudentWhereInput;
+  cards_every?: CardWhereInput;
+  cards_some?: CardWhereInput;
+  cards_none?: CardWhereInput;
+  hasReferralBonus?: Boolean;
+  hasReferralBonus_not?: Boolean;
+  payments_every?: PaymentWhereInput;
+  payments_some?: PaymentWhereInput;
+  payments_none?: PaymentWhereInput;
+  AND?: StudentWhereInput[] | StudentWhereInput;
+  OR?: StudentWhereInput[] | StudentWhereInput;
+  NOT?: StudentWhereInput[] | StudentWhereInput;
+}
+
+export interface StudioUpdateWithoutRoomsDataInput {
+  name?: String;
+  address?: String;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2306,9 +2132,9 @@ export interface UserUpdateManyMutationInput {
   admin?: Boolean;
 }
 
-export interface PaymentUpsertWithoutCardInput {
-  update: PaymentUpdateWithoutCardDataInput;
-  create: PaymentCreateWithoutCardInput;
+export interface StudioUpsertWithoutRoomsInput {
+  update: StudioUpdateWithoutRoomsDataInput;
+  create: StudioCreateWithoutRoomsInput;
 }
 
 export interface TeacherUpdateManyMutationInput {
@@ -2317,26 +2143,9 @@ export interface TeacherUpdateManyMutationInput {
   mobile?: String;
 }
 
-export interface CourseInstanceUpdateManyInput {
-  create?: CourseInstanceCreateInput[] | CourseInstanceCreateInput;
-  update?:
-    | CourseInstanceUpdateWithWhereUniqueNestedInput[]
-    | CourseInstanceUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | CourseInstanceUpsertWithWhereUniqueNestedInput[]
-    | CourseInstanceUpsertWithWhereUniqueNestedInput;
-  delete?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  set?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-  disconnect?:
-    | CourseInstanceWhereUniqueInput[]
-    | CourseInstanceWhereUniqueInput;
-  deleteMany?:
-    | CourseInstanceScalarWhereInput[]
-    | CourseInstanceScalarWhereInput;
-  updateMany?:
-    | CourseInstanceUpdateManyWithWhereNestedInput[]
-    | CourseInstanceUpdateManyWithWhereNestedInput;
+export interface RoomUpsertNestedInput {
+  update: RoomUpdateDataInput;
+  create: RoomCreateInput;
 }
 
 export interface CourseScalarWhereInput {
@@ -2425,9 +2234,9 @@ export interface CourseScalarWhereInput {
   NOT?: CourseScalarWhereInput[] | CourseScalarWhereInput;
 }
 
-export interface CourseInstanceUpdateWithWhereUniqueNestedInput {
-  where: CourseInstanceWhereUniqueInput;
-  data: CourseInstanceUpdateDataInput;
+export interface CourseUpsertWithoutInstancesInput {
+  update: CourseUpdateWithoutInstancesDataInput;
+  create: CourseCreateWithoutInstancesInput;
 }
 
 export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
@@ -2435,14 +2244,10 @@ export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
   data: CourseUpdateWithoutTeachersDataInput;
 }
 
-export interface CourseInstanceUpdateDataInput {
-  parent?: CourseUpdateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
-  absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
+export interface CourseInstanceUpsertWithWhereUniqueNestedInput {
+  where: CourseInstanceWhereUniqueInput;
+  update: CourseInstanceUpdateDataInput;
+  create: CourseInstanceCreateInput;
 }
 
 export interface CourseCreateWithoutTeachersInput {
@@ -2452,18 +2257,79 @@ export interface CourseCreateWithoutTeachersInput {
   startTime?: String;
   duration?: Int;
   courseStudents?: CourseStudentCreateManyWithoutCourseInput;
-  courseHistory?: CourseInstanceCreateManyWithoutParentInput;
+  instances?: CourseInstanceCreateManyWithoutCourseInput;
   studentLimit?: Int;
   room?: RoomCreateOneInput;
 }
 
-export interface CourseUpdateOneWithoutCourseHistoryInput {
-  create?: CourseCreateWithoutCourseHistoryInput;
-  update?: CourseUpdateWithoutCourseHistoryDataInput;
-  upsert?: CourseUpsertWithoutCourseHistoryInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: CourseWhereUniqueInput;
+export interface CourseInstanceScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  topic?: String;
+  topic_not?: String;
+  topic_in?: String[] | String;
+  topic_not_in?: String[] | String;
+  topic_lt?: String;
+  topic_lte?: String;
+  topic_gt?: String;
+  topic_gte?: String;
+  topic_contains?: String;
+  topic_not_contains?: String;
+  topic_starts_with?: String;
+  topic_not_starts_with?: String;
+  topic_ends_with?: String;
+  topic_not_ends_with?: String;
+  notes?: String;
+  notes_not?: String;
+  notes_in?: String[] | String;
+  notes_not_in?: String[] | String;
+  notes_lt?: String;
+  notes_lte?: String;
+  notes_gt?: String;
+  notes_gte?: String;
+  notes_contains?: String;
+  notes_not_contains?: String;
+  notes_starts_with?: String;
+  notes_not_starts_with?: String;
+  notes_ends_with?: String;
+  notes_not_ends_with?: String;
+  recapUrl?: String;
+  recapUrl_not?: String;
+  recapUrl_in?: String[] | String;
+  recapUrl_not_in?: String[] | String;
+  recapUrl_lt?: String;
+  recapUrl_lte?: String;
+  recapUrl_gt?: String;
+  recapUrl_gte?: String;
+  recapUrl_contains?: String;
+  recapUrl_not_contains?: String;
+  recapUrl_starts_with?: String;
+  recapUrl_not_starts_with?: String;
+  recapUrl_ends_with?: String;
+  recapUrl_not_ends_with?: String;
+  AND?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
+  OR?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
+  NOT?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
 }
 
 export interface StudioUpdateManyMutationInput {
@@ -2471,16 +2337,9 @@ export interface StudioUpdateManyMutationInput {
   address?: String;
 }
 
-export interface CourseUpdateWithoutCourseHistoryDataInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherUpdateManyWithoutCoursesInput;
-  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
-  studentLimit?: Int;
-  room?: RoomUpdateOneInput;
+export interface CourseInstanceUpdateManyWithWhereNestedInput {
+  where: CourseInstanceScalarWhereInput;
+  data: CourseInstanceUpdateManyDataInput;
 }
 
 export interface RoomScalarWhereInput {
@@ -2525,34 +2384,22 @@ export interface RoomScalarWhereInput {
   NOT?: RoomScalarWhereInput[] | RoomScalarWhereInput;
 }
 
-export interface CourseStudentUpdateManyWithoutCourseInput {
-  create?:
-    | CourseStudentCreateWithoutCourseInput[]
-    | CourseStudentCreateWithoutCourseInput;
-  delete?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  set?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  disconnect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
-  update?:
-    | CourseStudentUpdateWithWhereUniqueWithoutCourseInput[]
-    | CourseStudentUpdateWithWhereUniqueWithoutCourseInput;
-  upsert?:
-    | CourseStudentUpsertWithWhereUniqueWithoutCourseInput[]
-    | CourseStudentUpsertWithWhereUniqueWithoutCourseInput;
-  deleteMany?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
-  updateMany?:
-    | CourseStudentUpdateManyWithWhereNestedInput[]
-    | CourseStudentUpdateManyWithWhereNestedInput;
+export interface CourseInstanceUpdateManyDataInput {
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
 }
 
-export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
-  where: RoomWhereUniqueInput;
-  data: RoomUpdateWithoutStudioDataInput;
+export interface RoomUpdateWithoutStudioDataInput {
+  name?: String;
+  capacity?: Int;
 }
 
-export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput;
-  data: CourseStudentUpdateWithoutCourseDataInput;
+export interface CardUpsertWithWhereUniqueWithoutStudentInput {
+  where: CardWhereUniqueInput;
+  update: CardUpdateWithoutStudentDataInput;
+  create: CardCreateWithoutStudentInput;
 }
 
 export interface StudioUpdateInput {
@@ -2561,41 +2408,69 @@ export interface StudioUpdateInput {
   address?: String;
 }
 
-export interface CourseStudentUpdateWithoutCourseDataInput {
-  student?: StudentUpdateOneRequiredWithoutCoursesInput;
-  role?: DanceRole;
-}
-
-export interface StudioCreateInput {
-  name?: String;
-  rooms?: RoomCreateManyWithoutStudioInput;
-  address?: String;
-}
-
-export interface StudentUpdateOneRequiredWithoutCoursesInput {
-  create?: StudentCreateWithoutCoursesInput;
-  update?: StudentUpdateWithoutCoursesDataInput;
-  upsert?: StudentUpsertWithoutCoursesInput;
-  connect?: StudentWhereUniqueInput;
+export interface CardScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  expirationDate?: DateTimeInput;
+  expirationDate_not?: DateTimeInput;
+  expirationDate_in?: DateTimeInput[] | DateTimeInput;
+  expirationDate_not_in?: DateTimeInput[] | DateTimeInput;
+  expirationDate_lt?: DateTimeInput;
+  expirationDate_lte?: DateTimeInput;
+  expirationDate_gt?: DateTimeInput;
+  expirationDate_gte?: DateTimeInput;
+  active?: Boolean;
+  active_not?: Boolean;
+  validCount?: Int;
+  validCount_not?: Int;
+  validCount_in?: Int[] | Int;
+  validCount_not_in?: Int[] | Int;
+  validCount_lt?: Int;
+  validCount_lte?: Int;
+  validCount_gt?: Int;
+  validCount_gte?: Int;
+  AND?: CardScalarWhereInput[] | CardScalarWhereInput;
+  OR?: CardScalarWhereInput[] | CardScalarWhereInput;
+  NOT?: CardScalarWhereInput[] | CardScalarWhereInput;
 }
 
 export type TeacherWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface StudentUpdateWithoutCoursesDataInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-  cards?: CardUpdateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentUpdateManyWithoutStudentInput;
+export interface CardUpdateManyWithWhereNestedInput {
+  where: CardScalarWhereInput;
+  data: CardUpdateManyDataInput;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
 }>;
+
+export interface CardUpdateManyDataInput {
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount?: Int;
+}
+
+export interface PaymentUpdateManyMutationInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+}
 
 export interface PaymentUpdateManyWithoutStudentInput {
   create?:
@@ -2617,10 +2492,13 @@ export interface PaymentUpdateManyWithoutStudentInput {
     | PaymentUpdateManyWithWhereNestedInput;
 }
 
-export interface CourseStudentUpdateInput {
-  student?: StudentUpdateOneRequiredWithoutCoursesInput;
-  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
-  role?: DanceRole;
+export interface CardCreateInput {
+  student: StudentCreateOneWithoutCardsInput;
+  payment?: PaymentCreateOneWithoutCardInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount: Int;
+  useHistory?: CourseInstanceCreateManyInput;
 }
 
 export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
@@ -2628,9 +2506,9 @@ export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
   data: PaymentUpdateWithoutStudentDataInput;
 }
 
-export interface AbsenteeCreateInput {
-  student: StudentCreateOneInput;
-  courseInstance: CourseInstanceCreateOneWithoutAbsenteesInput;
+export interface CourseStudentCreateWithoutStudentInput {
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
 }
 
 export interface PaymentUpdateWithoutStudentDataInput {
@@ -2640,9 +2518,10 @@ export interface PaymentUpdateWithoutStudentDataInput {
   card?: CardUpdateOneWithoutPaymentInput;
 }
 
-export interface CourseStudentCreateWithoutStudentInput {
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
+export interface TeacherCreateWithoutCoursesInput {
+  name: String;
+  email: String;
+  mobile?: String;
 }
 
 export interface CardUpdateOneWithoutPaymentInput {
@@ -2654,10 +2533,9 @@ export interface CardUpdateOneWithoutPaymentInput {
   connect?: CardWhereUniqueInput;
 }
 
-export interface TeacherCreateWithoutCoursesInput {
-  name: String;
-  email: String;
-  mobile?: String;
+export interface ParticipantCreateWithoutCourseInstanceInput {
+  courseStudent: CourseStudentCreateOneInput;
+  status: ParticipantStatus;
 }
 
 export interface CardUpdateWithoutPaymentDataInput {
@@ -2668,52 +2546,13 @@ export interface CardUpdateWithoutPaymentDataInput {
   useHistory?: CourseInstanceUpdateManyInput;
 }
 
-export interface AttendeeCreateWithoutCourseInstanceInput {
-  student: StudentCreateOneInput;
-}
-
-export interface StudentUpdateOneRequiredWithoutCardsInput {
-  create?: StudentCreateWithoutCardsInput;
-  update?: StudentUpdateWithoutCardsDataInput;
-  upsert?: StudentUpsertWithoutCardsInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface RoomCreateInput {
-  name?: String;
-  capacity?: Int;
-  studio: StudioCreateOneWithoutRoomsInput;
-}
-
-export interface StudentUpdateWithoutCardsDataInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-  courses?: CourseStudentUpdateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentUpdateManyWithoutStudentInput;
-}
-
-export interface CardCreateWithoutStudentInput {
-  payment?: PaymentCreateOneWithoutCardInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount: Int;
-  useHistory?: CourseInstanceCreateManyInput;
-}
-
-export interface StudentUpsertWithoutCardsInput {
-  update: StudentUpdateWithoutCardsDataInput;
-  create: StudentCreateWithoutCardsInput;
-}
-
-export interface StudentCreateWithoutPaymentsInput {
+export interface StudentCreateWithoutCoursesInput {
   name: String;
   email: String;
   mobile?: String;
-  courses?: CourseStudentCreateManyWithoutStudentInput;
   cards?: CardCreateManyWithoutStudentInput;
   hasReferralBonus?: Boolean;
+  payments?: PaymentCreateManyWithoutStudentInput;
 }
 
 export interface CardUpsertWithoutPaymentInput {
@@ -2721,16 +2560,11 @@ export interface CardUpsertWithoutPaymentInput {
   create: CardCreateWithoutPaymentInput;
 }
 
-export interface CourseCreateWithoutCourseHistoryInput {
-  name: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherCreateManyWithoutCoursesInput;
-  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
-  studentLimit?: Int;
-  room?: RoomCreateOneInput;
+export interface PaymentCreateWithoutCardInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  student?: StudentCreateOneWithoutPaymentsInput;
 }
 
 export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
@@ -2739,13 +2573,13 @@ export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
   create: PaymentCreateWithoutStudentInput;
 }
 
-export interface StudentCreateWithoutCoursesInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  cards?: CardCreateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentCreateManyWithoutStudentInput;
+export interface CourseInstanceCreateInput {
+  course?: CourseCreateOneWithoutInstancesInput;
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  participants?: ParticipantCreateManyWithoutCourseInstanceInput;
+  recapUrl?: String;
 }
 
 export interface PaymentScalarWhereInput {
@@ -2788,15 +2622,9 @@ export interface PaymentScalarWhereInput {
   NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
 }
 
-export interface TeacherSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: TeacherWhereInput;
-  AND?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
-  OR?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
-  NOT?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
+export interface CourseStudentCreateWithoutCourseInput {
+  student: StudentCreateOneWithoutCoursesInput;
+  role: DanceRole;
 }
 
 export interface PaymentUpdateManyWithWhereNestedInput {
@@ -2804,47 +2632,9 @@ export interface PaymentUpdateManyWithWhereNestedInput {
   data: PaymentUpdateManyDataInput;
 }
 
-export interface CardWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  student?: StudentWhereInput;
-  payment?: PaymentWhereInput;
-  expirationDate?: DateTimeInput;
-  expirationDate_not?: DateTimeInput;
-  expirationDate_in?: DateTimeInput[] | DateTimeInput;
-  expirationDate_not_in?: DateTimeInput[] | DateTimeInput;
-  expirationDate_lt?: DateTimeInput;
-  expirationDate_lte?: DateTimeInput;
-  expirationDate_gt?: DateTimeInput;
-  expirationDate_gte?: DateTimeInput;
-  active?: Boolean;
-  active_not?: Boolean;
-  validCount?: Int;
-  validCount_not?: Int;
-  validCount_in?: Int[] | Int;
-  validCount_not_in?: Int[] | Int;
-  validCount_lt?: Int;
-  validCount_lte?: Int;
-  validCount_gt?: Int;
-  validCount_gte?: Int;
-  useHistory_every?: CourseInstanceWhereInput;
-  useHistory_some?: CourseInstanceWhereInput;
-  useHistory_none?: CourseInstanceWhereInput;
-  AND?: CardWhereInput[] | CardWhereInput;
-  OR?: CardWhereInput[] | CardWhereInput;
-  NOT?: CardWhereInput[] | CardWhereInput;
+export interface StudioCreateWithoutRoomsInput {
+  name?: String;
+  address?: String;
 }
 
 export interface PaymentUpdateManyDataInput {
@@ -2853,62 +2643,53 @@ export interface PaymentUpdateManyDataInput {
   amount?: Int;
 }
 
-export type AttendeeWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface RoomSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: RoomWhereInput;
+  AND?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+  OR?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+  NOT?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+}
 
 export interface StudentUpsertWithoutCoursesInput {
   update: StudentUpdateWithoutCoursesDataInput;
   create: StudentCreateWithoutCoursesInput;
 }
 
-export type CourseWhereUniqueInput = AtLeastOne<{
+export interface CourseSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CourseWhereInput;
+  AND?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
+  OR?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
+  NOT?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
+}
+
+export interface CourseStudentUpsertNestedInput {
+  update: CourseStudentUpdateDataInput;
+  create: CourseStudentCreateInput;
+}
+
+export type CourseInstanceWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput;
-  update: CourseStudentUpdateWithoutCourseDataInput;
-  create: CourseStudentCreateWithoutCourseInput;
+export interface ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput {
+  where: ParticipantWhereUniqueInput;
+  update: ParticipantUpdateWithoutCourseInstanceDataInput;
+  create: ParticipantCreateWithoutCourseInstanceInput;
 }
 
-export type CourseStudentWhereUniqueInput = AtLeastOne<{
+export type ParticipantWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface CourseUpsertWithoutCourseHistoryInput {
-  update: CourseUpdateWithoutCourseHistoryDataInput;
-  create: CourseCreateWithoutCourseHistoryInput;
-}
-
-export type RoomWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface CourseInstanceUpsertWithWhereUniqueNestedInput {
-  where: CourseInstanceWhereUniqueInput;
-  update: CourseInstanceUpdateDataInput;
-  create: CourseInstanceCreateInput;
-}
-
-export interface RoomCreateManyWithoutStudioInput {
-  create?: RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput;
-  connect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
-}
-
-export interface CardUpsertWithWhereUniqueWithoutStudentInput {
-  where: CardWhereUniqueInput;
-  update: CardUpdateWithoutStudentDataInput;
-  create: CardCreateWithoutStudentInput;
-}
-
-export interface PaymentUpdateManyMutationInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-}
-
-export interface CardScalarWhereInput {
+export interface ParticipantScalarWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -2923,144 +2704,44 @@ export interface CardScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  expirationDate?: DateTimeInput;
-  expirationDate_not?: DateTimeInput;
-  expirationDate_in?: DateTimeInput[] | DateTimeInput;
-  expirationDate_not_in?: DateTimeInput[] | DateTimeInput;
-  expirationDate_lt?: DateTimeInput;
-  expirationDate_lte?: DateTimeInput;
-  expirationDate_gt?: DateTimeInput;
-  expirationDate_gte?: DateTimeInput;
-  active?: Boolean;
-  active_not?: Boolean;
-  validCount?: Int;
-  validCount_not?: Int;
-  validCount_in?: Int[] | Int;
-  validCount_not_in?: Int[] | Int;
-  validCount_lt?: Int;
-  validCount_lte?: Int;
-  validCount_gt?: Int;
-  validCount_gte?: Int;
-  AND?: CardScalarWhereInput[] | CardScalarWhereInput;
-  OR?: CardScalarWhereInput[] | CardScalarWhereInput;
-  NOT?: CardScalarWhereInput[] | CardScalarWhereInput;
+  status?: ParticipantStatus;
+  status_not?: ParticipantStatus;
+  status_in?: ParticipantStatus[] | ParticipantStatus;
+  status_not_in?: ParticipantStatus[] | ParticipantStatus;
+  AND?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  OR?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
 }
 
-export interface CourseInstanceUpdateManyMutationInput {
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  youTubeUrl?: String;
-}
-
-export interface CardUpdateManyWithWhereNestedInput {
-  where: CardScalarWhereInput;
-  data: CardUpdateManyDataInput;
-}
-
-export interface CourseCreateWithoutCourseStudentsInput {
-  name: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherCreateManyWithoutCoursesInput;
-  courseHistory?: CourseInstanceCreateManyWithoutParentInput;
-  studentLimit?: Int;
-  room?: RoomCreateOneInput;
-}
-
-export interface CardUpdateManyDataInput {
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount?: Int;
-}
-
-export interface AbsenteeCreateWithoutCourseInstanceInput {
-  student: StudentCreateOneInput;
-}
-
-export interface StudentUpsertNestedInput {
-  update: StudentUpdateDataInput;
-  create: StudentCreateInput;
-}
-
-export interface PaymentCreateWithoutCardInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  student?: StudentCreateOneWithoutPaymentsInput;
-}
-
-export interface CourseInstanceUpdateOneRequiredWithoutAbsenteesInput {
-  create?: CourseInstanceCreateWithoutAbsenteesInput;
-  update?: CourseInstanceUpdateWithoutAbsenteesDataInput;
-  upsert?: CourseInstanceUpsertWithoutAbsenteesInput;
-  connect?: CourseInstanceWhereUniqueInput;
-}
-
-export interface CourseStudentCreateWithoutCourseInput {
-  student: StudentCreateOneWithoutCoursesInput;
-  role: DanceRole;
-}
-
-export interface CourseInstanceUpdateWithoutAbsenteesDataInput {
-  parent?: CourseUpdateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeUpdateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export interface PaymentSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PaymentWhereInput;
-  AND?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
-  OR?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
-  NOT?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
-}
-
-export interface CourseInstanceUpsertWithoutAbsenteesInput {
-  update: CourseInstanceUpdateWithoutAbsenteesDataInput;
-  create: CourseInstanceCreateWithoutAbsenteesInput;
-}
-
-export type CardWhereUniqueInput = AtLeastOne<{
+export type RoomWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface CourseUpdateInput {
-  name?: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherUpdateManyWithoutCoursesInput;
-  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
-  courseHistory?: CourseInstanceUpdateManyWithoutParentInput;
-  studentLimit?: Int;
-  room?: RoomUpdateOneInput;
+export interface ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput;
+  data: ParticipantUpdateManyDataInput;
 }
 
-export type PaymentWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface RoomUpdateManyWithoutStudioInput {
+  create?: RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput;
+  delete?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
+  connect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
+  set?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
+  disconnect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
+  update?:
+    | RoomUpdateWithWhereUniqueWithoutStudioInput[]
+    | RoomUpdateWithWhereUniqueWithoutStudioInput;
+  upsert?:
+    | RoomUpsertWithWhereUniqueWithoutStudioInput[]
+    | RoomUpsertWithWhereUniqueWithoutStudioInput;
+  deleteMany?: RoomScalarWhereInput[] | RoomScalarWhereInput;
+  updateMany?:
+    | RoomUpdateManyWithWhereNestedInput[]
+    | RoomUpdateManyWithWhereNestedInput;
+}
 
-export interface CourseCreateInput {
-  name: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  duration?: Int;
-  teachers?: TeacherCreateManyWithoutCoursesInput;
-  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
-  courseHistory?: CourseInstanceCreateManyWithoutParentInput;
-  studentLimit?: Int;
-  room?: RoomCreateOneInput;
+export interface ParticipantUpdateManyDataInput {
+  status?: ParticipantStatus;
 }
 
 export interface StudentUpdateInput {
@@ -3073,61 +2754,166 @@ export interface StudentUpdateInput {
   payments?: PaymentUpdateManyWithoutStudentInput;
 }
 
-export interface AttendeeCreateInput {
-  student: StudentCreateOneInput;
-  courseInstance: CourseInstanceCreateOneWithoutAttendeesInput;
+export interface CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
+  where: CourseInstanceWhereUniqueInput;
+  update: CourseInstanceUpdateWithoutCourseDataInput;
+  create: CourseInstanceCreateWithoutCourseInput;
 }
 
-export interface StudentCreateInput {
+export interface PaymentCreateInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  student?: StudentCreateOneWithoutPaymentsInput;
+  card?: CardCreateOneWithoutPaymentInput;
+}
+
+export interface CourseUpsertWithoutCourseStudentsInput {
+  update: CourseUpdateWithoutCourseStudentsDataInput;
+  create: CourseCreateWithoutCourseStudentsInput;
+}
+
+export interface CourseCreateWithoutCourseStudentsInput {
+  name: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherCreateManyWithoutCoursesInput;
+  instances?: CourseInstanceCreateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomCreateOneInput;
+}
+
+export interface CourseStudentUpsertWithWhereUniqueWithoutStudentInput {
+  where: CourseStudentWhereUniqueInput;
+  update: CourseStudentUpdateWithoutStudentDataInput;
+  create: CourseStudentCreateWithoutStudentInput;
+}
+
+export interface CourseStudentCreateInput {
+  student: StudentCreateOneWithoutCoursesInput;
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
+}
+
+export interface StudentUpsertWithoutCardsInput {
+  update: StudentUpdateWithoutCardsDataInput;
+  create: StudentCreateWithoutCardsInput;
+}
+
+export interface StudentCreateWithoutPaymentsInput {
   name: String;
   email: String;
   mobile?: String;
   courses?: CourseStudentCreateManyWithoutStudentInput;
   cards?: CardCreateManyWithoutStudentInput;
   hasReferralBonus?: Boolean;
-  payments?: PaymentCreateManyWithoutStudentInput;
 }
 
-export interface CourseInstanceCreateOneWithoutAttendeesInput {
-  create?: CourseInstanceCreateWithoutAttendeesInput;
-  connect?: CourseInstanceWhereUniqueInput;
+export interface CardUpdateManyMutationInput {
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  validCount?: Int;
 }
 
-export interface StudioCreateWithoutRoomsInput {
+export interface RoomCreateInput {
   name?: String;
-  address?: String;
+  capacity?: Int;
+  studio: StudioCreateOneWithoutRoomsInput;
 }
 
-export interface CourseInstanceCreateWithoutAttendeesInput {
-  parent?: CourseCreateOneWithoutCourseHistoryInput;
+export interface CourseInstanceUpdateWithoutParticipantsDataInput {
+  course?: CourseUpdateOneWithoutInstancesInput;
   date?: DateTimeInput;
   topic?: String;
   notes?: String;
-  absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
+  recapUrl?: String;
 }
 
-export interface PaymentCreateWithoutStudentInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  card?: CardCreateOneWithoutPaymentInput;
+export interface PaymentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  type?: PaymentType;
+  type_not?: PaymentType;
+  type_in?: PaymentType[] | PaymentType;
+  type_not_in?: PaymentType[] | PaymentType;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  amount?: Int;
+  amount_not?: Int;
+  amount_in?: Int[] | Int;
+  amount_not_in?: Int[] | Int;
+  amount_lt?: Int;
+  amount_lte?: Int;
+  amount_gt?: Int;
+  amount_gte?: Int;
+  student?: StudentWhereInput;
+  card?: CardWhereInput;
+  AND?: PaymentWhereInput[] | PaymentWhereInput;
+  OR?: PaymentWhereInput[] | PaymentWhereInput;
+  NOT?: PaymentWhereInput[] | PaymentWhereInput;
 }
 
-export interface AttendeeUpdateInput {
-  student?: StudentUpdateOneRequiredInput;
-  courseInstance?: CourseInstanceUpdateOneRequiredWithoutAttendeesInput;
+export interface CourseInstanceUpdateOneRequiredWithoutParticipantsInput {
+  create?: CourseInstanceCreateWithoutParticipantsInput;
+  update?: CourseInstanceUpdateWithoutParticipantsDataInput;
+  upsert?: CourseInstanceUpsertWithoutParticipantsInput;
+  connect?: CourseInstanceWhereUniqueInput;
 }
 
-export type CourseInstanceWhereUniqueInput = AtLeastOne<{
+export type CourseStudentWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface CourseInstanceUpdateOneRequiredWithoutAttendeesInput {
-  create?: CourseInstanceCreateWithoutAttendeesInput;
-  update?: CourseInstanceUpdateWithoutAttendeesDataInput;
-  upsert?: CourseInstanceUpsertWithoutAttendeesInput;
-  connect?: CourseInstanceWhereUniqueInput;
+export interface CourseCreateInput {
+  name: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherCreateManyWithoutCoursesInput;
+  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
+  instances?: CourseInstanceCreateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomCreateOneInput;
+}
+
+export type StudentWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  name?: String;
+  email?: String;
+}>;
+
+export interface CourseUpdateInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherUpdateManyWithoutCoursesInput;
+  courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
+  instances?: CourseInstanceUpdateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomUpdateOneInput;
 }
 
 export interface UserWhereInput {
@@ -3194,72 +2980,119 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface CardUpdateInput {
-  student?: StudentUpdateOneRequiredWithoutCardsInput;
-  payment?: PaymentUpdateOneWithoutCardInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  validCount?: Int;
-  useHistory?: CourseInstanceUpdateManyInput;
+export interface CourseUpdateManyMutationInput {
+  name?: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  studentLimit?: Int;
 }
 
-export interface CardCreateInput {
-  student: StudentCreateOneWithoutCardsInput;
+export interface CourseInstanceCreateWithoutCourseInput {
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  participants?: ParticipantCreateManyWithoutCourseInstanceInput;
+  recapUrl?: String;
+}
+
+export interface CourseInstanceUpdateInput {
+  course?: CourseUpdateOneWithoutInstancesInput;
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  participants?: ParticipantUpdateManyWithoutCourseInstanceInput;
+  recapUrl?: String;
+}
+
+export interface CourseCreateWithoutInstancesInput {
+  name: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  duration?: Int;
+  teachers?: TeacherCreateManyWithoutCoursesInput;
+  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomCreateOneInput;
+}
+
+export interface CourseInstanceUpdateManyMutationInput {
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
+}
+
+export type CourseWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface CourseStudentUpdateInput {
+  student?: StudentUpdateOneRequiredWithoutCoursesInput;
+  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
+  role?: DanceRole;
+}
+
+export interface RoomCreateManyWithoutStudioInput {
+  create?: RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput;
+  connect?: RoomWhereUniqueInput[] | RoomWhereUniqueInput;
+}
+
+export interface CourseInstanceCreateWithoutParticipantsInput {
+  course?: CourseCreateOneWithoutInstancesInput;
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
+}
+
+export interface CourseInstanceCreateOneWithoutParticipantsInput {
+  create?: CourseInstanceCreateWithoutParticipantsInput;
+  connect?: CourseInstanceWhereUniqueInput;
+}
+
+export interface ParticipantCreateInput {
+  courseStudent: CourseStudentCreateOneInput;
+  courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
+  status: ParticipantStatus;
+}
+
+export interface CourseStudentUpdateManyMutationInput {
+  role?: DanceRole;
+}
+
+export interface StudentCreateWithoutCardsInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  courses?: CourseStudentCreateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentCreateManyWithoutStudentInput;
+}
+
+export type PaymentWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface CardCreateWithoutStudentInput {
   payment?: PaymentCreateOneWithoutCardInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
   validCount: Int;
   useHistory?: CourseInstanceCreateManyInput;
-}
-
-export interface CourseInstanceUpsertWithoutAttendeesInput {
-  update: CourseInstanceUpdateWithoutAttendeesDataInput;
-  create: CourseInstanceCreateWithoutAttendeesInput;
-}
-
-export interface CourseInstanceUpdateWithoutAttendeesDataInput {
-  parent?: CourseUpdateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  absentees?: AbsenteeUpdateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export interface CourseInstanceCreateWithoutParentInput {
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
-  absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
-}
-
-export type StudentWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  name?: String;
-  email?: String;
-}>;
-
-export interface AttendeeSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: AttendeeWhereInput;
-  AND?: AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput;
-  OR?: AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput;
-  NOT?: AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput;
-}
-
-export interface CourseInstanceCreateInput {
-  parent?: CourseCreateOneWithoutCourseHistoryInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  attendees?: AttendeeCreateManyWithoutCourseInstanceInput;
-  absentees?: AbsenteeCreateManyWithoutCourseInstanceInput;
-  youTubeUrl?: String;
 }
 
 export interface NodeNode {
@@ -3294,25 +3127,25 @@ export interface UserPreviousValuesSubscription
   admin: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface AttendeeConnection {
+export interface CourseConnection {
   pageInfo: PageInfo;
-  edges: AttendeeEdge[];
+  edges: CourseEdge[];
 }
 
-export interface AttendeeConnectionPromise
-  extends Promise<AttendeeConnection>,
+export interface CourseConnectionPromise
+  extends Promise<CourseConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<AttendeeEdge>>() => T;
-  aggregate: <T = AggregateAttendeePromise>() => T;
+  edges: <T = FragmentableArray<CourseEdge>>() => T;
+  aggregate: <T = AggregateCoursePromise>() => T;
 }
 
-export interface AttendeeConnectionSubscription
-  extends Promise<AsyncIterator<AttendeeConnection>>,
+export interface CourseConnectionSubscription
+  extends Promise<AsyncIterator<CourseConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<AttendeeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateAttendeeSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CourseEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCourseSubscription>() => T;
 }
 
 export interface Course {
@@ -3354,7 +3187,7 @@ export interface CoursePromise extends Promise<Course>, Fragmentable {
       last?: Int;
     }
   ) => T;
-  courseHistory: <T = FragmentableArray<CourseInstance>>(
+  instances: <T = FragmentableArray<CourseInstance>>(
     args?: {
       where?: CourseInstanceWhereInput;
       orderBy?: CourseInstanceOrderByInput;
@@ -3400,7 +3233,7 @@ export interface CourseSubscription
       last?: Int;
     }
   ) => T;
-  courseHistory: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
+  instances: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
     args?: {
       where?: CourseInstanceWhereInput;
       orderBy?: CourseInstanceOrderByInput;
@@ -3415,18 +3248,18 @@ export interface CourseSubscription
   room: <T = RoomSubscription>() => T;
 }
 
-export interface AggregateAbsentee {
+export interface AggregateCard {
   count: Int;
 }
 
-export interface AggregateAbsenteePromise
-  extends Promise<AggregateAbsentee>,
+export interface AggregateCardPromise
+  extends Promise<AggregateCard>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateAbsenteeSubscription
-  extends Promise<AsyncIterator<AggregateAbsentee>>,
+export interface AggregateCardSubscription
+  extends Promise<AsyncIterator<AggregateCard>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3454,22 +3287,20 @@ export interface CourseStudentSubscription
   role: () => Promise<AsyncIterator<DanceRole>>;
 }
 
-export interface AbsenteeEdge {
-  node: Absentee;
+export interface CardEdge {
+  node: Card;
   cursor: String;
 }
 
-export interface AbsenteeEdgePromise
-  extends Promise<AbsenteeEdge>,
-    Fragmentable {
-  node: <T = AbsenteePromise>() => T;
+export interface CardEdgePromise extends Promise<CardEdge>, Fragmentable {
+  node: <T = CardPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface AbsenteeEdgeSubscription
-  extends Promise<AsyncIterator<AbsenteeEdge>>,
+export interface CardEdgeSubscription
+  extends Promise<AsyncIterator<CardEdge>>,
     Fragmentable {
-  node: <T = AbsenteeSubscription>() => T;
+  node: <T = CardSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -3533,22 +3364,53 @@ export interface UserConnectionSubscription
   aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface Absentee {
+export interface Card {
   id: ID_Output;
+  expirationDate?: DateTimeOutput;
+  active: Boolean;
+  validCount: Int;
 }
 
-export interface AbsenteePromise extends Promise<Absentee>, Fragmentable {
+export interface CardPromise extends Promise<Card>, Fragmentable {
   id: () => Promise<ID_Output>;
   student: <T = StudentPromise>() => T;
-  courseInstance: <T = CourseInstancePromise>() => T;
+  payment: <T = PaymentPromise>() => T;
+  expirationDate: () => Promise<DateTimeOutput>;
+  active: () => Promise<Boolean>;
+  validCount: () => Promise<Int>;
+  useHistory: <T = FragmentableArray<CourseInstance>>(
+    args?: {
+      where?: CourseInstanceWhereInput;
+      orderBy?: CourseInstanceOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
-export interface AbsenteeSubscription
-  extends Promise<AsyncIterator<Absentee>>,
+export interface CardSubscription
+  extends Promise<AsyncIterator<Card>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   student: <T = StudentSubscription>() => T;
-  courseInstance: <T = CourseInstanceSubscription>() => T;
+  payment: <T = PaymentSubscription>() => T;
+  expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
+  validCount: () => Promise<AsyncIterator<Int>>;
+  useHistory: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
+    args?: {
+      where?: CourseInstanceWhereInput;
+      orderBy?: CourseInstanceOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface User {
@@ -3577,29 +3439,29 @@ export interface UserSubscription
   admin: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface AbsenteeSubscriptionPayload {
+export interface CardSubscriptionPayload {
   mutation: MutationType;
-  node: Absentee;
+  node: Card;
   updatedFields: String[];
-  previousValues: AbsenteePreviousValues;
+  previousValues: CardPreviousValues;
 }
 
-export interface AbsenteeSubscriptionPayloadPromise
-  extends Promise<AbsenteeSubscriptionPayload>,
+export interface CardSubscriptionPayloadPromise
+  extends Promise<CardSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = AbsenteePromise>() => T;
+  node: <T = CardPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = AbsenteePreviousValuesPromise>() => T;
+  previousValues: <T = CardPreviousValuesPromise>() => T;
 }
 
-export interface AbsenteeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<AbsenteeSubscriptionPayload>>,
+export interface CardSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CardSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = AbsenteeSubscription>() => T;
+  node: <T = CardSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = AbsenteePreviousValuesSubscription>() => T;
+  previousValues: <T = CardPreviousValuesSubscription>() => T;
 }
 
 export interface TeacherEdge {
@@ -3619,20 +3481,29 @@ export interface TeacherEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AbsenteePreviousValues {
+export interface CardPreviousValues {
   id: ID_Output;
+  expirationDate?: DateTimeOutput;
+  active: Boolean;
+  validCount: Int;
 }
 
-export interface AbsenteePreviousValuesPromise
-  extends Promise<AbsenteePreviousValues>,
+export interface CardPreviousValuesPromise
+  extends Promise<CardPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  expirationDate: () => Promise<DateTimeOutput>;
+  active: () => Promise<Boolean>;
+  validCount: () => Promise<Int>;
 }
 
-export interface AbsenteePreviousValuesSubscription
-  extends Promise<AsyncIterator<AbsenteePreviousValues>>,
+export interface CardPreviousValuesSubscription
+  extends Promise<AsyncIterator<CardPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
+  validCount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateStudio {
@@ -3651,25 +3522,25 @@ export interface AggregateStudioSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AbsenteeConnection {
+export interface CardConnection {
   pageInfo: PageInfo;
-  edges: AbsenteeEdge[];
+  edges: CardEdge[];
 }
 
-export interface AbsenteeConnectionPromise
-  extends Promise<AbsenteeConnection>,
+export interface CardConnectionPromise
+  extends Promise<CardConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<AbsenteeEdge>>() => T;
-  aggregate: <T = AggregateAbsenteePromise>() => T;
+  edges: <T = FragmentableArray<CardEdge>>() => T;
+  aggregate: <T = AggregateCardPromise>() => T;
 }
 
-export interface AbsenteeConnectionSubscription
-  extends Promise<AsyncIterator<AbsenteeConnection>>,
+export interface CardConnectionSubscription
+  extends Promise<AsyncIterator<CardConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<AbsenteeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateAbsenteeSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CardEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCardSubscription>() => T;
 }
 
 export interface StudioConnection {
@@ -3693,29 +3564,29 @@ export interface StudioConnectionSubscription
   aggregate: <T = AggregateStudioSubscription>() => T;
 }
 
-export interface AttendeeSubscriptionPayload {
+export interface CourseSubscriptionPayload {
   mutation: MutationType;
-  node: Attendee;
+  node: Course;
   updatedFields: String[];
-  previousValues: AttendeePreviousValues;
+  previousValues: CoursePreviousValues;
 }
 
-export interface AttendeeSubscriptionPayloadPromise
-  extends Promise<AttendeeSubscriptionPayload>,
+export interface CourseSubscriptionPayloadPromise
+  extends Promise<CourseSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = AttendeePromise>() => T;
+  node: <T = CoursePromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = AttendeePreviousValuesPromise>() => T;
+  previousValues: <T = CoursePreviousValuesPromise>() => T;
 }
 
-export interface AttendeeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<AttendeeSubscriptionPayload>>,
+export interface CourseSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CourseSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = AttendeeSubscription>() => T;
+  node: <T = CourseSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = AttendeePreviousValuesSubscription>() => T;
+  previousValues: <T = CoursePreviousValuesSubscription>() => T;
 }
 
 export interface AggregateStudent {
@@ -3734,20 +3605,38 @@ export interface AggregateStudentSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AttendeePreviousValues {
+export interface CoursePreviousValues {
   id: ID_Output;
+  name: String;
+  description?: String;
+  startDate?: DateTimeOutput;
+  startTime?: String;
+  duration?: Int;
+  studentLimit?: Int;
 }
 
-export interface AttendeePreviousValuesPromise
-  extends Promise<AttendeePreviousValues>,
+export interface CoursePreviousValuesPromise
+  extends Promise<CoursePreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
+  startTime: () => Promise<String>;
+  duration: () => Promise<Int>;
+  studentLimit: () => Promise<Int>;
 }
 
-export interface AttendeePreviousValuesSubscription
-  extends Promise<AsyncIterator<AttendeePreviousValues>>,
+export interface CoursePreviousValuesSubscription
+  extends Promise<AsyncIterator<CoursePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startTime: () => Promise<AsyncIterator<String>>;
+  duration: () => Promise<AsyncIterator<Int>>;
+  studentLimit: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface StudentConnection {
@@ -3815,29 +3704,29 @@ export interface RoomEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface CardSubscriptionPayload {
+export interface CourseInstanceSubscriptionPayload {
   mutation: MutationType;
-  node: Card;
+  node: CourseInstance;
   updatedFields: String[];
-  previousValues: CardPreviousValues;
+  previousValues: CourseInstancePreviousValues;
 }
 
-export interface CardSubscriptionPayloadPromise
-  extends Promise<CardSubscriptionPayload>,
+export interface CourseInstanceSubscriptionPayloadPromise
+  extends Promise<CourseInstanceSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = CardPromise>() => T;
+  node: <T = CourseInstancePromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = CardPreviousValuesPromise>() => T;
+  previousValues: <T = CourseInstancePreviousValuesPromise>() => T;
 }
 
-export interface CardSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CardSubscriptionPayload>>,
+export interface CourseInstanceSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CourseInstanceSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CardSubscription>() => T;
+  node: <T = CourseInstanceSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CardPreviousValuesSubscription>() => T;
+  previousValues: <T = CourseInstancePreviousValuesSubscription>() => T;
 }
 
 export interface AggregatePayment {
@@ -3856,29 +3745,32 @@ export interface AggregatePaymentSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface CardPreviousValues {
+export interface CourseInstancePreviousValues {
   id: ID_Output;
-  expirationDate?: DateTimeOutput;
-  active: Boolean;
-  validCount: Int;
+  date?: DateTimeOutput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
 }
 
-export interface CardPreviousValuesPromise
-  extends Promise<CardPreviousValues>,
+export interface CourseInstancePreviousValuesPromise
+  extends Promise<CourseInstancePreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  expirationDate: () => Promise<DateTimeOutput>;
-  active: () => Promise<Boolean>;
-  validCount: () => Promise<Int>;
+  date: () => Promise<DateTimeOutput>;
+  topic: () => Promise<String>;
+  notes: () => Promise<String>;
+  recapUrl: () => Promise<String>;
 }
 
-export interface CardPreviousValuesSubscription
-  extends Promise<AsyncIterator<CardPreviousValues>>,
+export interface CourseInstancePreviousValuesSubscription
+  extends Promise<AsyncIterator<CourseInstancePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  active: () => Promise<AsyncIterator<Boolean>>;
-  validCount: () => Promise<AsyncIterator<Int>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  topic: () => Promise<AsyncIterator<String>>;
+  notes: () => Promise<AsyncIterator<String>>;
+  recapUrl: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PaymentConnection {
@@ -3900,170 +3792,6 @@ export interface PaymentConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<PaymentEdgeSubscription>>>() => T;
   aggregate: <T = AggregatePaymentSubscription>() => T;
-}
-
-export interface Card {
-  id: ID_Output;
-  expirationDate?: DateTimeOutput;
-  active: Boolean;
-  validCount: Int;
-}
-
-export interface CardPromise extends Promise<Card>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  student: <T = StudentPromise>() => T;
-  payment: <T = PaymentPromise>() => T;
-  expirationDate: () => Promise<DateTimeOutput>;
-  active: () => Promise<Boolean>;
-  validCount: () => Promise<Int>;
-  useHistory: <T = FragmentableArray<CourseInstance>>(
-    args?: {
-      where?: CourseInstanceWhereInput;
-      orderBy?: CourseInstanceOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface CardSubscription
-  extends Promise<AsyncIterator<Card>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  student: <T = StudentSubscription>() => T;
-  payment: <T = PaymentSubscription>() => T;
-  expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  active: () => Promise<AsyncIterator<Boolean>>;
-  validCount: () => Promise<AsyncIterator<Int>>;
-  useHistory: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
-    args?: {
-      where?: CourseInstanceWhereInput;
-      orderBy?: CourseInstanceOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface CourseStudentEdge {
-  node: CourseStudent;
-  cursor: String;
-}
-
-export interface CourseStudentEdgePromise
-  extends Promise<CourseStudentEdge>,
-    Fragmentable {
-  node: <T = CourseStudentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CourseStudentEdgeSubscription
-  extends Promise<AsyncIterator<CourseStudentEdge>>,
-    Fragmentable {
-  node: <T = CourseStudentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CourseSubscriptionPayload {
-  mutation: MutationType;
-  node: Course;
-  updatedFields: String[];
-  previousValues: CoursePreviousValues;
-}
-
-export interface CourseSubscriptionPayloadPromise
-  extends Promise<CourseSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CoursePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CoursePreviousValuesPromise>() => T;
-}
-
-export interface CourseSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CourseSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CourseSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CoursePreviousValuesSubscription>() => T;
-}
-
-export interface AggregateCourseInstance {
-  count: Int;
-}
-
-export interface AggregateCourseInstancePromise
-  extends Promise<AggregateCourseInstance>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCourseInstanceSubscription
-  extends Promise<AsyncIterator<AggregateCourseInstance>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CoursePreviousValues {
-  id: ID_Output;
-  name: String;
-  description?: String;
-  startDate?: DateTimeOutput;
-  startTime?: String;
-  duration?: Int;
-  studentLimit?: Int;
-}
-
-export interface CoursePreviousValuesPromise
-  extends Promise<CoursePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  startDate: () => Promise<DateTimeOutput>;
-  startTime: () => Promise<String>;
-  duration: () => Promise<Int>;
-  studentLimit: () => Promise<Int>;
-}
-
-export interface CoursePreviousValuesSubscription
-  extends Promise<AsyncIterator<CoursePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  startTime: () => Promise<AsyncIterator<String>>;
-  duration: () => Promise<AsyncIterator<Int>>;
-  studentLimit: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CourseInstanceConnection {
-  pageInfo: PageInfo;
-  edges: CourseInstanceEdge[];
-}
-
-export interface CourseInstanceConnectionPromise
-  extends Promise<CourseInstanceConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CourseInstanceEdge>>() => T;
-  aggregate: <T = AggregateCourseInstancePromise>() => T;
-}
-
-export interface CourseInstanceConnectionSubscription
-  extends Promise<AsyncIterator<CourseInstanceConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CourseInstanceEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCourseInstanceSubscription>() => T;
 }
 
 export interface Studio {
@@ -4108,209 +3836,23 @@ export interface StudioSubscription
   address: () => Promise<AsyncIterator<String>>;
 }
 
-export interface CourseEdge {
-  node: Course;
+export interface ParticipantEdge {
+  node: Participant;
   cursor: String;
 }
 
-export interface CourseEdgePromise extends Promise<CourseEdge>, Fragmentable {
-  node: <T = CoursePromise>() => T;
+export interface ParticipantEdgePromise
+  extends Promise<ParticipantEdge>,
+    Fragmentable {
+  node: <T = ParticipantPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CourseEdgeSubscription
-  extends Promise<AsyncIterator<CourseEdge>>,
+export interface ParticipantEdgeSubscription
+  extends Promise<AsyncIterator<ParticipantEdge>>,
     Fragmentable {
-  node: <T = CourseSubscription>() => T;
+  node: <T = ParticipantSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CourseInstanceSubscriptionPayload {
-  mutation: MutationType;
-  node: CourseInstance;
-  updatedFields: String[];
-  previousValues: CourseInstancePreviousValues;
-}
-
-export interface CourseInstanceSubscriptionPayloadPromise
-  extends Promise<CourseInstanceSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CourseInstancePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CourseInstancePreviousValuesPromise>() => T;
-}
-
-export interface CourseInstanceSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CourseInstanceSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CourseInstanceSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CourseInstancePreviousValuesSubscription>() => T;
-}
-
-export interface AggregateCard {
-  count: Int;
-}
-
-export interface AggregateCardPromise
-  extends Promise<AggregateCard>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCardSubscription
-  extends Promise<AsyncIterator<AggregateCard>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CourseInstancePreviousValues {
-  id: ID_Output;
-  date?: DateTimeOutput;
-  topic?: String;
-  notes?: String;
-  youTubeUrl?: String;
-}
-
-export interface CourseInstancePreviousValuesPromise
-  extends Promise<CourseInstancePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
-  topic: () => Promise<String>;
-  notes: () => Promise<String>;
-  youTubeUrl: () => Promise<String>;
-}
-
-export interface CourseInstancePreviousValuesSubscription
-  extends Promise<AsyncIterator<CourseInstancePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  topic: () => Promise<AsyncIterator<String>>;
-  notes: () => Promise<AsyncIterator<String>>;
-  youTubeUrl: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CardConnection {
-  pageInfo: PageInfo;
-  edges: CardEdge[];
-}
-
-export interface CardConnectionPromise
-  extends Promise<CardConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CardEdge>>() => T;
-  aggregate: <T = AggregateCardPromise>() => T;
-}
-
-export interface CardConnectionSubscription
-  extends Promise<AsyncIterator<CardConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CardEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCardSubscription>() => T;
-}
-
-export interface Room {
-  id: ID_Output;
-  name?: String;
-  capacity?: Int;
-}
-
-export interface RoomPromise extends Promise<Room>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  capacity: () => Promise<Int>;
-  studio: <T = StudioPromise>() => T;
-}
-
-export interface RoomSubscription
-  extends Promise<AsyncIterator<Room>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  capacity: () => Promise<AsyncIterator<Int>>;
-  studio: <T = StudioSubscription>() => T;
-}
-
-export interface AttendeeEdge {
-  node: Attendee;
-  cursor: String;
-}
-
-export interface AttendeeEdgePromise
-  extends Promise<AttendeeEdge>,
-    Fragmentable {
-  node: <T = AttendeePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface AttendeeEdgeSubscription
-  extends Promise<AsyncIterator<AttendeeEdge>>,
-    Fragmentable {
-  node: <T = AttendeeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateAttendee {
-  count: Int;
-}
-
-export interface AggregateAttendeePromise
-  extends Promise<AggregateAttendee>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateAttendeeSubscription
-  extends Promise<AsyncIterator<AggregateAttendee>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface TeacherSubscriptionPayload {
-  mutation: MutationType;
-  node: Teacher;
-  updatedFields: String[];
-  previousValues: TeacherPreviousValues;
-}
-
-export interface TeacherSubscriptionPayloadPromise
-  extends Promise<TeacherSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TeacherPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TeacherPreviousValuesPromise>() => T;
-}
-
-export interface TeacherSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TeacherSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TeacherSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TeacherPreviousValuesSubscription>() => T;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface CourseStudentSubscriptionPayload {
@@ -4338,35 +3880,18 @@ export interface CourseStudentSubscriptionPayloadSubscription
   previousValues: <T = CourseStudentPreviousValuesSubscription>() => T;
 }
 
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateTeacher {
+export interface AggregateCourseStudent {
   count: Int;
 }
 
-export interface AggregateTeacherPromise
-  extends Promise<AggregateTeacher>,
+export interface AggregateCourseStudentPromise
+  extends Promise<AggregateCourseStudent>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateTeacherSubscription
-  extends Promise<AsyncIterator<AggregateTeacher>>,
+export interface AggregateCourseStudentSubscription
+  extends Promise<AsyncIterator<AggregateCourseStudent>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4390,6 +3915,248 @@ export interface CourseStudentPreviousValuesSubscription
   role: () => Promise<AsyncIterator<DanceRole>>;
 }
 
+export interface CourseStudentConnection {
+  pageInfo: PageInfo;
+  edges: CourseStudentEdge[];
+}
+
+export interface CourseStudentConnectionPromise
+  extends Promise<CourseStudentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CourseStudentEdge>>() => T;
+  aggregate: <T = AggregateCourseStudentPromise>() => T;
+}
+
+export interface CourseStudentConnectionSubscription
+  extends Promise<AsyncIterator<CourseStudentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CourseStudentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCourseStudentSubscription>() => T;
+}
+
+export interface Room {
+  id: ID_Output;
+  name?: String;
+  capacity?: Int;
+}
+
+export interface RoomPromise extends Promise<Room>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  capacity: () => Promise<Int>;
+  studio: <T = StudioPromise>() => T;
+}
+
+export interface RoomSubscription
+  extends Promise<AsyncIterator<Room>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Int>>;
+  studio: <T = StudioSubscription>() => T;
+}
+
+export interface CourseInstanceEdge {
+  node: CourseInstance;
+  cursor: String;
+}
+
+export interface CourseInstanceEdgePromise
+  extends Promise<CourseInstanceEdge>,
+    Fragmentable {
+  node: <T = CourseInstancePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CourseInstanceEdgeSubscription
+  extends Promise<AsyncIterator<CourseInstanceEdge>>,
+    Fragmentable {
+  node: <T = CourseInstanceSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ParticipantSubscriptionPayload {
+  mutation: MutationType;
+  node: Participant;
+  updatedFields: String[];
+  previousValues: ParticipantPreviousValues;
+}
+
+export interface ParticipantSubscriptionPayloadPromise
+  extends Promise<ParticipantSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ParticipantPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ParticipantPreviousValuesPromise>() => T;
+}
+
+export interface ParticipantSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ParticipantSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ParticipantSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ParticipantPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateCourse {
+  count: Int;
+}
+
+export interface AggregateCoursePromise
+  extends Promise<AggregateCourse>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCourseSubscription
+  extends Promise<AsyncIterator<AggregateCourse>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ParticipantPreviousValues {
+  id: ID_Output;
+  status: ParticipantStatus;
+}
+
+export interface ParticipantPreviousValuesPromise
+  extends Promise<ParticipantPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  status: () => Promise<ParticipantStatus>;
+}
+
+export interface ParticipantPreviousValuesSubscription
+  extends Promise<AsyncIterator<ParticipantPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  status: () => Promise<AsyncIterator<ParticipantStatus>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface Participant {
+  id: ID_Output;
+  status: ParticipantStatus;
+}
+
+export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  courseStudent: <T = CourseStudentPromise>() => T;
+  courseInstance: <T = CourseInstancePromise>() => T;
+  status: () => Promise<ParticipantStatus>;
+}
+
+export interface ParticipantSubscription
+  extends Promise<AsyncIterator<Participant>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  courseStudent: <T = CourseStudentSubscription>() => T;
+  courseInstance: <T = CourseInstanceSubscription>() => T;
+  status: () => Promise<AsyncIterator<ParticipantStatus>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PaymentSubscriptionPayload {
+  mutation: MutationType;
+  node: Payment;
+  updatedFields: String[];
+  previousValues: PaymentPreviousValues;
+}
+
+export interface PaymentSubscriptionPayloadPromise
+  extends Promise<PaymentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PaymentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PaymentPreviousValuesPromise>() => T;
+}
+
+export interface PaymentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PaymentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PaymentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PaymentPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateTeacher {
+  count: Int;
+}
+
+export interface AggregateTeacherPromise
+  extends Promise<AggregateTeacher>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTeacherSubscription
+  extends Promise<AsyncIterator<AggregateTeacher>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PaymentPreviousValues {
+  id: ID_Output;
+  type: PaymentType;
+  date: DateTimeOutput;
+  amount: Int;
+}
+
+export interface PaymentPreviousValuesPromise
+  extends Promise<PaymentPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  type: () => Promise<PaymentType>;
+  date: () => Promise<DateTimeOutput>;
+  amount: () => Promise<Int>;
+}
+
+export interface PaymentPreviousValuesSubscription
+  extends Promise<AsyncIterator<PaymentPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  type: () => Promise<AsyncIterator<PaymentType>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  amount: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface StudioEdge {
   node: Studio;
   cursor: String;
@@ -4405,6 +4172,52 @@ export interface StudioEdgeSubscription
     Fragmentable {
   node: <T = StudioSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TeacherConnection {
+  pageInfo: PageInfo;
+  edges: TeacherEdge[];
+}
+
+export interface TeacherConnectionPromise
+  extends Promise<TeacherConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TeacherEdge>>() => T;
+  aggregate: <T = AggregateTeacherPromise>() => T;
+}
+
+export interface TeacherConnectionSubscription
+  extends Promise<AsyncIterator<TeacherConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TeacherEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTeacherSubscription>() => T;
+}
+
+export interface TeacherSubscriptionPayload {
+  mutation: MutationType;
+  node: Teacher;
+  updatedFields: String[];
+  previousValues: TeacherPreviousValues;
+}
+
+export interface TeacherSubscriptionPayloadPromise
+  extends Promise<TeacherSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TeacherPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TeacherPreviousValuesPromise>() => T;
+}
+
+export interface TeacherSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TeacherSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TeacherSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TeacherPreviousValuesSubscription>() => T;
 }
 
 export interface Teacher {
@@ -4469,127 +4282,36 @@ export interface StudentEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PaymentSubscriptionPayload {
-  mutation: MutationType;
-  node: Payment;
-  updatedFields: String[];
-  previousValues: PaymentPreviousValues;
-}
-
-export interface PaymentSubscriptionPayloadPromise
-  extends Promise<PaymentSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PaymentPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PaymentPreviousValuesPromise>() => T;
-}
-
-export interface PaymentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PaymentSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PaymentSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PaymentPreviousValuesSubscription>() => T;
-}
-
-export interface RoomConnection {
-  pageInfo: PageInfo;
-  edges: RoomEdge[];
-}
-
-export interface RoomConnectionPromise
-  extends Promise<RoomConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<RoomEdge>>() => T;
-  aggregate: <T = AggregateRoomPromise>() => T;
-}
-
-export interface RoomConnectionSubscription
-  extends Promise<AsyncIterator<RoomConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<RoomEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateRoomSubscription>() => T;
-}
-
-export interface PaymentPreviousValues {
-  id: ID_Output;
-  type: PaymentType;
-  date: DateTimeOutput;
-  amount: Int;
-}
-
-export interface PaymentPreviousValuesPromise
-  extends Promise<PaymentPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  type: () => Promise<PaymentType>;
-  date: () => Promise<DateTimeOutput>;
-  amount: () => Promise<Int>;
-}
-
-export interface PaymentPreviousValuesSubscription
-  extends Promise<AsyncIterator<PaymentPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<PaymentType>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  amount: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateCourseStudent {
+export interface AggregateRoom {
   count: Int;
 }
 
-export interface AggregateCourseStudentPromise
-  extends Promise<AggregateCourseStudent>,
+export interface AggregateRoomPromise
+  extends Promise<AggregateRoom>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateCourseStudentSubscription
-  extends Promise<AsyncIterator<AggregateCourseStudent>>,
+export interface AggregateRoomSubscription
+  extends Promise<AsyncIterator<AggregateRoom>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Attendee {
-  id: ID_Output;
-}
-
-export interface AttendeePromise extends Promise<Attendee>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  student: <T = StudentPromise>() => T;
-  courseInstance: <T = CourseInstancePromise>() => T;
-}
-
-export interface AttendeeSubscription
-  extends Promise<AsyncIterator<Attendee>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  student: <T = StudentSubscription>() => T;
-  courseInstance: <T = CourseInstanceSubscription>() => T;
-}
-
-export interface CourseInstanceEdge {
-  node: CourseInstance;
+export interface PaymentEdge {
+  node: Payment;
   cursor: String;
 }
 
-export interface CourseInstanceEdgePromise
-  extends Promise<CourseInstanceEdge>,
-    Fragmentable {
-  node: <T = CourseInstancePromise>() => T;
+export interface PaymentEdgePromise extends Promise<PaymentEdge>, Fragmentable {
+  node: <T = PaymentPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CourseInstanceEdgeSubscription
-  extends Promise<AsyncIterator<CourseInstanceEdge>>,
+export interface PaymentEdgeSubscription
+  extends Promise<AsyncIterator<PaymentEdge>>,
     Fragmentable {
-  node: <T = CourseInstanceSubscription>() => T;
+  node: <T = PaymentSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -4618,25 +4340,25 @@ export interface RoomSubscriptionPayloadSubscription
   previousValues: <T = RoomPreviousValuesSubscription>() => T;
 }
 
-export interface CourseConnection {
+export interface ParticipantConnection {
   pageInfo: PageInfo;
-  edges: CourseEdge[];
+  edges: ParticipantEdge[];
 }
 
-export interface CourseConnectionPromise
-  extends Promise<CourseConnection>,
+export interface ParticipantConnectionPromise
+  extends Promise<ParticipantConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CourseEdge>>() => T;
-  aggregate: <T = AggregateCoursePromise>() => T;
+  edges: <T = FragmentableArray<ParticipantEdge>>() => T;
+  aggregate: <T = AggregateParticipantPromise>() => T;
 }
 
-export interface CourseConnectionSubscription
-  extends Promise<AsyncIterator<CourseConnection>>,
+export interface ParticipantConnectionSubscription
+  extends Promise<AsyncIterator<ParticipantConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CourseEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCourseSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ParticipantEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateParticipantSubscription>() => T;
 }
 
 export interface RoomPreviousValues {
@@ -4659,6 +4381,116 @@ export interface RoomPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   capacity: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AggregateCourseInstance {
+  count: Int;
+}
+
+export interface AggregateCourseInstancePromise
+  extends Promise<AggregateCourseInstance>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCourseInstanceSubscription
+  extends Promise<AsyncIterator<AggregateCourseInstance>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CourseInstance {
+  id: ID_Output;
+  date?: DateTimeOutput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
+}
+
+export interface CourseInstancePromise
+  extends Promise<CourseInstance>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  course: <T = CoursePromise>() => T;
+  date: () => Promise<DateTimeOutput>;
+  topic: () => Promise<String>;
+  notes: () => Promise<String>;
+  participants: <T = FragmentableArray<Participant>>(
+    args?: {
+      where?: ParticipantWhereInput;
+      orderBy?: ParticipantOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  recapUrl: () => Promise<String>;
+}
+
+export interface CourseInstanceSubscription
+  extends Promise<AsyncIterator<CourseInstance>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  course: <T = CourseSubscription>() => T;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  topic: () => Promise<AsyncIterator<String>>;
+  notes: () => Promise<AsyncIterator<String>>;
+  participants: <T = Promise<AsyncIterator<ParticipantSubscription>>>(
+    args?: {
+      where?: ParticipantWhereInput;
+      orderBy?: ParticipantOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  recapUrl: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CourseEdge {
+  node: Course;
+  cursor: String;
+}
+
+export interface CourseEdgePromise extends Promise<CourseEdge>, Fragmentable {
+  node: <T = CoursePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CourseEdgeSubscription
+  extends Promise<AsyncIterator<CourseEdge>>,
+    Fragmentable {
+  node: <T = CourseSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface StudentSubscriptionPayload {
+  mutation: MutationType;
+  node: Student;
+  updatedFields: String[];
+  previousValues: StudentPreviousValues;
+}
+
+export interface StudentSubscriptionPayloadPromise
+  extends Promise<StudentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = StudentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = StudentPreviousValuesPromise>() => T;
+}
+
+export interface StudentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<StudentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = StudentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = StudentPreviousValuesSubscription>() => T;
 }
 
 export interface Student {
@@ -4753,110 +4585,18 @@ export interface StudentSubscription
   ) => T;
 }
 
-export interface TeacherPreviousValues {
-  id: ID_Output;
-  name: String;
-  email: String;
-  mobile?: String;
-}
-
-export interface TeacherPreviousValuesPromise
-  extends Promise<TeacherPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  mobile: () => Promise<String>;
-}
-
-export interface TeacherPreviousValuesSubscription
-  extends Promise<AsyncIterator<TeacherPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  mobile: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface StudentSubscriptionPayload {
-  mutation: MutationType;
-  node: Student;
-  updatedFields: String[];
-  previousValues: StudentPreviousValues;
-}
-
-export interface StudentSubscriptionPayloadPromise
-  extends Promise<StudentSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = StudentPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = StudentPreviousValuesPromise>() => T;
-}
-
-export interface StudentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<StudentSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = StudentSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = StudentPreviousValuesSubscription>() => T;
-}
-
-export interface PaymentEdge {
-  node: Payment;
-  cursor: String;
-}
-
-export interface PaymentEdgePromise extends Promise<PaymentEdge>, Fragmentable {
-  node: <T = PaymentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PaymentEdgeSubscription
-  extends Promise<AsyncIterator<PaymentEdge>>,
-    Fragmentable {
-  node: <T = PaymentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateCourse {
+export interface AggregateParticipant {
   count: Int;
 }
 
-export interface AggregateCoursePromise
-  extends Promise<AggregateCourse>,
+export interface AggregateParticipantPromise
+  extends Promise<AggregateParticipant>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateCourseSubscription
-  extends Promise<AsyncIterator<AggregateCourse>>,
+export interface AggregateParticipantSubscription
+  extends Promise<AsyncIterator<AggregateParticipant>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4908,78 +4648,29 @@ export interface StudioSubscriptionPayloadSubscription
   previousValues: <T = StudioPreviousValuesSubscription>() => T;
 }
 
-export interface CourseInstance {
+export interface TeacherPreviousValues {
   id: ID_Output;
-  date?: DateTimeOutput;
-  topic?: String;
-  notes?: String;
-  youTubeUrl?: String;
+  name: String;
+  email: String;
+  mobile?: String;
 }
 
-export interface CourseInstancePromise
-  extends Promise<CourseInstance>,
+export interface TeacherPreviousValuesPromise
+  extends Promise<TeacherPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  parent: <T = CoursePromise>() => T;
-  date: () => Promise<DateTimeOutput>;
-  topic: () => Promise<String>;
-  notes: () => Promise<String>;
-  attendees: <T = FragmentableArray<Attendee>>(
-    args?: {
-      where?: AttendeeWhereInput;
-      orderBy?: AttendeeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  absentees: <T = FragmentableArray<Absentee>>(
-    args?: {
-      where?: AbsenteeWhereInput;
-      orderBy?: AbsenteeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  youTubeUrl: () => Promise<String>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  mobile: () => Promise<String>;
 }
 
-export interface CourseInstanceSubscription
-  extends Promise<AsyncIterator<CourseInstance>>,
+export interface TeacherPreviousValuesSubscription
+  extends Promise<AsyncIterator<TeacherPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  parent: <T = CourseSubscription>() => T;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  topic: () => Promise<AsyncIterator<String>>;
-  notes: () => Promise<AsyncIterator<String>>;
-  attendees: <T = Promise<AsyncIterator<AttendeeSubscription>>>(
-    args?: {
-      where?: AttendeeWhereInput;
-      orderBy?: AttendeeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  absentees: <T = Promise<AsyncIterator<AbsenteeSubscription>>>(
-    args?: {
-      where?: AbsenteeWhereInput;
-      orderBy?: AbsenteeOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  youTubeUrl: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  mobile: () => Promise<AsyncIterator<String>>;
 }
 
 export interface StudentPreviousValues {
@@ -5010,80 +4701,101 @@ export interface StudentPreviousValuesSubscription
   hasReferralBonus: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface CardEdge {
-  node: Card;
+export interface CourseStudentEdge {
+  node: CourseStudent;
   cursor: String;
 }
 
-export interface CardEdgePromise extends Promise<CardEdge>, Fragmentable {
-  node: <T = CardPromise>() => T;
+export interface CourseStudentEdgePromise
+  extends Promise<CourseStudentEdge>,
+    Fragmentable {
+  node: <T = CourseStudentPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CardEdgeSubscription
-  extends Promise<AsyncIterator<CardEdge>>,
+export interface CourseStudentEdgeSubscription
+  extends Promise<AsyncIterator<CourseStudentEdge>>,
     Fragmentable {
-  node: <T = CardSubscription>() => T;
+  node: <T = CourseStudentSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface CourseStudentConnection {
+export interface RoomConnection {
   pageInfo: PageInfo;
-  edges: CourseStudentEdge[];
+  edges: RoomEdge[];
 }
 
-export interface CourseStudentConnectionPromise
-  extends Promise<CourseStudentConnection>,
+export interface RoomConnectionPromise
+  extends Promise<RoomConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CourseStudentEdge>>() => T;
-  aggregate: <T = AggregateCourseStudentPromise>() => T;
+  edges: <T = FragmentableArray<RoomEdge>>() => T;
+  aggregate: <T = AggregateRoomPromise>() => T;
 }
 
-export interface CourseStudentConnectionSubscription
-  extends Promise<AsyncIterator<CourseStudentConnection>>,
+export interface RoomConnectionSubscription
+  extends Promise<AsyncIterator<RoomConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CourseStudentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCourseStudentSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RoomEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRoomSubscription>() => T;
 }
 
-export interface AggregateRoom {
-  count: Int;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface AggregateRoomPromise
-  extends Promise<AggregateRoom>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface AggregateRoomSubscription
-  extends Promise<AsyncIterator<AggregateRoom>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface TeacherConnection {
+export interface CourseInstanceConnection {
   pageInfo: PageInfo;
-  edges: TeacherEdge[];
+  edges: CourseInstanceEdge[];
 }
 
-export interface TeacherConnectionPromise
-  extends Promise<TeacherConnection>,
+export interface CourseInstanceConnectionPromise
+  extends Promise<CourseInstanceConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TeacherEdge>>() => T;
-  aggregate: <T = AggregateTeacherPromise>() => T;
+  edges: <T = FragmentableArray<CourseInstanceEdge>>() => T;
+  aggregate: <T = AggregateCourseInstancePromise>() => T;
 }
 
-export interface TeacherConnectionSubscription
-  extends Promise<AsyncIterator<TeacherConnection>>,
+export interface CourseInstanceConnectionSubscription
+  extends Promise<AsyncIterator<CourseInstanceConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TeacherEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTeacherSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CourseInstanceEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCourseInstanceSubscription>() => T;
 }
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 export type Long = string;
 
@@ -5097,16 +4809,6 @@ export type ID_Output = string;
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-DateTime scalar input type, allowing Date
-*/
-export type DateTimeInput = Date | string;
-
-/*
-DateTime scalar output type, which is always a string
-*/
-export type DateTimeOutput = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
@@ -5136,11 +4838,11 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Attendee",
+    name: "ParticipantStatus",
     embedded: false
   },
   {
-    name: "Absentee",
+    name: "Participant",
     embedded: false
   },
   {

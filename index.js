@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const { prisma } = require('./generated/prisma-client');
 const { ApolloServer, gql } = require('apollo-server');
 const { importSchema } = require('graphql-import');
+const { subWeeks, addWeeks } = require('date-fns');
 
 const resolvers = {
     Query: {
@@ -56,6 +57,36 @@ const resolvers = {
         },
         payments(root, args, context) {
             return context.prisma.payments();
+        },
+        courseInstance(root, args, context) {
+            return context.prisma.courseInstance({
+                id: args.id,
+            });
+        },
+        courseStudentsByCourseInstance(root, args, context) {
+            return context.prisma
+                .courseInstance({
+                    id: args.courseInstanceId,
+                })
+                .course()
+                .courseStudents();
+        },
+        overviewInstances(root, args, context) {
+            const now = new Date();
+            return context.prisma.courseInstances({
+                where: {
+                    date_lte: addWeeks(now, 3),
+                    date_gte: subWeeks(now, 3),
+                },
+                orderBy: 'date_DESC',
+            });
+        },
+        activeCards(root, args, context) {
+            return context.prisma.cards({
+                where: {
+                    active: true,
+                },
+            });
         },
     },
     Mutation: {
@@ -285,6 +316,53 @@ const resolvers = {
                 id: args.id,
             });
         },
+        createCourseInstance(root, args, context) {
+            return context.prisma.createCourseInstance({
+                course: {
+                    connect: { id: args.courseId },
+                },
+                topic: args.topic,
+                notes: args.notes,
+                recapUrl: args.recapUrl,
+                date: args.date,
+            });
+        },
+        deleteCourseInstance(root, args, context) {
+            return context.prisma.deleteCourseInstance({
+                id: args.id,
+            });
+        },
+        updateCourseInstance(root, args, context) {
+            return context.prisma.updateCourseInstance({
+                data: {
+                    topic: args.topic,
+                    notes: args.notes,
+                    recapUrl: args.recapUrl,
+                    date: args.date,
+                },
+                where: { id: args.id },
+            });
+        },
+        deleteParticipant(root, args, context) {
+            return context.prisma.deleteParticipant({
+                id: args.id,
+            });
+        },
+        createParticipant(root, args, context) {
+            return context.prisma.createParticipant({
+                courseStudent: {
+                    connect: {
+                        id: args.courseStudentId,
+                    },
+                },
+                courseInstance: {
+                    connect: {
+                        id: args.courseInstanceId,
+                    },
+                },
+                status: args.status,
+            });
+        },
     },
 
     Studio: {
@@ -326,6 +404,15 @@ const resolvers = {
                     id: root.id,
                 })
                 .courseStudents();
+        },
+        instances(root, args, context) {
+            return context.prisma
+                .course({
+                    id: root.id,
+                })
+                .instances({
+                    orderBy: 'date_DESC',
+                });
         },
     },
     Student: {
@@ -390,6 +477,38 @@ const resolvers = {
                     id: root.id,
                 })
                 .payment();
+        },
+    },
+    CourseInstance: {
+        course(root, args, context) {
+            return context.prisma
+                .courseInstance({
+                    id: root.id,
+                })
+                .course();
+        },
+        participants(root, args, context) {
+            return context.prisma
+                .courseInstance({
+                    id: root.id,
+                })
+                .participants();
+        },
+    },
+    Participant: {
+        courseStudent(root, args, context) {
+            return context.prisma
+                .participant({
+                    id: root.id,
+                })
+                .courseStudent();
+        },
+        courseInstance(root, args, context) {
+            return context.prisma
+                .participant({
+                    id: root.id,
+                })
+                .courseInstance();
         },
     },
 };

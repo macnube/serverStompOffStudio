@@ -17,11 +17,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Attendee",
+    name: "ParticipantStatus",
     embedded: false
   },
   {
-    name: "Absentee",
+    name: "Participant",
     embedded: false
   },
   {

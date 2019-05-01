@@ -26,23 +26,21 @@ type Course {
     duration: Int
     teachers: [Teacher!]
     courseStudents: [CourseStudent!] @relation(name: "CourseInstanceByClass" onDelete: CASCADE)
-    courseHistory: [CourseInstance!]
+    instances: [CourseInstance!] @relation(name: "InstanceByCourse" onDelete: CASCADE)
     studentLimit: Int
     room: Room
 }
 
-type Attendee {
-    id: ID! @unique
-    student: Student!
-    courseInstance: CourseInstance!
+enum ParticipantStatus {
+    PRESENT, ABSENT
 }
 
-type Absentee {
+type Participant {
     id: ID! @unique
-    student: Student!
-    courseInstance: CourseInstance!
+    courseStudent: CourseStudent!
+    courseInstance: CourseInstance! @relation(name: "ParticipantByInstance")
+    status: ParticipantStatus!
 }
-
 
 enum DanceRole {
     LEADER, FOLLOWER, SOLO
@@ -65,13 +63,12 @@ type Teacher {
 
 type CourseInstance {
     id: ID! @unique
-    parent: Course
+    course: Course @relation(name: "InstanceByCourse")
     date: DateTime
     topic: String
     notes: String
-    attendees: [Attendee!]
-    absentees: [Absentee!]
-    youTubeUrl: String
+    participants: [Participant!] @relation(name: "ParticipantByInstance" onDelete: CASCADE)
+    recapUrl: String
 }
 
 type Card {
