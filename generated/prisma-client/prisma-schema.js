@@ -57,6 +57,7 @@ type Card {
   payment: Payment
   expirationDate: DateTime
   active: Boolean!
+  paid: Boolean!
   validCount: Int!
   useHistory(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
 }
@@ -72,6 +73,7 @@ input CardCreateInput {
   payment: PaymentCreateOneWithoutCardInput
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int!
   useHistory: CourseInstanceCreateManyInput
 }
@@ -90,6 +92,7 @@ input CardCreateWithoutPaymentInput {
   student: StudentCreateOneWithoutCardsInput!
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int!
   useHistory: CourseInstanceCreateManyInput
 }
@@ -98,6 +101,7 @@ input CardCreateWithoutStudentInput {
   payment: PaymentCreateOneWithoutCardInput
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int!
   useHistory: CourseInstanceCreateManyInput
 }
@@ -114,6 +118,8 @@ enum CardOrderByInput {
   expirationDate_DESC
   active_ASC
   active_DESC
+  paid_ASC
+  paid_DESC
   validCount_ASC
   validCount_DESC
   createdAt_ASC
@@ -126,6 +132,7 @@ type CardPreviousValues {
   id: ID!
   expirationDate: DateTime
   active: Boolean!
+  paid: Boolean!
   validCount: Int!
 }
 
@@ -154,6 +161,8 @@ input CardScalarWhereInput {
   expirationDate_gte: DateTime
   active: Boolean
   active_not: Boolean
+  paid: Boolean
+  paid_not: Boolean
   validCount: Int
   validCount_not: Int
   validCount_in: [Int!]
@@ -190,6 +199,7 @@ input CardUpdateInput {
   payment: PaymentUpdateOneWithoutCardInput
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int
   useHistory: CourseInstanceUpdateManyInput
 }
@@ -197,12 +207,14 @@ input CardUpdateInput {
 input CardUpdateManyDataInput {
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int
 }
 
 input CardUpdateManyMutationInput {
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int
 }
 
@@ -236,6 +248,7 @@ input CardUpdateWithoutPaymentDataInput {
   student: StudentUpdateOneRequiredWithoutCardsInput
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int
   useHistory: CourseInstanceUpdateManyInput
 }
@@ -244,6 +257,7 @@ input CardUpdateWithoutStudentDataInput {
   payment: PaymentUpdateOneWithoutCardInput
   expirationDate: DateTime
   active: Boolean
+  paid: Boolean
   validCount: Int
   useHistory: CourseInstanceUpdateManyInput
 }
@@ -291,6 +305,8 @@ input CardWhereInput {
   expirationDate_gte: DateTime
   active: Boolean
   active_not: Boolean
+  paid: Boolean
+  paid_not: Boolean
   validCount: Int
   validCount_not: Int
   validCount_in: [Int!]

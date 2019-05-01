@@ -80,6 +80,7 @@ type Mutation {
         expirationDate: DateTime!
     ): Card
     deleteCard(id: ID!): Card
+    payCard(id: ID!): Card
     createPayment(
         type: PaymentType!
         studentId: ID!

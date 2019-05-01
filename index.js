@@ -272,6 +272,16 @@ const resolvers = {
                 id: args.id,
             });
         },
+        payCard(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    paid: true,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
         createPayment(root, args, context) {
             return context.prisma.createPayment({
                 student: {

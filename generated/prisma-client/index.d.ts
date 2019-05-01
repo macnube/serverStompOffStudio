@@ -717,6 +717,8 @@ export type CardOrderByInput =
   | "expirationDate_DESC"
   | "active_ASC"
   | "active_DESC"
+  | "paid_ASC"
+  | "paid_DESC"
   | "validCount_ASC"
   | "validCount_DESC"
   | "createdAt_ASC"
@@ -974,6 +976,7 @@ export interface CardCreateWithoutPaymentInput {
   student: StudentCreateOneWithoutCardsInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
@@ -994,6 +997,7 @@ export interface CardUpdateInput {
   payment?: PaymentUpdateOneWithoutCardInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
@@ -1100,6 +1104,8 @@ export interface CardWhereInput {
   expirationDate_gte?: DateTimeInput;
   active?: Boolean;
   active_not?: Boolean;
+  paid?: Boolean;
+  paid_not?: Boolean;
   validCount?: Int;
   validCount_not?: Int;
   validCount_in?: Int[] | Int;
@@ -1576,6 +1582,7 @@ export interface CardUpdateWithoutStudentDataInput {
   payment?: PaymentUpdateOneWithoutCardInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
@@ -2433,6 +2440,8 @@ export interface CardScalarWhereInput {
   expirationDate_gte?: DateTimeInput;
   active?: Boolean;
   active_not?: Boolean;
+  paid?: Boolean;
+  paid_not?: Boolean;
   validCount?: Int;
   validCount_not?: Int;
   validCount_in?: Int[] | Int;
@@ -2463,6 +2472,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface CardUpdateManyDataInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount?: Int;
 }
 
@@ -2497,6 +2507,7 @@ export interface CardCreateInput {
   payment?: PaymentCreateOneWithoutCardInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
@@ -2542,6 +2553,7 @@ export interface CardUpdateWithoutPaymentDataInput {
   student?: StudentUpdateOneRequiredWithoutCardsInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
@@ -2814,6 +2826,7 @@ export interface StudentCreateWithoutPaymentsInput {
 export interface CardUpdateManyMutationInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount?: Int;
 }
 
@@ -3091,6 +3104,7 @@ export interface CardCreateWithoutStudentInput {
   payment?: PaymentCreateOneWithoutCardInput;
   expirationDate?: DateTimeInput;
   active?: Boolean;
+  paid?: Boolean;
   validCount: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
@@ -3368,6 +3382,7 @@ export interface Card {
   id: ID_Output;
   expirationDate?: DateTimeOutput;
   active: Boolean;
+  paid: Boolean;
   validCount: Int;
 }
 
@@ -3377,6 +3392,7 @@ export interface CardPromise extends Promise<Card>, Fragmentable {
   payment: <T = PaymentPromise>() => T;
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
+  paid: () => Promise<Boolean>;
   validCount: () => Promise<Int>;
   useHistory: <T = FragmentableArray<CourseInstance>>(
     args?: {
@@ -3399,6 +3415,7 @@ export interface CardSubscription
   payment: <T = PaymentSubscription>() => T;
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
+  paid: () => Promise<AsyncIterator<Boolean>>;
   validCount: () => Promise<AsyncIterator<Int>>;
   useHistory: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
     args?: {
@@ -3485,6 +3502,7 @@ export interface CardPreviousValues {
   id: ID_Output;
   expirationDate?: DateTimeOutput;
   active: Boolean;
+  paid: Boolean;
   validCount: Int;
 }
 
@@ -3494,6 +3512,7 @@ export interface CardPreviousValuesPromise
   id: () => Promise<ID_Output>;
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
+  paid: () => Promise<Boolean>;
   validCount: () => Promise<Int>;
 }
 
@@ -3503,6 +3522,7 @@ export interface CardPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
+  paid: () => Promise<AsyncIterator<Boolean>>;
   validCount: () => Promise<AsyncIterator<Int>>;
 }
 
