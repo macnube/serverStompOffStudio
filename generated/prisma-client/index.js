@@ -13,6 +13,10 @@ var models = [
     embedded: false
   },
   {
+    name: "CourseDay",
+    embedded: false
+  },
+  {
     name: "Course",
     embedded: false
   },

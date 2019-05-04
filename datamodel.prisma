@@ -17,12 +17,17 @@ type Student {
     payments: [Payment!]
 }
 
+enum CourseDay {
+    MON, TUE, WED, THU, FRI, SAT, SUN
+}
+
 type Course {
     id: ID! @unique
     name: String!
     description: String
     startDate: DateTime
     startTime: String
+    day: CourseDay
     duration: Int
     teachers: [Teacher!]
     courseStudents: [CourseStudent!] @relation(name: "CourseInstanceByClass" onDelete: CASCADE)
@@ -32,14 +37,14 @@ type Course {
 }
 
 enum ParticipantStatus {
-    PRESENT, ABSENT
+    PRESENT, ABSENT, NOT_LOGGED
 }
 
 type Participant {
     id: ID! @unique
     courseStudent: CourseStudent!
     courseInstance: CourseInstance! @relation(name: "ParticipantByInstance")
-    status: ParticipantStatus!
+    status: ParticipantStatus @default(value: "NOT_LOGGED")
 }
 
 enum DanceRole {
@@ -78,7 +83,7 @@ type Card {
     expirationDate: DateTime
     active: Boolean! @default(value: "true")
     paid: Boolean! @default(value: "false")
-    validCount: Int!
+    value: Int!
     useHistory: [CourseInstance]
 }
 

@@ -58,7 +58,7 @@ type Card {
   expirationDate: DateTime
   active: Boolean!
   paid: Boolean!
-  validCount: Int!
+  value: Int!
   useHistory(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
 }
 
@@ -74,7 +74,7 @@ input CardCreateInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int!
+  value: Int!
   useHistory: CourseInstanceCreateManyInput
 }
 
@@ -93,7 +93,7 @@ input CardCreateWithoutPaymentInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int!
+  value: Int!
   useHistory: CourseInstanceCreateManyInput
 }
 
@@ -102,7 +102,7 @@ input CardCreateWithoutStudentInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int!
+  value: Int!
   useHistory: CourseInstanceCreateManyInput
 }
 
@@ -120,8 +120,8 @@ enum CardOrderByInput {
   active_DESC
   paid_ASC
   paid_DESC
-  validCount_ASC
-  validCount_DESC
+  value_ASC
+  value_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -133,7 +133,7 @@ type CardPreviousValues {
   expirationDate: DateTime
   active: Boolean!
   paid: Boolean!
-  validCount: Int!
+  value: Int!
 }
 
 input CardScalarWhereInput {
@@ -163,14 +163,14 @@ input CardScalarWhereInput {
   active_not: Boolean
   paid: Boolean
   paid_not: Boolean
-  validCount: Int
-  validCount_not: Int
-  validCount_in: [Int!]
-  validCount_not_in: [Int!]
-  validCount_lt: Int
-  validCount_lte: Int
-  validCount_gt: Int
-  validCount_gte: Int
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
   AND: [CardScalarWhereInput!]
   OR: [CardScalarWhereInput!]
   NOT: [CardScalarWhereInput!]
@@ -200,7 +200,7 @@ input CardUpdateInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int
+  value: Int
   useHistory: CourseInstanceUpdateManyInput
 }
 
@@ -208,14 +208,14 @@ input CardUpdateManyDataInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int
+  value: Int
 }
 
 input CardUpdateManyMutationInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int
+  value: Int
 }
 
 input CardUpdateManyWithoutStudentInput {
@@ -249,7 +249,7 @@ input CardUpdateWithoutPaymentDataInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int
+  value: Int
   useHistory: CourseInstanceUpdateManyInput
 }
 
@@ -258,7 +258,7 @@ input CardUpdateWithoutStudentDataInput {
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
-  validCount: Int
+  value: Int
   useHistory: CourseInstanceUpdateManyInput
 }
 
@@ -307,14 +307,14 @@ input CardWhereInput {
   active_not: Boolean
   paid: Boolean
   paid_not: Boolean
-  validCount: Int
-  validCount_not: Int
-  validCount_in: [Int!]
-  validCount_not_in: [Int!]
-  validCount_lt: Int
-  validCount_lte: Int
-  validCount_gt: Int
-  validCount_gte: Int
+  value: Int
+  value_not: Int
+  value_in: [Int!]
+  value_not_in: [Int!]
+  value_lt: Int
+  value_lte: Int
+  value_gt: Int
+  value_gte: Int
   useHistory_every: CourseInstanceWhereInput
   useHistory_some: CourseInstanceWhereInput
   useHistory_none: CourseInstanceWhereInput
@@ -333,6 +333,7 @@ type Course {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers(where: TeacherWhereInput, orderBy: TeacherOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Teacher!]
   courseStudents(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent!]
@@ -352,6 +353,7 @@ input CourseCreateInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherCreateManyWithoutCoursesInput
   courseStudents: CourseStudentCreateManyWithoutCourseInput
@@ -380,6 +382,7 @@ input CourseCreateWithoutCourseStudentsInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherCreateManyWithoutCoursesInput
   instances: CourseInstanceCreateManyWithoutCourseInput
@@ -392,6 +395,7 @@ input CourseCreateWithoutInstancesInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherCreateManyWithoutCoursesInput
   courseStudents: CourseStudentCreateManyWithoutCourseInput
@@ -404,11 +408,22 @@ input CourseCreateWithoutTeachersInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   courseStudents: CourseStudentCreateManyWithoutCourseInput
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
+}
+
+enum CourseDay {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
 }
 
 type CourseEdge {
@@ -790,6 +805,8 @@ enum CourseOrderByInput {
   startDate_DESC
   startTime_ASC
   startTime_DESC
+  day_ASC
+  day_DESC
   duration_ASC
   duration_DESC
   studentLimit_ASC
@@ -806,6 +823,7 @@ type CoursePreviousValues {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   studentLimit: Int
 }
@@ -875,6 +893,10 @@ input CourseScalarWhereInput {
   startTime_not_starts_with: String
   startTime_ends_with: String
   startTime_not_ends_with: String
+  day: CourseDay
+  day_not: CourseDay
+  day_in: [CourseDay!]
+  day_not_in: [CourseDay!]
   duration: Int
   duration_not: Int
   duration_in: [Int!]
@@ -1149,6 +1171,7 @@ input CourseUpdateInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherUpdateManyWithoutCoursesInput
   courseStudents: CourseStudentUpdateManyWithoutCourseInput
@@ -1162,6 +1185,7 @@ input CourseUpdateManyDataInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   studentLimit: Int
 }
@@ -1171,6 +1195,7 @@ input CourseUpdateManyMutationInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   studentLimit: Int
 }
@@ -1213,6 +1238,7 @@ input CourseUpdateWithoutCourseStudentsDataInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherUpdateManyWithoutCoursesInput
   instances: CourseInstanceUpdateManyWithoutCourseInput
@@ -1225,6 +1251,7 @@ input CourseUpdateWithoutInstancesDataInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   teachers: TeacherUpdateManyWithoutCoursesInput
   courseStudents: CourseStudentUpdateManyWithoutCourseInput
@@ -1237,6 +1264,7 @@ input CourseUpdateWithoutTeachersDataInput {
   description: String
   startDate: DateTime
   startTime: String
+  day: CourseDay
   duration: Int
   courseStudents: CourseStudentUpdateManyWithoutCourseInput
   instances: CourseInstanceUpdateManyWithoutCourseInput
@@ -1330,6 +1358,10 @@ input CourseWhereInput {
   startTime_not_starts_with: String
   startTime_ends_with: String
   startTime_not_ends_with: String
+  day: CourseDay
+  day_not: CourseDay
+  day_in: [CourseDay!]
+  day_not_in: [CourseDay!]
   duration: Int
   duration_not: Int
   duration_in: [Int!]
@@ -1465,7 +1497,7 @@ type Participant {
   id: ID!
   courseStudent: CourseStudent!
   courseInstance: CourseInstance!
-  status: ParticipantStatus!
+  status: ParticipantStatus
 }
 
 type ParticipantConnection {
@@ -1477,7 +1509,7 @@ type ParticipantConnection {
 input ParticipantCreateInput {
   courseStudent: CourseStudentCreateOneInput!
   courseInstance: CourseInstanceCreateOneWithoutParticipantsInput!
-  status: ParticipantStatus!
+  status: ParticipantStatus
 }
 
 input ParticipantCreateManyWithoutCourseInstanceInput {
@@ -1487,7 +1519,7 @@ input ParticipantCreateManyWithoutCourseInstanceInput {
 
 input ParticipantCreateWithoutCourseInstanceInput {
   courseStudent: CourseStudentCreateOneInput!
-  status: ParticipantStatus!
+  status: ParticipantStatus
 }
 
 type ParticipantEdge {
@@ -1508,7 +1540,7 @@ enum ParticipantOrderByInput {
 
 type ParticipantPreviousValues {
   id: ID!
-  status: ParticipantStatus!
+  status: ParticipantStatus
 }
 
 input ParticipantScalarWhereInput {
@@ -1538,6 +1570,7 @@ input ParticipantScalarWhereInput {
 enum ParticipantStatus {
   PRESENT
   ABSENT
+  NOT_LOGGED
 }
 
 type ParticipantSubscriptionPayload {

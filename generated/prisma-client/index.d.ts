@@ -564,7 +564,7 @@ export interface ClientConstructor<T> {
 
 export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
 
-export type ParticipantStatus = "PRESENT" | "ABSENT";
+export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED";
 
 export type ParticipantOrderByInput =
   | "id_ASC"
@@ -624,7 +624,47 @@ export type StudentOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type CourseOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "startTime_ASC"
+  | "startTime_DESC"
+  | "day_ASC"
+  | "day_DESC"
+  | "duration_ASC"
+  | "duration_DESC"
+  | "studentLimit_ASC"
+  | "studentLimit_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type CardOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "expirationDate_ASC"
+  | "expirationDate_DESC"
+  | "active_ASC"
+  | "active_DESC"
+  | "paid_ASC"
+  | "paid_DESC"
+  | "value_ASC"
+  | "value_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
+
+export type CourseDay = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
 export type CourseStudentOrderByInput =
   | "id_ASC"
@@ -650,21 +690,13 @@ export type TeacherOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type CourseOrderByInput =
+export type RoomOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "startDate_ASC"
-  | "startDate_DESC"
-  | "startTime_ASC"
-  | "startTime_DESC"
-  | "duration_ASC"
-  | "duration_DESC"
-  | "studentLimit_ASC"
-  | "studentLimit_DESC"
+  | "capacity_ASC"
+  | "capacity_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -698,38 +730,11 @@ export type StudioOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type RoomOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "capacity_ASC"
-  | "capacity_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type CardOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "expirationDate_ASC"
-  | "expirationDate_DESC"
-  | "active_ASC"
-  | "active_DESC"
-  | "paid_ASC"
-  | "paid_DESC"
-  | "validCount_ASC"
-  | "validCount_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export interface CourseStudentUpdateDataInput {
-  student?: StudentUpdateOneRequiredWithoutCoursesInput;
-  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
-  role?: DanceRole;
+export interface CourseStudentUpdateOneRequiredInput {
+  create?: CourseStudentCreateInput;
+  update?: CourseStudentUpdateDataInput;
+  upsert?: CourseStudentUpsertNestedInput;
+  connect?: CourseStudentWhereUniqueInput;
 }
 
 export type CardWhereUniqueInput = AtLeastOne<{
@@ -918,6 +923,10 @@ export interface CourseWhereInput {
   startTime_not_starts_with?: String;
   startTime_ends_with?: String;
   startTime_not_ends_with?: String;
+  day?: CourseDay;
+  day_not?: CourseDay;
+  day_in?: CourseDay[] | CourseDay;
+  day_not_in?: CourseDay[] | CourseDay;
   duration?: Int;
   duration_not?: Int;
   duration_in?: Int[] | Int;
@@ -977,7 +986,7 @@ export interface CardCreateWithoutPaymentInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount: Int;
+  value: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
 
@@ -998,7 +1007,7 @@ export interface CardUpdateInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount?: Int;
+  value?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
 
@@ -1106,14 +1115,14 @@ export interface CardWhereInput {
   active_not?: Boolean;
   paid?: Boolean;
   paid_not?: Boolean;
-  validCount?: Int;
-  validCount_not?: Int;
-  validCount_in?: Int[] | Int;
-  validCount_not_in?: Int[] | Int;
-  validCount_lt?: Int;
-  validCount_lte?: Int;
-  validCount_gt?: Int;
-  validCount_gte?: Int;
+  value?: Int;
+  value_not?: Int;
+  value_in?: Int[] | Int;
+  value_not_in?: Int[] | Int;
+  value_lt?: Int;
+  value_lte?: Int;
+  value_gt?: Int;
+  value_gte?: Int;
   useHistory_every?: CourseInstanceWhereInput;
   useHistory_some?: CourseInstanceWhereInput;
   useHistory_none?: CourseInstanceWhereInput;
@@ -1179,6 +1188,7 @@ export interface CourseUpdateWithoutCourseStudentsDataInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherUpdateManyWithoutCoursesInput;
   instances?: CourseInstanceUpdateManyWithoutCourseInput;
@@ -1218,6 +1228,7 @@ export interface CourseUpdateManyDataInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   studentLimit?: Int;
 }
@@ -1255,6 +1266,7 @@ export interface CourseUpdateWithoutTeachersDataInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
   instances?: CourseInstanceUpdateManyWithoutCourseInput;
@@ -1490,11 +1502,8 @@ export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
   data: RoomUpdateWithoutStudioDataInput;
 }
 
-export interface CourseStudentUpdateOneRequiredInput {
-  create?: CourseStudentCreateInput;
-  update?: CourseStudentUpdateDataInput;
-  upsert?: CourseStudentUpsertNestedInput;
-  connect?: CourseStudentWhereUniqueInput;
+export interface ParticipantUpdateManyMutationInput {
+  status?: ParticipantStatus;
 }
 
 export type StudioWhereUniqueInput = AtLeastOne<{
@@ -1502,8 +1511,10 @@ export type StudioWhereUniqueInput = AtLeastOne<{
   name?: String;
 }>;
 
-export interface ParticipantUpdateManyMutationInput {
-  status?: ParticipantStatus;
+export interface CourseStudentUpdateDataInput {
+  student?: StudentUpdateOneRequiredWithoutCoursesInput;
+  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
+  role?: DanceRole;
 }
 
 export interface RoomCreateWithoutStudioInput {
@@ -1583,7 +1594,7 @@ export interface CardUpdateWithoutStudentDataInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount?: Int;
+  value?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
 
@@ -1890,6 +1901,7 @@ export interface CourseUpdateWithoutInstancesDataInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherUpdateManyWithoutCoursesInput;
   courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
@@ -2220,6 +2232,10 @@ export interface CourseScalarWhereInput {
   startTime_not_starts_with?: String;
   startTime_ends_with?: String;
   startTime_not_ends_with?: String;
+  day?: CourseDay;
+  day_not?: CourseDay;
+  day_in?: CourseDay[] | CourseDay;
+  day_not_in?: CourseDay[] | CourseDay;
   duration?: Int;
   duration_not?: Int;
   duration_in?: Int[] | Int;
@@ -2262,6 +2278,7 @@ export interface CourseCreateWithoutTeachersInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   courseStudents?: CourseStudentCreateManyWithoutCourseInput;
   instances?: CourseInstanceCreateManyWithoutCourseInput;
@@ -2442,14 +2459,14 @@ export interface CardScalarWhereInput {
   active_not?: Boolean;
   paid?: Boolean;
   paid_not?: Boolean;
-  validCount?: Int;
-  validCount_not?: Int;
-  validCount_in?: Int[] | Int;
-  validCount_not_in?: Int[] | Int;
-  validCount_lt?: Int;
-  validCount_lte?: Int;
-  validCount_gt?: Int;
-  validCount_gte?: Int;
+  value?: Int;
+  value_not?: Int;
+  value_in?: Int[] | Int;
+  value_not_in?: Int[] | Int;
+  value_lt?: Int;
+  value_lte?: Int;
+  value_gt?: Int;
+  value_gte?: Int;
   AND?: CardScalarWhereInput[] | CardScalarWhereInput;
   OR?: CardScalarWhereInput[] | CardScalarWhereInput;
   NOT?: CardScalarWhereInput[] | CardScalarWhereInput;
@@ -2473,7 +2490,7 @@ export interface CardUpdateManyDataInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount?: Int;
+  value?: Int;
 }
 
 export interface PaymentUpdateManyMutationInput {
@@ -2508,7 +2525,7 @@ export interface CardCreateInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount: Int;
+  value: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
 
@@ -2546,7 +2563,7 @@ export interface CardUpdateOneWithoutPaymentInput {
 
 export interface ParticipantCreateWithoutCourseInstanceInput {
   courseStudent: CourseStudentCreateOneInput;
-  status: ParticipantStatus;
+  status?: ParticipantStatus;
 }
 
 export interface CardUpdateWithoutPaymentDataInput {
@@ -2554,7 +2571,7 @@ export interface CardUpdateWithoutPaymentDataInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount?: Int;
+  value?: Int;
   useHistory?: CourseInstanceUpdateManyInput;
 }
 
@@ -2790,6 +2807,7 @@ export interface CourseCreateWithoutCourseStudentsInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherCreateManyWithoutCoursesInput;
   instances?: CourseInstanceCreateManyWithoutCourseInput;
@@ -2827,7 +2845,7 @@ export interface CardUpdateManyMutationInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount?: Int;
+  value?: Int;
 }
 
 export interface RoomCreateInput {
@@ -2902,6 +2920,7 @@ export interface CourseCreateInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherCreateManyWithoutCoursesInput;
   courseStudents?: CourseStudentCreateManyWithoutCourseInput;
@@ -2921,6 +2940,7 @@ export interface CourseUpdateInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherUpdateManyWithoutCoursesInput;
   courseStudents?: CourseStudentUpdateManyWithoutCourseInput;
@@ -2998,6 +3018,7 @@ export interface CourseUpdateManyMutationInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   studentLimit?: Int;
 }
@@ -3024,6 +3045,7 @@ export interface CourseCreateWithoutInstancesInput {
   description?: String;
   startDate?: DateTimeInput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   teachers?: TeacherCreateManyWithoutCoursesInput;
   courseStudents?: CourseStudentCreateManyWithoutCourseInput;
@@ -3069,7 +3091,7 @@ export interface CourseInstanceCreateOneWithoutParticipantsInput {
 export interface ParticipantCreateInput {
   courseStudent: CourseStudentCreateOneInput;
   courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
-  status: ParticipantStatus;
+  status?: ParticipantStatus;
 }
 
 export interface CourseStudentUpdateManyMutationInput {
@@ -3105,7 +3127,7 @@ export interface CardCreateWithoutStudentInput {
   expirationDate?: DateTimeInput;
   active?: Boolean;
   paid?: Boolean;
-  validCount: Int;
+  value: Int;
   useHistory?: CourseInstanceCreateManyInput;
 }
 
@@ -3168,6 +3190,7 @@ export interface Course {
   description?: String;
   startDate?: DateTimeOutput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   studentLimit?: Int;
 }
@@ -3178,6 +3201,7 @@ export interface CoursePromise extends Promise<Course>, Fragmentable {
   description: () => Promise<String>;
   startDate: () => Promise<DateTimeOutput>;
   startTime: () => Promise<String>;
+  day: () => Promise<CourseDay>;
   duration: () => Promise<Int>;
   teachers: <T = FragmentableArray<Teacher>>(
     args?: {
@@ -3224,6 +3248,7 @@ export interface CourseSubscription
   description: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   startTime: () => Promise<AsyncIterator<String>>;
+  day: () => Promise<AsyncIterator<CourseDay>>;
   duration: () => Promise<AsyncIterator<Int>>;
   teachers: <T = Promise<AsyncIterator<TeacherSubscription>>>(
     args?: {
@@ -3383,7 +3408,7 @@ export interface Card {
   expirationDate?: DateTimeOutput;
   active: Boolean;
   paid: Boolean;
-  validCount: Int;
+  value: Int;
 }
 
 export interface CardPromise extends Promise<Card>, Fragmentable {
@@ -3393,7 +3418,7 @@ export interface CardPromise extends Promise<Card>, Fragmentable {
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
   paid: () => Promise<Boolean>;
-  validCount: () => Promise<Int>;
+  value: () => Promise<Int>;
   useHistory: <T = FragmentableArray<CourseInstance>>(
     args?: {
       where?: CourseInstanceWhereInput;
@@ -3416,7 +3441,7 @@ export interface CardSubscription
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
   paid: () => Promise<AsyncIterator<Boolean>>;
-  validCount: () => Promise<AsyncIterator<Int>>;
+  value: () => Promise<AsyncIterator<Int>>;
   useHistory: <T = Promise<AsyncIterator<CourseInstanceSubscription>>>(
     args?: {
       where?: CourseInstanceWhereInput;
@@ -3503,7 +3528,7 @@ export interface CardPreviousValues {
   expirationDate?: DateTimeOutput;
   active: Boolean;
   paid: Boolean;
-  validCount: Int;
+  value: Int;
 }
 
 export interface CardPreviousValuesPromise
@@ -3513,7 +3538,7 @@ export interface CardPreviousValuesPromise
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
   paid: () => Promise<Boolean>;
-  validCount: () => Promise<Int>;
+  value: () => Promise<Int>;
 }
 
 export interface CardPreviousValuesSubscription
@@ -3523,7 +3548,7 @@ export interface CardPreviousValuesSubscription
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
   paid: () => Promise<AsyncIterator<Boolean>>;
-  validCount: () => Promise<AsyncIterator<Int>>;
+  value: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateStudio {
@@ -3631,6 +3656,7 @@ export interface CoursePreviousValues {
   description?: String;
   startDate?: DateTimeOutput;
   startTime?: String;
+  day?: CourseDay;
   duration?: Int;
   studentLimit?: Int;
 }
@@ -3643,6 +3669,7 @@ export interface CoursePreviousValuesPromise
   description: () => Promise<String>;
   startDate: () => Promise<DateTimeOutput>;
   startTime: () => Promise<String>;
+  day: () => Promise<CourseDay>;
   duration: () => Promise<Int>;
   studentLimit: () => Promise<Int>;
 }
@@ -3655,6 +3682,7 @@ export interface CoursePreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   startTime: () => Promise<AsyncIterator<String>>;
+  day: () => Promise<AsyncIterator<CourseDay>>;
   duration: () => Promise<AsyncIterator<Int>>;
   studentLimit: () => Promise<AsyncIterator<Int>>;
 }
@@ -4040,7 +4068,7 @@ export interface AggregateCourseSubscription
 
 export interface ParticipantPreviousValues {
   id: ID_Output;
-  status: ParticipantStatus;
+  status?: ParticipantStatus;
 }
 
 export interface ParticipantPreviousValuesPromise
@@ -4075,7 +4103,7 @@ export interface BatchPayloadSubscription
 
 export interface Participant {
   id: ID_Output;
-  status: ParticipantStatus;
+  status?: ParticipantStatus;
 }
 
 export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
@@ -4851,6 +4879,10 @@ export const models: Model[] = [
   },
   {
     name: "Student",
+    embedded: false
+  },
+  {
+    name: "CourseDay",
     embedded: false
   },
   {

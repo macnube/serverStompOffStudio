@@ -1,4 +1,4 @@
-# import User, Payment, PaymentType, Course, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, CourseStudent, Card from "./generated/prisma.graphql"
+# import User, Payment, PaymentType, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, CourseStudent, Card from "./generated/prisma.graphql"
 
 type Query {
     teachers: [Teacher!]!
@@ -15,7 +15,8 @@ type Query {
     courseInstance(id: ID!): CourseInstance
     courseStudentsByCourseInstance(courseInstanceId: ID!): [CourseStudent!]!
     overviewInstances: [CourseInstance!]!
-    activeCards: [Card!]!
+    unpaidCards: [Card!]!
+    card(id: ID!): Card!
 }
 
 type Mutation {
@@ -41,6 +42,7 @@ type Mutation {
         duration: Int
         studentLimit: Int
         roomId: ID!
+        day: CourseDay
     ): Course
     updateCourse(
         id: ID!
@@ -50,6 +52,7 @@ type Mutation {
         startTime: String
         duration: Int
         studentLimit: Int
+        day: CourseDay
     ): Course
     addTeacherToCourse(id: ID!, teacherId: ID!): Course
     removeTeacherFromCourse(id: ID!, teacherId: ID!): Course
@@ -68,19 +71,11 @@ type Mutation {
         role: DanceRole!
     ): CourseStudent
     deleteCourseStudent(id: ID!): CourseStudent
-    createCard(
-        studentId: ID!
-        validCount: Int!
-        expirationDate: DateTime!
-    ): Card
-    updateCard(
-        id: ID!
-        studentId: ID!
-        validCount: Int!
-        expirationDate: DateTime!
-    ): Card
+    createCard(studentId: ID!, value: Int!, expirationDate: DateTime!): Card
+    updateCard(id: ID!, value: Int!, expirationDate: DateTime!): Card
     deleteCard(id: ID!): Card
     payCard(id: ID!): Card
+    unpayCard(id: ID!): Card
     createPayment(
         type: PaymentType!
         studentId: ID!
@@ -103,6 +98,7 @@ type Mutation {
         date: DateTime!
         recapUrl: String
         courseId: ID!
+        courseStudentIds: [ID!]!
     ): CourseInstance
     deleteCourseInstance(id: ID!): CourseInstance
     updateCourseInstance(

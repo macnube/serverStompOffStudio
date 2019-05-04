@@ -81,11 +81,16 @@ const resolvers = {
                 orderBy: 'date_DESC',
             });
         },
-        activeCards(root, args, context) {
+        unpaidCards(root, args, context) {
             return context.prisma.cards({
                 where: {
-                    active: true,
+                    paid: false,
                 },
+            });
+        },
+        card(root, args, context) {
+            return context.prisma.card({
+                id: args.id,
             });
         },
     },
@@ -161,6 +166,7 @@ const resolvers = {
                 room: {
                     connect: { id: args.roomId },
                 },
+                day: args.day,
             });
         },
         updateCourse(root, args, context) {
@@ -172,6 +178,7 @@ const resolvers = {
                     startTime: args.startTime,
                     duration: args.duration,
                     studentLimit: args.studentLimit,
+                    day: args.day,
                 },
                 where: { id: args.id },
             });
@@ -253,14 +260,14 @@ const resolvers = {
                     },
                 },
                 expirationDate: args.expirationDate,
-                validCount: args.validCount,
+                value: args.value,
             });
         },
         updateCard(root, args, context) {
             return context.prisma.updateCard({
                 data: {
                     expirationDate: args.expirationDate,
-                    validCount: args.validCount,
+                    value: args.value,
                 },
                 where: {
                     id: args.id,
@@ -276,6 +283,16 @@ const resolvers = {
             return context.prisma.updateCard({
                 data: {
                     paid: true,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        unpayCard(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    paid: false,
                 },
                 where: {
                     id: args.id,
@@ -327,9 +344,21 @@ const resolvers = {
             });
         },
         createCourseInstance(root, args, context) {
+            const participantsCreate = args.courseStudentIds.map(id => {
+                return {
+                    courseStudent: {
+                        connect: {
+                            id,
+                        },
+                    },
+                };
+            });
             return context.prisma.createCourseInstance({
                 course: {
                     connect: { id: args.courseId },
+                },
+                participants: {
+                    create: participantsCreate,
                 },
                 topic: args.topic,
                 notes: args.notes,
@@ -487,6 +516,13 @@ const resolvers = {
                     id: root.id,
                 })
                 .payment();
+        },
+        student(root, args, context) {
+            return context.prisma
+                .card({
+                    id: root.id,
+                })
+                .student();
         },
     },
     CourseInstance: {
