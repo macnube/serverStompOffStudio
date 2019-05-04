@@ -274,6 +274,20 @@ const resolvers = {
                 },
             });
         },
+        logCardUsage(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    useHistory: {
+                        connect: { id: args.courseInstanceId },
+                    },
+                    value: args.value,
+                    active: args.value === 0 ? false : true,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
         deleteCard(root, args, context) {
             return context.prisma.deleteCard({
                 id: args.id,
@@ -382,24 +396,10 @@ const resolvers = {
                 where: { id: args.id },
             });
         },
-        deleteParticipant(root, args, context) {
-            return context.prisma.deleteParticipant({
-                id: args.id,
-            });
-        },
-        createParticipant(root, args, context) {
-            return context.prisma.createParticipant({
-                courseStudent: {
-                    connect: {
-                        id: args.courseStudentId,
-                    },
-                },
-                courseInstance: {
-                    connect: {
-                        id: args.courseInstanceId,
-                    },
-                },
-                status: args.status,
+        logParticipantStatus(root, args, context) {
+            return context.prisma.updateParticipant({
+                where: { id: args.id },
+                data: { status: args.status },
             });
         },
     },

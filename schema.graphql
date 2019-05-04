@@ -76,6 +76,7 @@ type Mutation {
     deleteCard(id: ID!): Card
     payCard(id: ID!): Card
     unpayCard(id: ID!): Card
+    logCardUsage(id: ID!, courseInstanceId: ID!, value: Int!): Card
     createPayment(
         type: PaymentType!
         studentId: ID!
@@ -108,10 +109,5 @@ type Mutation {
         date: DateTime!
         recapUrl: String
     ): CourseInstance
-    deleteParticipant(id: ID!): Participant
-    createParticipant(
-        courseInstanceId: ID!
-        courseStudentId: ID!
-        status: ParticipantStatus!
-    ): Participant
+    logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant
 }
