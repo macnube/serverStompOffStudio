@@ -93,6 +93,19 @@ const resolvers = {
                 id: args.id,
             });
         },
+        getParticipantByStudent(root, args, context) {
+            return context.prisma.participant({
+                where: {
+                    courseStudent: {
+                        where: {
+                            student: {
+                                id: args.id,
+                            },
+                        },
+                    },
+                },
+            });
+        },
     },
     Mutation: {
         createTeacher(root, args, context) {
@@ -261,6 +274,7 @@ const resolvers = {
                 },
                 expirationDate: args.expirationDate,
                 value: args.value,
+                originalValue: args.value,
             });
         },
         updateCard(root, args, context) {
@@ -274,14 +288,38 @@ const resolvers = {
                 },
             });
         },
-        logCardUsage(root, args, context) {
+        logCardParticipation(root, args, context) {
             return context.prisma.updateCard({
                 data: {
-                    useHistory: {
-                        connect: { id: args.courseInstanceId },
+                    participationHistory: {
+                        connect: { id: args.participantId },
                     },
                     value: args.value,
                     active: args.value === 0 ? false : true,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        removeCardParticipation(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    participationHistory: {
+                        disconnect: { id: args.participantId },
+                    },
+                    value: args.value,
+                    active: true,
+                },
+                where: {
+                    id: args.id,
+                },
+            });
+        },
+        deactivateCard(root, args, context) {
+            return context.prisma.updateCard({
+                data: {
+                    active: false,
                 },
                 where: {
                     id: args.id,
@@ -523,6 +561,9 @@ const resolvers = {
                     id: root.id,
                 })
                 .student();
+        },
+        participationHistory(root, args, context) {
+            return context.prisma.card({ id: root.id }).participationHistory();
         },
     },
     CourseInstance: {

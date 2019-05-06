@@ -17,6 +17,7 @@ type Query {
     overviewInstances: [CourseInstance!]!
     unpaidCards: [Card!]!
     card(id: ID!): Card!
+    getParticipantByStudent(id: ID!): Participant
 }
 
 type Mutation {
@@ -76,7 +77,9 @@ type Mutation {
     deleteCard(id: ID!): Card
     payCard(id: ID!): Card
     unpayCard(id: ID!): Card
-    logCardUsage(id: ID!, courseInstanceId: ID!, value: Int!): Card
+    logCardParticipation(id: ID!, participantId: ID!, value: Int!): Card
+    removeCardParticipation(id: ID!, participantId: ID!, value: Int!): Card
+    deactivateCard(id: ID!): Card
     createPayment(
         type: PaymentType!
         studentId: ID!

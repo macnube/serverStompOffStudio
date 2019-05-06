@@ -84,7 +84,8 @@ type Card {
     active: Boolean! @default(value: "true")
     paid: Boolean! @default(value: "false")
     value: Int!
-    useHistory: [CourseInstance]
+    originalValue: Int!
+    participationHistory: [Participant]
 }
 
 enum PaymentType {

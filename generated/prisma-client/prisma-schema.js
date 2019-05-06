@@ -59,7 +59,8 @@ type Card {
   active: Boolean!
   paid: Boolean!
   value: Int!
-  useHistory(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
+  originalValue: Int!
+  participationHistory(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
 }
 
 type CardConnection {
@@ -75,7 +76,8 @@ input CardCreateInput {
   active: Boolean
   paid: Boolean
   value: Int!
-  useHistory: CourseInstanceCreateManyInput
+  originalValue: Int!
+  participationHistory: ParticipantCreateManyInput
 }
 
 input CardCreateManyWithoutStudentInput {
@@ -94,7 +96,8 @@ input CardCreateWithoutPaymentInput {
   active: Boolean
   paid: Boolean
   value: Int!
-  useHistory: CourseInstanceCreateManyInput
+  originalValue: Int!
+  participationHistory: ParticipantCreateManyInput
 }
 
 input CardCreateWithoutStudentInput {
@@ -103,7 +106,8 @@ input CardCreateWithoutStudentInput {
   active: Boolean
   paid: Boolean
   value: Int!
-  useHistory: CourseInstanceCreateManyInput
+  originalValue: Int!
+  participationHistory: ParticipantCreateManyInput
 }
 
 type CardEdge {
@@ -122,6 +126,8 @@ enum CardOrderByInput {
   paid_DESC
   value_ASC
   value_DESC
+  originalValue_ASC
+  originalValue_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -134,6 +140,7 @@ type CardPreviousValues {
   active: Boolean!
   paid: Boolean!
   value: Int!
+  originalValue: Int!
 }
 
 input CardScalarWhereInput {
@@ -171,6 +178,14 @@ input CardScalarWhereInput {
   value_lte: Int
   value_gt: Int
   value_gte: Int
+  originalValue: Int
+  originalValue_not: Int
+  originalValue_in: [Int!]
+  originalValue_not_in: [Int!]
+  originalValue_lt: Int
+  originalValue_lte: Int
+  originalValue_gt: Int
+  originalValue_gte: Int
   AND: [CardScalarWhereInput!]
   OR: [CardScalarWhereInput!]
   NOT: [CardScalarWhereInput!]
@@ -201,7 +216,8 @@ input CardUpdateInput {
   active: Boolean
   paid: Boolean
   value: Int
-  useHistory: CourseInstanceUpdateManyInput
+  originalValue: Int
+  participationHistory: ParticipantUpdateManyInput
 }
 
 input CardUpdateManyDataInput {
@@ -209,6 +225,7 @@ input CardUpdateManyDataInput {
   active: Boolean
   paid: Boolean
   value: Int
+  originalValue: Int
 }
 
 input CardUpdateManyMutationInput {
@@ -216,6 +233,7 @@ input CardUpdateManyMutationInput {
   active: Boolean
   paid: Boolean
   value: Int
+  originalValue: Int
 }
 
 input CardUpdateManyWithoutStudentInput {
@@ -250,7 +268,8 @@ input CardUpdateWithoutPaymentDataInput {
   active: Boolean
   paid: Boolean
   value: Int
-  useHistory: CourseInstanceUpdateManyInput
+  originalValue: Int
+  participationHistory: ParticipantUpdateManyInput
 }
 
 input CardUpdateWithoutStudentDataInput {
@@ -259,7 +278,8 @@ input CardUpdateWithoutStudentDataInput {
   active: Boolean
   paid: Boolean
   value: Int
-  useHistory: CourseInstanceUpdateManyInput
+  originalValue: Int
+  participationHistory: ParticipantUpdateManyInput
 }
 
 input CardUpdateWithWhereUniqueWithoutStudentInput {
@@ -315,9 +335,17 @@ input CardWhereInput {
   value_lte: Int
   value_gt: Int
   value_gte: Int
-  useHistory_every: CourseInstanceWhereInput
-  useHistory_some: CourseInstanceWhereInput
-  useHistory_none: CourseInstanceWhereInput
+  originalValue: Int
+  originalValue_not: Int
+  originalValue_in: [Int!]
+  originalValue_not_in: [Int!]
+  originalValue_lt: Int
+  originalValue_lte: Int
+  originalValue_gt: Int
+  originalValue_gte: Int
+  participationHistory_every: ParticipantWhereInput
+  participationHistory_some: ParticipantWhereInput
+  participationHistory_none: ParticipantWhereInput
   AND: [CardWhereInput!]
   OR: [CardWhereInput!]
   NOT: [CardWhereInput!]
@@ -454,11 +482,6 @@ input CourseInstanceCreateInput {
   notes: String
   participants: ParticipantCreateManyWithoutCourseInstanceInput
   recapUrl: String
-}
-
-input CourseInstanceCreateManyInput {
-  create: [CourseInstanceCreateInput!]
-  connect: [CourseInstanceWhereUniqueInput!]
 }
 
 input CourseInstanceCreateManyWithoutCourseInput {
@@ -605,15 +628,6 @@ input CourseInstanceSubscriptionWhereInput {
   NOT: [CourseInstanceSubscriptionWhereInput!]
 }
 
-input CourseInstanceUpdateDataInput {
-  course: CourseUpdateOneWithoutInstancesInput
-  date: DateTime
-  topic: String
-  notes: String
-  participants: ParticipantUpdateManyWithoutCourseInstanceInput
-  recapUrl: String
-}
-
 input CourseInstanceUpdateInput {
   course: CourseUpdateOneWithoutInstancesInput
   date: DateTime
@@ -628,18 +642,6 @@ input CourseInstanceUpdateManyDataInput {
   topic: String
   notes: String
   recapUrl: String
-}
-
-input CourseInstanceUpdateManyInput {
-  create: [CourseInstanceCreateInput!]
-  update: [CourseInstanceUpdateWithWhereUniqueNestedInput!]
-  upsert: [CourseInstanceUpsertWithWhereUniqueNestedInput!]
-  delete: [CourseInstanceWhereUniqueInput!]
-  connect: [CourseInstanceWhereUniqueInput!]
-  set: [CourseInstanceWhereUniqueInput!]
-  disconnect: [CourseInstanceWhereUniqueInput!]
-  deleteMany: [CourseInstanceScalarWhereInput!]
-  updateMany: [CourseInstanceUpdateManyWithWhereNestedInput!]
 }
 
 input CourseInstanceUpdateManyMutationInput {
@@ -689,11 +691,6 @@ input CourseInstanceUpdateWithoutParticipantsDataInput {
   recapUrl: String
 }
 
-input CourseInstanceUpdateWithWhereUniqueNestedInput {
-  where: CourseInstanceWhereUniqueInput!
-  data: CourseInstanceUpdateDataInput!
-}
-
 input CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
   where: CourseInstanceWhereUniqueInput!
   data: CourseInstanceUpdateWithoutCourseDataInput!
@@ -702,12 +699,6 @@ input CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
 input CourseInstanceUpsertWithoutParticipantsInput {
   update: CourseInstanceUpdateWithoutParticipantsDataInput!
   create: CourseInstanceCreateWithoutParticipantsInput!
-}
-
-input CourseInstanceUpsertWithWhereUniqueNestedInput {
-  where: CourseInstanceWhereUniqueInput!
-  update: CourseInstanceUpdateDataInput!
-  create: CourseInstanceCreateInput!
 }
 
 input CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
@@ -1512,6 +1503,11 @@ input ParticipantCreateInput {
   status: ParticipantStatus
 }
 
+input ParticipantCreateManyInput {
+  create: [ParticipantCreateInput!]
+  connect: [ParticipantWhereUniqueInput!]
+}
+
 input ParticipantCreateManyWithoutCourseInstanceInput {
   create: [ParticipantCreateWithoutCourseInstanceInput!]
   connect: [ParticipantWhereUniqueInput!]
@@ -1591,6 +1587,12 @@ input ParticipantSubscriptionWhereInput {
   NOT: [ParticipantSubscriptionWhereInput!]
 }
 
+input ParticipantUpdateDataInput {
+  courseStudent: CourseStudentUpdateOneRequiredInput
+  courseInstance: CourseInstanceUpdateOneRequiredWithoutParticipantsInput
+  status: ParticipantStatus
+}
+
 input ParticipantUpdateInput {
   courseStudent: CourseStudentUpdateOneRequiredInput
   courseInstance: CourseInstanceUpdateOneRequiredWithoutParticipantsInput
@@ -1599,6 +1601,18 @@ input ParticipantUpdateInput {
 
 input ParticipantUpdateManyDataInput {
   status: ParticipantStatus
+}
+
+input ParticipantUpdateManyInput {
+  create: [ParticipantCreateInput!]
+  update: [ParticipantUpdateWithWhereUniqueNestedInput!]
+  upsert: [ParticipantUpsertWithWhereUniqueNestedInput!]
+  delete: [ParticipantWhereUniqueInput!]
+  connect: [ParticipantWhereUniqueInput!]
+  set: [ParticipantWhereUniqueInput!]
+  disconnect: [ParticipantWhereUniqueInput!]
+  deleteMany: [ParticipantScalarWhereInput!]
+  updateMany: [ParticipantUpdateManyWithWhereNestedInput!]
 }
 
 input ParticipantUpdateManyMutationInput {
@@ -1627,9 +1641,20 @@ input ParticipantUpdateWithoutCourseInstanceDataInput {
   status: ParticipantStatus
 }
 
+input ParticipantUpdateWithWhereUniqueNestedInput {
+  where: ParticipantWhereUniqueInput!
+  data: ParticipantUpdateDataInput!
+}
+
 input ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput {
   where: ParticipantWhereUniqueInput!
   data: ParticipantUpdateWithoutCourseInstanceDataInput!
+}
+
+input ParticipantUpsertWithWhereUniqueNestedInput {
+  where: ParticipantWhereUniqueInput!
+  update: ParticipantUpdateDataInput!
+  create: ParticipantCreateInput!
 }
 
 input ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput {
