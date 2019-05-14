@@ -258,11 +258,22 @@ const resolvers = {
                     },
                 },
                 role: args.role,
+                status: args.status,
             });
         },
         deleteCourseStudent(root, args, context) {
             return context.prisma.deleteCourseStudent({
                 id: args.id,
+            });
+        },
+        updateCourseStudentStatus(root, args, context) {
+            return context.prisma.updateCourseStudent({
+                data: {
+                    status: args.status,
+                },
+                where: {
+                    id: args.id,
+                },
             });
         },
         createCard(root, args, context) {

@@ -51,11 +51,16 @@ enum DanceRole {
     LEADER, FOLLOWER, SOLO
 }
 
+enum CourseStudentStatus {
+    ACTIVE, INACTIVE, WAITLIST
+}
+
 type CourseStudent {
     id: ID! @unique
     student: Student! @relation(name: "CourseInstanceByStudent")
     course: Course! @relation(name: "CourseInstanceByClass")
     role: DanceRole!
+    status: CourseStudentStatus @default(value: "ACTIVE")
 }
 
 type Teacher {

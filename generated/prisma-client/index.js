@@ -33,6 +33,10 @@ var models = [
     embedded: false
   },
   {
+    name: "CourseStudentStatus",
+    embedded: false
+  },
+  {
     name: "CourseStudent",
     embedded: false
   },

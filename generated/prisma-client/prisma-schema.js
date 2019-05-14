@@ -914,6 +914,7 @@ type CourseStudent {
   student: Student!
   course: Course!
   role: DanceRole!
+  status: CourseStudentStatus
 }
 
 type CourseStudentConnection {
@@ -926,6 +927,7 @@ input CourseStudentCreateInput {
   student: StudentCreateOneWithoutCoursesInput!
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
+  status: CourseStudentStatus
 }
 
 input CourseStudentCreateManyWithoutCourseInput {
@@ -946,11 +948,13 @@ input CourseStudentCreateOneInput {
 input CourseStudentCreateWithoutCourseInput {
   student: StudentCreateOneWithoutCoursesInput!
   role: DanceRole!
+  status: CourseStudentStatus
 }
 
 input CourseStudentCreateWithoutStudentInput {
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
+  status: CourseStudentStatus
 }
 
 type CourseStudentEdge {
@@ -963,6 +967,8 @@ enum CourseStudentOrderByInput {
   id_DESC
   role_ASC
   role_DESC
+  status_ASC
+  status_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -972,6 +978,7 @@ enum CourseStudentOrderByInput {
 type CourseStudentPreviousValues {
   id: ID!
   role: DanceRole!
+  status: CourseStudentStatus
 }
 
 input CourseStudentScalarWhereInput {
@@ -993,9 +1000,19 @@ input CourseStudentScalarWhereInput {
   role_not: DanceRole
   role_in: [DanceRole!]
   role_not_in: [DanceRole!]
+  status: CourseStudentStatus
+  status_not: CourseStudentStatus
+  status_in: [CourseStudentStatus!]
+  status_not_in: [CourseStudentStatus!]
   AND: [CourseStudentScalarWhereInput!]
   OR: [CourseStudentScalarWhereInput!]
   NOT: [CourseStudentScalarWhereInput!]
+}
+
+enum CourseStudentStatus {
+  ACTIVE
+  INACTIVE
+  WAITLIST
 }
 
 type CourseStudentSubscriptionPayload {
@@ -1020,20 +1037,24 @@ input CourseStudentUpdateDataInput {
   student: StudentUpdateOneRequiredWithoutCoursesInput
   course: CourseUpdateOneRequiredWithoutCourseStudentsInput
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateInput {
   student: StudentUpdateOneRequiredWithoutCoursesInput
   course: CourseUpdateOneRequiredWithoutCourseStudentsInput
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateManyDataInput {
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateManyMutationInput {
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateManyWithoutCourseInput {
@@ -1075,11 +1096,13 @@ input CourseStudentUpdateOneRequiredInput {
 input CourseStudentUpdateWithoutCourseDataInput {
   student: StudentUpdateOneRequiredWithoutCoursesInput
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateWithoutStudentDataInput {
   course: CourseUpdateOneRequiredWithoutCourseStudentsInput
   role: DanceRole
+  status: CourseStudentStatus
 }
 
 input CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
@@ -1130,6 +1153,10 @@ input CourseStudentWhereInput {
   role_not: DanceRole
   role_in: [DanceRole!]
   role_not_in: [DanceRole!]
+  status: CourseStudentStatus
+  status_not: CourseStudentStatus
+  status_in: [CourseStudentStatus!]
+  status_not_in: [CourseStudentStatus!]
   AND: [CourseStudentWhereInput!]
   OR: [CourseStudentWhereInput!]
   NOT: [CourseStudentWhereInput!]

@@ -562,10 +562,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
-
-export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED";
-
 export type ParticipantOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -576,21 +572,7 @@ export type ParticipantOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "password_ASC"
-  | "password_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "admin_ASC"
-  | "admin_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
+export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED";
 
 export type CourseInstanceOrderByInput =
   | "id_ASC"
@@ -608,17 +590,17 @@ export type CourseInstanceOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type StudentOrderByInput =
+export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
   | "email_ASC"
   | "email_DESC"
-  | "mobile_ASC"
-  | "mobile_DESC"
-  | "hasReferralBonus_ASC"
-  | "hasReferralBonus_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "admin_ASC"
+  | "admin_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -646,6 +628,36 @@ export type CourseOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type StudentOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "mobile_ASC"
+  | "mobile_DESC"
+  | "hasReferralBonus_ASC"
+  | "hasReferralBonus_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type TeacherOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "mobile_ASC"
+  | "mobile_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type CardOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -664,29 +676,19 @@ export type CardOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
+
 export type CourseDay = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
-export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
+export type CourseStudentStatus = "ACTIVE" | "INACTIVE" | "WAITLIST";
 
 export type CourseStudentOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "role_ASC"
   | "role_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type TeacherOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "mobile_ASC"
-  | "mobile_DESC"
+  | "status_ASC"
+  | "status_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -732,6 +734,8 @@ export type StudioOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
+export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
+
 export interface ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput {
   where: ParticipantWhereUniqueInput;
   data: ParticipantUpdateWithoutCourseInstanceDataInput;
@@ -750,7 +754,7 @@ export interface PaymentUpdateOneWithoutCardInput {
   connect?: PaymentWhereUniqueInput;
 }
 
-export interface RoomWhereInput {
+export interface StudioWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -779,18 +783,26 @@ export interface RoomWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  capacity?: Int;
-  capacity_not?: Int;
-  capacity_in?: Int[] | Int;
-  capacity_not_in?: Int[] | Int;
-  capacity_lt?: Int;
-  capacity_lte?: Int;
-  capacity_gt?: Int;
-  capacity_gte?: Int;
-  studio?: StudioWhereInput;
-  AND?: RoomWhereInput[] | RoomWhereInput;
-  OR?: RoomWhereInput[] | RoomWhereInput;
-  NOT?: RoomWhereInput[] | RoomWhereInput;
+  rooms_every?: RoomWhereInput;
+  rooms_some?: RoomWhereInput;
+  rooms_none?: RoomWhereInput;
+  address?: String;
+  address_not?: String;
+  address_in?: String[] | String;
+  address_not_in?: String[] | String;
+  address_lt?: String;
+  address_lte?: String;
+  address_gt?: String;
+  address_gte?: String;
+  address_contains?: String;
+  address_not_contains?: String;
+  address_starts_with?: String;
+  address_not_starts_with?: String;
+  address_ends_with?: String;
+  address_not_ends_with?: String;
+  AND?: StudioWhereInput[] | StudioWhereInput;
+  OR?: StudioWhereInput[] | StudioWhereInput;
+  NOT?: StudioWhereInput[] | StudioWhereInput;
 }
 
 export interface PaymentUpdateWithoutCardDataInput {
@@ -1191,6 +1203,7 @@ export interface UserUpdateInput {
 export interface CourseStudentUpdateWithoutStudentDataInput {
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface UserCreateInput {
@@ -1479,6 +1492,10 @@ export interface CourseStudentWhereInput {
   role_not?: DanceRole;
   role_in?: DanceRole[] | DanceRole;
   role_not_in?: DanceRole[] | DanceRole;
+  status?: CourseStudentStatus;
+  status_not?: CourseStudentStatus;
+  status_in?: CourseStudentStatus[] | CourseStudentStatus;
+  status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
   AND?: CourseStudentWhereInput[] | CourseStudentWhereInput;
   OR?: CourseStudentWhereInput[] | CourseStudentWhereInput;
   NOT?: CourseStudentWhereInput[] | CourseStudentWhereInput;
@@ -1545,6 +1562,7 @@ export interface CourseStudentUpdateDataInput {
   student?: StudentUpdateOneRequiredWithoutCoursesInput;
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface StudentUpdateManyMutationInput {
@@ -1637,7 +1655,7 @@ export interface StudentCreateOneWithoutCardsInput {
   connect?: StudentWhereUniqueInput;
 }
 
-export interface StudioWhereInput {
+export interface RoomWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -1666,26 +1684,18 @@ export interface StudioWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  rooms_every?: RoomWhereInput;
-  rooms_some?: RoomWhereInput;
-  rooms_none?: RoomWhereInput;
-  address?: String;
-  address_not?: String;
-  address_in?: String[] | String;
-  address_not_in?: String[] | String;
-  address_lt?: String;
-  address_lte?: String;
-  address_gt?: String;
-  address_gte?: String;
-  address_contains?: String;
-  address_not_contains?: String;
-  address_starts_with?: String;
-  address_not_starts_with?: String;
-  address_ends_with?: String;
-  address_not_ends_with?: String;
-  AND?: StudioWhereInput[] | StudioWhereInput;
-  OR?: StudioWhereInput[] | StudioWhereInput;
-  NOT?: StudioWhereInput[] | StudioWhereInput;
+  capacity?: Int;
+  capacity_not?: Int;
+  capacity_in?: Int[] | Int;
+  capacity_not_in?: Int[] | Int;
+  capacity_lt?: Int;
+  capacity_lte?: Int;
+  capacity_gt?: Int;
+  capacity_gte?: Int;
+  studio?: StudioWhereInput;
+  AND?: RoomWhereInput[] | RoomWhereInput;
+  OR?: RoomWhereInput[] | RoomWhereInput;
+  NOT?: RoomWhereInput[] | RoomWhereInput;
 }
 
 export interface CourseStudentCreateManyWithoutStudentInput {
@@ -2009,6 +2019,7 @@ export interface RoomCreateOneInput {
 export interface CourseStudentUpdateWithoutCourseDataInput {
   student?: StudentUpdateOneRequiredWithoutCoursesInput;
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface StudioCreateOneWithoutRoomsInput {
@@ -2052,6 +2063,10 @@ export interface CourseStudentScalarWhereInput {
   role_not?: DanceRole;
   role_in?: DanceRole[] | DanceRole;
   role_not_in?: DanceRole[] | DanceRole;
+  status?: CourseStudentStatus;
+  status_not?: CourseStudentStatus;
+  status_in?: CourseStudentStatus[] | CourseStudentStatus;
+  status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
   AND?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
   OR?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
   NOT?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
@@ -2148,6 +2163,7 @@ export interface StudentWhereInput {
 
 export interface CourseStudentUpdateManyDataInput {
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2450,6 +2466,7 @@ export interface CardUpsertWithWhereUniqueWithoutStudentInput {
 export interface CourseStudentCreateWithoutStudentInput {
   course: CourseCreateOneWithoutCourseStudentsInput;
   role: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CardScalarWhereInput {
@@ -2787,6 +2804,7 @@ export interface CourseStudentCreateInput {
   student: StudentCreateOneWithoutCoursesInput;
   course: CourseCreateOneWithoutCourseStudentsInput;
   role: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CourseInstanceScalarWhereInput {
@@ -2876,6 +2894,7 @@ export interface CourseInstanceUpdateManyWithWhereNestedInput {
 export interface CourseStudentCreateWithoutCourseInput {
   student: StudentCreateOneWithoutCoursesInput;
   role: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CourseInstanceUpdateManyDataInput {
@@ -3035,6 +3054,7 @@ export interface CourseInstanceCreateWithoutCourseInput {
 
 export interface CourseStudentUpdateManyMutationInput {
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CourseInstanceCreateWithoutParticipantsInput {
@@ -3049,6 +3069,7 @@ export interface CourseStudentUpdateInput {
   student?: StudentUpdateOneRequiredWithoutCoursesInput;
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export type CourseWhereUniqueInput = AtLeastOne<{
@@ -3325,6 +3346,7 @@ export interface AggregateCardSubscription
 export interface CourseStudent {
   id: ID_Output;
   role: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CourseStudentPromise
@@ -3334,6 +3356,7 @@ export interface CourseStudentPromise
   student: <T = StudentPromise>() => T;
   course: <T = CoursePromise>() => T;
   role: () => Promise<DanceRole>;
+  status: () => Promise<CourseStudentStatus>;
 }
 
 export interface CourseStudentSubscription
@@ -3343,6 +3366,7 @@ export interface CourseStudentSubscription
   student: <T = StudentSubscription>() => T;
   course: <T = CourseSubscription>() => T;
   role: () => Promise<AsyncIterator<DanceRole>>;
+  status: () => Promise<AsyncIterator<CourseStudentStatus>>;
 }
 
 export interface CardEdge {
@@ -3972,6 +3996,7 @@ export interface AggregateCourseStudentSubscription
 export interface CourseStudentPreviousValues {
   id: ID_Output;
   role: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface CourseStudentPreviousValuesPromise
@@ -3979,6 +4004,7 @@ export interface CourseStudentPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   role: () => Promise<DanceRole>;
+  status: () => Promise<CourseStudentStatus>;
 }
 
 export interface CourseStudentPreviousValuesSubscription
@@ -3986,6 +4012,7 @@ export interface CourseStudentPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   role: () => Promise<AsyncIterator<DanceRole>>;
+  status: () => Promise<AsyncIterator<CourseStudentStatus>>;
 }
 
 export interface CourseStudentConnection {
@@ -4924,6 +4951,10 @@ export const models: Model[] = [
   },
   {
     name: "DanceRole",
+    embedded: false
+  },
+  {
+    name: "CourseStudentStatus",
     embedded: false
   },
   {
