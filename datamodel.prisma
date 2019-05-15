@@ -42,7 +42,7 @@ enum ParticipantStatus {
 
 type Participant {
     id: ID! @unique
-    courseStudent: CourseStudent!
+    student: Student!
     courseInstance: CourseInstance! @relation(name: "ParticipantByInstance")
     status: ParticipantStatus @default(value: "NOT_LOGGED")
 }

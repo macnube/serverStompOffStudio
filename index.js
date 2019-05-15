@@ -96,11 +96,9 @@ const resolvers = {
         getParticipantByStudent(root, args, context) {
             return context.prisma.participant({
                 where: {
-                    courseStudent: {
+                    student: {
                         where: {
-                            student: {
-                                id: args.id,
-                            },
+                            id: args.id,
                         },
                     },
                 },
@@ -407,9 +405,9 @@ const resolvers = {
             });
         },
         createCourseInstance(root, args, context) {
-            const participantsCreate = args.courseStudentIds.map(id => {
+            const participantsCreate = args.studentIds.map(id => {
                 return {
-                    courseStudent: {
+                    student: {
                         connect: {
                             id,
                         },
@@ -443,6 +441,24 @@ const resolvers = {
                     date: args.date,
                 },
                 where: { id: args.id },
+            });
+        },
+        addParticipantToCourseInstance(root, args, context) {
+            return context.prisma.updateCourseInstance({
+                where: { id: args.id },
+                data: {
+                    participants: {
+                        create: [
+                            {
+                                student: {
+                                    connect: {
+                                        id: args.studentId,
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
             });
         },
         logParticipantStatus(root, args, context) {
@@ -594,12 +610,12 @@ const resolvers = {
         },
     },
     Participant: {
-        courseStudent(root, args, context) {
+        student(root, args, context) {
             return context.prisma
                 .participant({
                     id: root.id,
                 })
-                .courseStudent();
+                .student();
         },
         courseInstance(root, args, context) {
             return context.prisma

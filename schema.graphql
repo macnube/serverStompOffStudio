@@ -107,7 +107,7 @@ type Mutation {
         date: DateTime!
         recapUrl: String
         courseId: ID!
-        courseStudentIds: [ID!]!
+        studentIds: [ID!]!
     ): CourseInstance
     deleteCourseInstance(id: ID!): CourseInstance
     updateCourseInstance(
@@ -117,5 +117,6 @@ type Mutation {
         date: DateTime!
         recapUrl: String
     ): CourseInstance
+    addParticipantToCourseInstance(id: ID!, studentId: ID!): CourseInstance
     logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant
 }

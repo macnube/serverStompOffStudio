@@ -745,13 +745,13 @@ export type CardWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PaymentUpdateOneWithoutCardInput {
-  create?: PaymentCreateWithoutCardInput;
-  update?: PaymentUpdateWithoutCardDataInput;
-  upsert?: PaymentUpsertWithoutCardInput;
+export interface StudentUpdateOneWithoutPaymentsInput {
+  create?: StudentCreateWithoutPaymentsInput;
+  update?: StudentUpdateWithoutPaymentsDataInput;
+  upsert?: StudentUpsertWithoutPaymentsInput;
   delete?: Boolean;
   disconnect?: Boolean;
-  connect?: PaymentWhereUniqueInput;
+  connect?: StudentWhereUniqueInput;
 }
 
 export interface StudioWhereInput {
@@ -805,11 +805,13 @@ export interface StudioWhereInput {
   NOT?: StudioWhereInput[] | StudioWhereInput;
 }
 
-export interface PaymentUpdateWithoutCardDataInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-  student?: StudentUpdateOneWithoutPaymentsInput;
+export interface StudentUpdateWithoutPaymentsDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  courses?: CourseStudentUpdateManyWithoutStudentInput;
+  cards?: CardUpdateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
 }
 
 export interface TeacherWhereInput {
@@ -877,13 +879,9 @@ export interface TeacherWhereInput {
   NOT?: TeacherWhereInput[] | TeacherWhereInput;
 }
 
-export interface StudentUpdateOneWithoutPaymentsInput {
-  create?: StudentCreateWithoutPaymentsInput;
-  update?: StudentUpdateWithoutPaymentsDataInput;
-  upsert?: StudentUpsertWithoutPaymentsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: StudentWhereUniqueInput;
+export interface StudentUpsertWithoutPaymentsInput {
+  update: StudentUpdateWithoutPaymentsDataInput;
+  create: StudentCreateWithoutPaymentsInput;
 }
 
 export interface CourseInstanceWhereInput {
@@ -960,9 +958,14 @@ export interface CourseInstanceWhereInput {
   NOT?: CourseInstanceWhereInput[] | CourseInstanceWhereInput;
 }
 
-export interface StudioCreateWithoutRoomsInput {
-  name?: String;
-  address?: String;
+export interface CardCreateWithoutPaymentInput {
+  student: StudentCreateOneWithoutCardsInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  paid?: Boolean;
+  value: Int;
+  originalValue: Int;
+  participationHistory?: ParticipantCreateManyInput;
 }
 
 export interface CourseInstanceUpdateManyMutationInput {
@@ -972,27 +975,20 @@ export interface CourseInstanceUpdateManyMutationInput {
   recapUrl?: String;
 }
 
-export interface PaymentCreateManyWithoutStudentInput {
-  create?:
-    | PaymentCreateWithoutStudentInput[]
-    | PaymentCreateWithoutStudentInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+export interface RoomCreateOneInput {
+  create?: RoomCreateInput;
+  connect?: RoomWhereUniqueInput;
 }
 
-export interface StudentUpdateWithoutPaymentsDataInput {
+export interface PaymentUpsertWithoutCardInput {
+  update: PaymentUpdateWithoutCardDataInput;
+  create: PaymentCreateWithoutCardInput;
+}
+
+export interface RoomCreateInput {
   name?: String;
-  email?: String;
-  mobile?: String;
-  courses?: CourseStudentUpdateManyWithoutStudentInput;
-  cards?: CardUpdateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-}
-
-export interface PaymentCreateWithoutStudentInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  card?: CardCreateOneWithoutPaymentInput;
+  capacity?: Int;
+  studio: StudioCreateOneWithoutRoomsInput;
 }
 
 export interface TeacherSubscriptionWhereInput {
@@ -1006,9 +1002,9 @@ export interface TeacherSubscriptionWhereInput {
   NOT?: TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput;
 }
 
-export interface CardCreateOneWithoutPaymentInput {
-  create?: CardCreateWithoutPaymentInput;
-  connect?: CardWhereUniqueInput;
+export interface StudioCreateOneWithoutRoomsInput {
+  create?: StudioCreateWithoutRoomsInput;
+  connect?: StudioWhereUniqueInput;
 }
 
 export interface StudentSubscriptionWhereInput {
@@ -1022,14 +1018,9 @@ export interface StudentSubscriptionWhereInput {
   NOT?: StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput;
 }
 
-export interface CardCreateWithoutPaymentInput {
-  student: StudentCreateOneWithoutCardsInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  paid?: Boolean;
-  value: Int;
-  originalValue: Int;
-  participationHistory?: ParticipantCreateManyInput;
+export interface StudioCreateWithoutRoomsInput {
+  name?: String;
+  address?: String;
 }
 
 export interface PaymentSubscriptionWhereInput {
@@ -1526,7 +1517,9 @@ export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
   data: RoomUpdateWithoutStudioDataInput;
 }
 
-export interface ParticipantUpdateManyMutationInput {
+export interface ParticipantUpdateInput {
+  student?: StudentUpdateOneRequiredInput;
+  courseInstance?: CourseInstanceUpdateOneRequiredWithoutParticipantsInput;
   status?: ParticipantStatus;
 }
 
@@ -1536,7 +1529,7 @@ export type StudioWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface ParticipantUpdateWithoutCourseInstanceDataInput {
-  courseStudent?: CourseStudentUpdateOneRequiredInput;
+  student?: StudentUpdateOneRequiredInput;
   status?: ParticipantStatus;
 }
 
@@ -1545,11 +1538,11 @@ export interface RoomCreateWithoutStudioInput {
   capacity?: Int;
 }
 
-export interface CourseStudentUpdateOneRequiredInput {
-  create?: CourseStudentCreateInput;
-  update?: CourseStudentUpdateDataInput;
-  upsert?: CourseStudentUpsertNestedInput;
-  connect?: CourseStudentWhereUniqueInput;
+export interface StudentUpdateOneRequiredInput {
+  create?: StudentCreateInput;
+  update?: StudentUpdateDataInput;
+  upsert?: StudentUpsertNestedInput;
+  connect?: StudentWhereUniqueInput;
 }
 
 export interface StudioCreateInput {
@@ -1558,11 +1551,14 @@ export interface StudioCreateInput {
   address?: String;
 }
 
-export interface CourseStudentUpdateDataInput {
-  student?: StudentUpdateOneRequiredWithoutCoursesInput;
-  course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
-  role?: DanceRole;
-  status?: CourseStudentStatus;
+export interface StudentUpdateDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  courses?: CourseStudentUpdateManyWithoutStudentInput;
+  cards?: CardUpdateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentUpdateManyWithoutStudentInput;
 }
 
 export interface StudentUpdateManyMutationInput {
@@ -1570,37 +1566,6 @@ export interface StudentUpdateManyMutationInput {
   email?: String;
   mobile?: String;
   hasReferralBonus?: Boolean;
-}
-
-export interface StudentUpdateOneRequiredWithoutCoursesInput {
-  create?: StudentCreateWithoutCoursesInput;
-  update?: StudentUpdateWithoutCoursesDataInput;
-  upsert?: StudentUpsertWithoutCoursesInput;
-  connect?: StudentWhereUniqueInput;
-}
-
-export interface StudentCreateInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  courses?: CourseStudentCreateManyWithoutStudentInput;
-  cards?: CardCreateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentCreateManyWithoutStudentInput;
-}
-
-export interface StudentUpdateWithoutCoursesDataInput {
-  name?: String;
-  email?: String;
-  mobile?: String;
-  cards?: CardUpdateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentUpdateManyWithoutStudentInput;
-}
-
-export interface RoomUpdateManyMutationInput {
-  name?: String;
-  capacity?: Int;
 }
 
 export interface CardUpdateManyWithoutStudentInput {
@@ -1621,10 +1586,9 @@ export interface CardUpdateManyWithoutStudentInput {
     | CardUpdateManyWithWhereNestedInput;
 }
 
-export interface RoomUpdateInput {
+export interface RoomUpdateManyMutationInput {
   name?: String;
   capacity?: Int;
-  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
 }
 
 export interface CardUpdateWithWhereUniqueWithoutStudentInput {
@@ -1632,12 +1596,10 @@ export interface CardUpdateWithWhereUniqueWithoutStudentInput {
   data: CardUpdateWithoutStudentDataInput;
 }
 
-export interface PaymentUpdateInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-  student?: StudentUpdateOneWithoutPaymentsInput;
-  card?: CardUpdateOneWithoutPaymentInput;
+export interface RoomUpdateInput {
+  name?: String;
+  capacity?: Int;
+  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
 }
 
 export interface CardUpdateWithoutStudentDataInput {
@@ -1648,6 +1610,36 @@ export interface CardUpdateWithoutStudentDataInput {
   value?: Int;
   originalValue?: Int;
   participationHistory?: ParticipantUpdateManyInput;
+}
+
+export interface PaymentUpdateManyMutationInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+}
+
+export interface PaymentUpdateOneWithoutCardInput {
+  create?: PaymentCreateWithoutCardInput;
+  update?: PaymentUpdateWithoutCardDataInput;
+  upsert?: PaymentUpsertWithoutCardInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: PaymentWhereUniqueInput;
+}
+
+export interface PaymentCreateInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  student?: StudentCreateOneWithoutPaymentsInput;
+  card?: CardCreateOneWithoutPaymentInput;
+}
+
+export interface PaymentUpdateWithoutCardDataInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+  student?: StudentUpdateOneWithoutPaymentsInput;
 }
 
 export interface StudentCreateOneWithoutCardsInput {
@@ -1810,10 +1802,9 @@ export interface CourseCreateOneWithoutCourseStudentsInput {
   connect?: CourseWhereUniqueInput;
 }
 
-export interface ParticipantUpdateInput {
-  courseStudent?: CourseStudentUpdateOneRequiredInput;
-  courseInstance?: CourseInstanceUpdateOneRequiredWithoutParticipantsInput;
-  status?: ParticipantStatus;
+export interface CourseStudentUpdateManyMutationInput {
+  role?: DanceRole;
+  status?: CourseStudentStatus;
 }
 
 export interface TeacherCreateManyWithoutCoursesInput {
@@ -1838,7 +1829,7 @@ export interface ParticipantWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  courseStudent?: CourseStudentWhereInput;
+  student?: StudentWhereInput;
   courseInstance?: CourseInstanceWhereInput;
   status?: ParticipantStatus;
   status_not?: ParticipantStatus;
@@ -1854,28 +1845,6 @@ export interface CourseInstanceCreateManyWithoutCourseInput {
     | CourseInstanceCreateWithoutCourseInput[]
     | CourseInstanceCreateWithoutCourseInput;
   connect?: CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput;
-}
-
-export interface StudentUpsertWithoutPaymentsInput {
-  update: StudentUpdateWithoutPaymentsDataInput;
-  create: StudentCreateWithoutPaymentsInput;
-}
-
-export interface ParticipantCreateManyWithoutCourseInstanceInput {
-  create?:
-    | ParticipantCreateWithoutCourseInstanceInput[]
-    | ParticipantCreateWithoutCourseInstanceInput;
-  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
-}
-
-export interface PaymentUpsertWithoutCardInput {
-  update: PaymentUpdateWithoutCardDataInput;
-  create: PaymentCreateWithoutCardInput;
-}
-
-export interface CourseStudentCreateOneInput {
-  create?: CourseStudentCreateInput;
-  connect?: CourseStudentWhereUniqueInput;
 }
 
 export interface ParticipantUpdateManyInput {
@@ -1896,9 +1865,11 @@ export interface ParticipantUpdateManyInput {
     | ParticipantUpdateManyWithWhereNestedInput;
 }
 
-export interface StudentCreateOneWithoutCoursesInput {
-  create?: StudentCreateWithoutCoursesInput;
-  connect?: StudentWhereUniqueInput;
+export interface ParticipantCreateManyWithoutCourseInstanceInput {
+  create?:
+    | ParticipantCreateWithoutCourseInstanceInput[]
+    | ParticipantCreateWithoutCourseInstanceInput;
+  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
 }
 
 export interface ParticipantUpdateWithWhereUniqueNestedInput {
@@ -1906,20 +1877,20 @@ export interface ParticipantUpdateWithWhereUniqueNestedInput {
   data: ParticipantUpdateDataInput;
 }
 
-export interface CardCreateManyWithoutStudentInput {
-  create?: CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput;
-  connect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
+export interface StudentCreateOneInput {
+  create?: StudentCreateInput;
+  connect?: StudentWhereUniqueInput;
 }
 
 export interface ParticipantUpdateDataInput {
-  courseStudent?: CourseStudentUpdateOneRequiredInput;
+  student?: StudentUpdateOneRequiredInput;
   courseInstance?: CourseInstanceUpdateOneRequiredWithoutParticipantsInput;
   status?: ParticipantStatus;
 }
 
-export interface PaymentCreateOneWithoutCardInput {
-  create?: PaymentCreateWithoutCardInput;
-  connect?: PaymentWhereUniqueInput;
+export interface CardCreateManyWithoutStudentInput {
+  create?: CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput;
+  connect?: CardWhereUniqueInput[] | CardWhereUniqueInput;
 }
 
 export interface CourseInstanceUpdateOneRequiredWithoutParticipantsInput {
@@ -1929,9 +1900,9 @@ export interface CourseInstanceUpdateOneRequiredWithoutParticipantsInput {
   connect?: CourseInstanceWhereUniqueInput;
 }
 
-export interface StudentCreateOneWithoutPaymentsInput {
-  create?: StudentCreateWithoutPaymentsInput;
-  connect?: StudentWhereUniqueInput;
+export interface PaymentCreateOneWithoutCardInput {
+  create?: PaymentCreateWithoutCardInput;
+  connect?: PaymentWhereUniqueInput;
 }
 
 export interface CourseInstanceUpdateWithoutParticipantsDataInput {
@@ -1942,9 +1913,9 @@ export interface CourseInstanceUpdateWithoutParticipantsDataInput {
   recapUrl?: String;
 }
 
-export interface ParticipantCreateManyInput {
-  create?: ParticipantCreateInput[] | ParticipantCreateInput;
-  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+export interface StudentCreateOneWithoutPaymentsInput {
+  create?: StudentCreateWithoutPaymentsInput;
+  connect?: StudentWhereUniqueInput;
 }
 
 export interface CourseUpdateOneWithoutInstancesInput {
@@ -1956,9 +1927,9 @@ export interface CourseUpdateOneWithoutInstancesInput {
   connect?: CourseWhereUniqueInput;
 }
 
-export interface CourseInstanceCreateOneWithoutParticipantsInput {
-  create?: CourseInstanceCreateWithoutParticipantsInput;
-  connect?: CourseInstanceWhereUniqueInput;
+export interface ParticipantCreateManyInput {
+  create?: ParticipantCreateInput[] | ParticipantCreateInput;
+  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
 }
 
 export interface CourseUpdateWithoutInstancesDataInput {
@@ -1974,9 +1945,9 @@ export interface CourseUpdateWithoutInstancesDataInput {
   room?: RoomUpdateOneInput;
 }
 
-export interface CourseCreateOneWithoutInstancesInput {
-  create?: CourseCreateWithoutInstancesInput;
-  connect?: CourseWhereUniqueInput;
+export interface CourseInstanceCreateOneWithoutParticipantsInput {
+  create?: CourseInstanceCreateWithoutParticipantsInput;
+  connect?: CourseInstanceWhereUniqueInput;
 }
 
 export interface CourseStudentUpdateManyWithoutCourseInput {
@@ -1999,11 +1970,9 @@ export interface CourseStudentUpdateManyWithoutCourseInput {
     | CourseStudentUpdateManyWithWhereNestedInput;
 }
 
-export interface CourseStudentCreateManyWithoutCourseInput {
-  create?:
-    | CourseStudentCreateWithoutCourseInput[]
-    | CourseStudentCreateWithoutCourseInput;
-  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
+export interface CourseCreateOneWithoutInstancesInput {
+  create?: CourseCreateWithoutInstancesInput;
+  connect?: CourseWhereUniqueInput;
 }
 
 export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
@@ -2011,9 +1980,11 @@ export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
   data: CourseStudentUpdateWithoutCourseDataInput;
 }
 
-export interface RoomCreateOneInput {
-  create?: RoomCreateInput;
-  connect?: RoomWhereUniqueInput;
+export interface CourseStudentCreateManyWithoutCourseInput {
+  create?:
+    | CourseStudentCreateWithoutCourseInput[]
+    | CourseStudentCreateWithoutCourseInput;
+  connect?: CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput;
 }
 
 export interface CourseStudentUpdateWithoutCourseDataInput {
@@ -2022,15 +1993,57 @@ export interface CourseStudentUpdateWithoutCourseDataInput {
   status?: CourseStudentStatus;
 }
 
-export interface StudioCreateOneWithoutRoomsInput {
-  create?: StudioCreateWithoutRoomsInput;
-  connect?: StudioWhereUniqueInput;
+export interface StudentCreateOneWithoutCoursesInput {
+  create?: StudentCreateWithoutCoursesInput;
+  connect?: StudentWhereUniqueInput;
 }
 
-export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput;
-  update: CourseStudentUpdateWithoutCourseDataInput;
-  create: CourseStudentCreateWithoutCourseInput;
+export interface StudentUpdateOneRequiredWithoutCoursesInput {
+  create?: StudentCreateWithoutCoursesInput;
+  update?: StudentUpdateWithoutCoursesDataInput;
+  upsert?: StudentUpsertWithoutCoursesInput;
+  connect?: StudentWhereUniqueInput;
+}
+
+export interface PaymentCreateManyWithoutStudentInput {
+  create?:
+    | PaymentCreateWithoutStudentInput[]
+    | PaymentCreateWithoutStudentInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+}
+
+export interface StudentUpdateWithoutCoursesDataInput {
+  name?: String;
+  email?: String;
+  mobile?: String;
+  cards?: CardUpdateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentUpdateManyWithoutStudentInput;
+}
+
+export interface CardCreateOneWithoutPaymentInput {
+  create?: CardCreateWithoutPaymentInput;
+  connect?: CardWhereUniqueInput;
+}
+
+export interface PaymentUpdateManyWithoutStudentInput {
+  create?:
+    | PaymentCreateWithoutStudentInput[]
+    | PaymentCreateWithoutStudentInput;
+  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  set?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  update?:
+    | PaymentUpdateWithWhereUniqueWithoutStudentInput[]
+    | PaymentUpdateWithWhereUniqueWithoutStudentInput;
+  upsert?:
+    | PaymentUpsertWithWhereUniqueWithoutStudentInput[]
+    | PaymentUpsertWithWhereUniqueWithoutStudentInput;
+  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  updateMany?:
+    | PaymentUpdateManyWithWhereNestedInput[]
+    | PaymentUpdateManyWithWhereNestedInput;
 }
 
 export interface StudioSubscriptionWhereInput {
@@ -2044,32 +2057,9 @@ export interface StudioSubscriptionWhereInput {
   NOT?: StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput;
 }
 
-export interface CourseStudentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  role?: DanceRole;
-  role_not?: DanceRole;
-  role_in?: DanceRole[] | DanceRole;
-  role_not_in?: DanceRole[] | DanceRole;
-  status?: CourseStudentStatus;
-  status_not?: CourseStudentStatus;
-  status_in?: CourseStudentStatus[] | CourseStudentStatus;
-  status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
-  AND?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
-  OR?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
-  NOT?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput;
+  data: PaymentUpdateWithoutStudentDataInput;
 }
 
 export interface ParticipantSubscriptionWhereInput {
@@ -2083,9 +2073,11 @@ export interface ParticipantSubscriptionWhereInput {
   NOT?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
 }
 
-export interface CourseStudentUpdateManyWithWhereNestedInput {
-  where: CourseStudentScalarWhereInput;
-  data: CourseStudentUpdateManyDataInput;
+export interface PaymentUpdateWithoutStudentDataInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+  card?: CardUpdateOneWithoutPaymentInput;
 }
 
 export interface StudentWhereInput {
@@ -2161,9 +2153,13 @@ export interface StudentWhereInput {
   NOT?: StudentWhereInput[] | StudentWhereInput;
 }
 
-export interface CourseStudentUpdateManyDataInput {
-  role?: DanceRole;
-  status?: CourseStudentStatus;
+export interface CardUpdateOneWithoutPaymentInput {
+  create?: CardCreateWithoutPaymentInput;
+  update?: CardUpdateWithoutPaymentDataInput;
+  upsert?: CardUpsertWithoutPaymentInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: CardWhereUniqueInput;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2173,13 +2169,14 @@ export interface UserUpdateManyMutationInput {
   admin?: Boolean;
 }
 
-export interface RoomUpdateOneInput {
-  create?: RoomCreateInput;
-  update?: RoomUpdateDataInput;
-  upsert?: RoomUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: RoomWhereUniqueInput;
+export interface CardUpdateWithoutPaymentDataInput {
+  student?: StudentUpdateOneRequiredWithoutCardsInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  paid?: Boolean;
+  value?: Int;
+  originalValue?: Int;
+  participationHistory?: ParticipantUpdateManyInput;
 }
 
 export interface TeacherUpdateManyMutationInput {
@@ -2188,10 +2185,9 @@ export interface TeacherUpdateManyMutationInput {
   mobile?: String;
 }
 
-export interface RoomUpdateDataInput {
-  name?: String;
-  capacity?: Int;
-  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
+export interface CardUpsertWithoutPaymentInput {
+  update: CardUpdateWithoutPaymentDataInput;
+  create: CardCreateWithoutPaymentInput;
 }
 
 export interface CourseScalarWhereInput {
@@ -2284,11 +2280,10 @@ export interface CourseScalarWhereInput {
   NOT?: CourseScalarWhereInput[] | CourseScalarWhereInput;
 }
 
-export interface StudioUpdateOneRequiredWithoutRoomsInput {
-  create?: StudioCreateWithoutRoomsInput;
-  update?: StudioUpdateWithoutRoomsDataInput;
-  upsert?: StudioUpsertWithoutRoomsInput;
-  connect?: StudioWhereUniqueInput;
+export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput;
+  update: PaymentUpdateWithoutStudentDataInput;
+  create: PaymentCreateWithoutStudentInput;
 }
 
 export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
@@ -2296,9 +2291,44 @@ export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
   data: CourseUpdateWithoutTeachersDataInput;
 }
 
-export interface StudioUpdateWithoutRoomsDataInput {
-  name?: String;
-  address?: String;
+export interface PaymentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  type?: PaymentType;
+  type_not?: PaymentType;
+  type_in?: PaymentType[] | PaymentType;
+  type_not_in?: PaymentType[] | PaymentType;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  amount?: Int;
+  amount_not?: Int;
+  amount_in?: Int[] | Int;
+  amount_not_in?: Int[] | Int;
+  amount_lt?: Int;
+  amount_lte?: Int;
+  amount_gt?: Int;
+  amount_gte?: Int;
+  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
 }
 
 export interface CourseCreateWithoutTeachersInput {
@@ -2314,9 +2344,9 @@ export interface CourseCreateWithoutTeachersInput {
   room?: RoomCreateOneInput;
 }
 
-export interface StudioUpsertWithoutRoomsInput {
-  update: StudioUpdateWithoutRoomsDataInput;
-  create: StudioCreateWithoutRoomsInput;
+export interface PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput;
+  data: PaymentUpdateManyDataInput;
 }
 
 export interface StudioUpdateManyMutationInput {
@@ -2324,9 +2354,10 @@ export interface StudioUpdateManyMutationInput {
   address?: String;
 }
 
-export interface RoomUpsertNestedInput {
-  update: RoomUpdateDataInput;
-  create: RoomCreateInput;
+export interface PaymentUpdateManyDataInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
 }
 
 export interface RoomScalarWhereInput {
@@ -2371,9 +2402,9 @@ export interface RoomScalarWhereInput {
   NOT?: RoomScalarWhereInput[] | RoomScalarWhereInput;
 }
 
-export interface CourseUpsertWithoutInstancesInput {
-  update: CourseUpdateWithoutInstancesDataInput;
-  create: CourseCreateWithoutInstancesInput;
+export interface StudentUpsertWithoutCoursesInput {
+  update: StudentUpdateWithoutCoursesDataInput;
+  create: StudentCreateWithoutCoursesInput;
 }
 
 export interface RoomUpdateWithoutStudioDataInput {
@@ -2381,9 +2412,10 @@ export interface RoomUpdateWithoutStudioDataInput {
   capacity?: Int;
 }
 
-export interface CourseInstanceUpsertWithoutParticipantsInput {
-  update: CourseInstanceUpdateWithoutParticipantsDataInput;
-  create: CourseInstanceCreateWithoutParticipantsInput;
+export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
+  where: CourseStudentWhereUniqueInput;
+  update: CourseStudentUpdateWithoutCourseDataInput;
+  create: CourseStudentCreateWithoutCourseInput;
 }
 
 export interface StudioUpdateInput {
@@ -2392,15 +2424,181 @@ export interface StudioUpdateInput {
   address?: String;
 }
 
+export interface CourseStudentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  role?: DanceRole;
+  role_not?: DanceRole;
+  role_in?: DanceRole[] | DanceRole;
+  role_not_in?: DanceRole[] | DanceRole;
+  status?: CourseStudentStatus;
+  status_not?: CourseStudentStatus;
+  status_in?: CourseStudentStatus[] | CourseStudentStatus;
+  status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
+  AND?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+  OR?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+  NOT?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
+}
+
+export type TeacherWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface CourseStudentUpdateManyWithWhereNestedInput {
+  where: CourseStudentScalarWhereInput;
+  data: CourseStudentUpdateManyDataInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface CourseStudentUpdateManyDataInput {
+  role?: DanceRole;
+  status?: CourseStudentStatus;
+}
+
+export interface PaymentUpdateInput {
+  type?: PaymentType;
+  date?: DateTimeInput;
+  amount?: Int;
+  student?: StudentUpdateOneWithoutPaymentsInput;
+  card?: CardUpdateOneWithoutPaymentInput;
+}
+
+export interface RoomUpdateOneInput {
+  create?: RoomCreateInput;
+  update?: RoomUpdateDataInput;
+  upsert?: RoomUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: RoomWhereUniqueInput;
+}
+
+export interface CardCreateInput {
+  student: StudentCreateOneWithoutCardsInput;
+  payment?: PaymentCreateOneWithoutCardInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  paid?: Boolean;
+  value: Int;
+  originalValue: Int;
+  participationHistory?: ParticipantCreateManyInput;
+}
+
+export interface RoomUpdateDataInput {
+  name?: String;
+  capacity?: Int;
+  studio?: StudioUpdateOneRequiredWithoutRoomsInput;
+}
+
+export interface CourseStudentCreateWithoutStudentInput {
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
+  status?: CourseStudentStatus;
+}
+
+export interface StudioUpdateOneRequiredWithoutRoomsInput {
+  create?: StudioCreateWithoutRoomsInput;
+  update?: StudioUpdateWithoutRoomsDataInput;
+  upsert?: StudioUpsertWithoutRoomsInput;
+  connect?: StudioWhereUniqueInput;
+}
+
+export interface TeacherCreateWithoutCoursesInput {
+  name: String;
+  email: String;
+  mobile?: String;
+}
+
+export interface StudioUpdateWithoutRoomsDataInput {
+  name?: String;
+  address?: String;
+}
+
+export interface ParticipantCreateWithoutCourseInstanceInput {
+  student: StudentCreateOneInput;
+  status?: ParticipantStatus;
+}
+
+export interface StudioUpsertWithoutRoomsInput {
+  update: StudioUpdateWithoutRoomsDataInput;
+  create: StudioCreateWithoutRoomsInput;
+}
+
+export interface CardCreateWithoutStudentInput {
+  payment?: PaymentCreateOneWithoutCardInput;
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  paid?: Boolean;
+  value: Int;
+  originalValue: Int;
+  participationHistory?: ParticipantCreateManyInput;
+}
+
+export interface RoomUpsertNestedInput {
+  update: RoomUpdateDataInput;
+  create: RoomCreateInput;
+}
+
+export interface StudentCreateWithoutPaymentsInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  courses?: CourseStudentCreateManyWithoutStudentInput;
+  cards?: CardCreateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+}
+
+export interface CourseUpsertWithoutInstancesInput {
+  update: CourseUpdateWithoutInstancesDataInput;
+  create: CourseCreateWithoutInstancesInput;
+}
+
+export interface CourseInstanceCreateWithoutParticipantsInput {
+  course?: CourseCreateOneWithoutInstancesInput;
+  date?: DateTimeInput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
+}
+
+export interface CourseInstanceUpsertWithoutParticipantsInput {
+  update: CourseInstanceUpdateWithoutParticipantsDataInput;
+  create: CourseInstanceCreateWithoutParticipantsInput;
+}
+
+export interface CourseStudentCreateWithoutCourseInput {
+  student: StudentCreateOneWithoutCoursesInput;
+  role: DanceRole;
+  status?: CourseStudentStatus;
+}
+
 export interface ParticipantUpsertWithWhereUniqueNestedInput {
   where: ParticipantWhereUniqueInput;
   update: ParticipantUpdateDataInput;
   create: ParticipantCreateInput;
 }
 
-export type TeacherWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface PaymentCreateWithoutStudentInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  card?: CardCreateOneWithoutPaymentInput;
+}
 
 export interface ParticipantScalarWhereInput {
   id?: ID_Input;
@@ -2426,36 +2624,40 @@ export interface ParticipantScalarWhereInput {
   NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
+export interface RoomSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: RoomWhereInput;
+  AND?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+  OR?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+  NOT?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
+}
 
 export interface ParticipantUpdateManyWithWhereNestedInput {
   where: ParticipantScalarWhereInput;
   data: ParticipantUpdateManyDataInput;
 }
 
-export interface PaymentUpdateManyMutationInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
+export interface CourseSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CourseWhereInput;
+  AND?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
+  OR?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
+  NOT?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
 }
 
 export interface ParticipantUpdateManyDataInput {
   status?: ParticipantStatus;
 }
 
-export interface CardCreateInput {
-  student: StudentCreateOneWithoutCardsInput;
-  payment?: PaymentCreateOneWithoutCardInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  paid?: Boolean;
-  value: Int;
-  originalValue: Int;
-  participationHistory?: ParticipantCreateManyInput;
-}
+export type CourseInstanceWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface CardUpsertWithWhereUniqueWithoutStudentInput {
   where: CardWhereUniqueInput;
@@ -2463,11 +2665,9 @@ export interface CardUpsertWithWhereUniqueWithoutStudentInput {
   create: CardCreateWithoutStudentInput;
 }
 
-export interface CourseStudentCreateWithoutStudentInput {
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
-  status?: CourseStudentStatus;
-}
+export type ParticipantWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface CardScalarWhereInput {
   id?: ID_Input;
@@ -2517,216 +2717,13 @@ export interface CardScalarWhereInput {
   NOT?: CardScalarWhereInput[] | CardScalarWhereInput;
 }
 
-export interface TeacherCreateWithoutCoursesInput {
-  name: String;
-  email: String;
-  mobile?: String;
-}
-
-export interface CardUpdateManyWithWhereNestedInput {
-  where: CardScalarWhereInput;
-  data: CardUpdateManyDataInput;
-}
-
-export interface ParticipantCreateWithoutCourseInstanceInput {
-  courseStudent: CourseStudentCreateOneInput;
-  status?: ParticipantStatus;
-}
-
-export interface CardUpdateManyDataInput {
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  paid?: Boolean;
-  value?: Int;
-  originalValue?: Int;
-}
-
-export interface StudentCreateWithoutCoursesInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  cards?: CardCreateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
-  payments?: PaymentCreateManyWithoutStudentInput;
-}
-
-export interface PaymentUpdateManyWithoutStudentInput {
-  create?:
-    | PaymentCreateWithoutStudentInput[]
-    | PaymentCreateWithoutStudentInput;
-  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  set?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  update?:
-    | PaymentUpdateWithWhereUniqueWithoutStudentInput[]
-    | PaymentUpdateWithWhereUniqueWithoutStudentInput;
-  upsert?:
-    | PaymentUpsertWithWhereUniqueWithoutStudentInput[]
-    | PaymentUpsertWithWhereUniqueWithoutStudentInput;
-  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  updateMany?:
-    | PaymentUpdateManyWithWhereNestedInput[]
-    | PaymentUpdateManyWithWhereNestedInput;
-}
-
-export interface PaymentCreateWithoutCardInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  student?: StudentCreateOneWithoutPaymentsInput;
-}
-
-export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
-  where: PaymentWhereUniqueInput;
-  data: PaymentUpdateWithoutStudentDataInput;
-}
-
-export interface ParticipantCreateInput {
-  courseStudent: CourseStudentCreateOneInput;
-  courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
-  status?: ParticipantStatus;
-}
-
-export interface PaymentUpdateWithoutStudentDataInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
-  card?: CardUpdateOneWithoutPaymentInput;
-}
-
-export interface CourseCreateWithoutInstancesInput {
-  name: String;
-  description?: String;
-  startDate?: DateTimeInput;
-  startTime?: String;
-  day?: CourseDay;
-  duration?: Int;
-  teachers?: TeacherCreateManyWithoutCoursesInput;
-  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
-  studentLimit?: Int;
-  room?: RoomCreateOneInput;
-}
-
-export interface CardUpdateOneWithoutPaymentInput {
-  create?: CardCreateWithoutPaymentInput;
-  update?: CardUpdateWithoutPaymentDataInput;
-  upsert?: CardUpsertWithoutPaymentInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: CardWhereUniqueInput;
-}
-
-export interface RoomCreateInput {
-  name?: String;
-  capacity?: Int;
-  studio: StudioCreateOneWithoutRoomsInput;
-}
-
-export interface CardUpdateWithoutPaymentDataInput {
-  student?: StudentUpdateOneRequiredWithoutCardsInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  paid?: Boolean;
-  value?: Int;
-  originalValue?: Int;
-  participationHistory?: ParticipantUpdateManyInput;
-}
-
-export interface RoomSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: RoomWhereInput;
-  AND?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-  OR?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-  NOT?: RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput;
-}
-
-export interface CardUpsertWithoutPaymentInput {
-  update: CardUpdateWithoutPaymentDataInput;
-  create: CardCreateWithoutPaymentInput;
-}
-
-export interface CourseSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CourseWhereInput;
-  AND?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-  OR?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-  NOT?: CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput;
-}
-
-export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
-  where: PaymentWhereUniqueInput;
-  update: PaymentUpdateWithoutStudentDataInput;
-  create: PaymentCreateWithoutStudentInput;
-}
-
-export type CourseInstanceWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PaymentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  type?: PaymentType;
-  type_not?: PaymentType;
-  type_in?: PaymentType[] | PaymentType;
-  type_not_in?: PaymentType[] | PaymentType;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
-  amount?: Int;
-  amount_not?: Int;
-  amount_in?: Int[] | Int;
-  amount_not_in?: Int[] | Int;
-  amount_lt?: Int;
-  amount_lte?: Int;
-  amount_gt?: Int;
-  amount_gte?: Int;
-  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-}
-
-export type ParticipantWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PaymentUpdateManyWithWhereNestedInput {
-  where: PaymentScalarWhereInput;
-  data: PaymentUpdateManyDataInput;
-}
-
 export type RoomWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PaymentUpdateManyDataInput {
-  type?: PaymentType;
-  date?: DateTimeInput;
-  amount?: Int;
+export interface CardUpdateManyWithWhereNestedInput {
+  where: CardScalarWhereInput;
+  data: CardUpdateManyDataInput;
 }
 
 export interface RoomUpdateManyWithoutStudioInput {
@@ -2747,9 +2744,12 @@ export interface RoomUpdateManyWithoutStudioInput {
     | RoomUpdateManyWithWhereNestedInput;
 }
 
-export interface StudentUpsertWithoutCoursesInput {
-  update: StudentUpdateWithoutCoursesDataInput;
-  create: StudentCreateWithoutCoursesInput;
+export interface CardUpdateManyDataInput {
+  expirationDate?: DateTimeInput;
+  active?: Boolean;
+  paid?: Boolean;
+  value?: Int;
+  originalValue?: Int;
 }
 
 export interface StudentUpdateInput {
@@ -2762,17 +2762,13 @@ export interface StudentUpdateInput {
   payments?: PaymentUpdateManyWithoutStudentInput;
 }
 
-export interface CourseStudentUpsertNestedInput {
-  update: CourseStudentUpdateDataInput;
-  create: CourseStudentCreateInput;
+export interface StudentUpsertNestedInput {
+  update: StudentUpdateDataInput;
+  create: StudentCreateInput;
 }
 
-export interface PaymentCreateInput {
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  student?: StudentCreateOneWithoutPaymentsInput;
-  card?: CardCreateOneWithoutPaymentInput;
+export interface ParticipantUpdateManyMutationInput {
+  status?: ParticipantStatus;
 }
 
 export interface ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput {
@@ -2800,11 +2796,14 @@ export interface CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
   create: CourseInstanceCreateWithoutCourseInput;
 }
 
-export interface CourseStudentCreateInput {
-  student: StudentCreateOneWithoutCoursesInput;
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
-  status?: CourseStudentStatus;
+export interface StudentCreateInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  courses?: CourseStudentCreateManyWithoutStudentInput;
+  cards?: CardCreateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentCreateManyWithoutStudentInput;
 }
 
 export interface CourseInstanceScalarWhereInput {
@@ -2877,13 +2876,10 @@ export interface CourseInstanceScalarWhereInput {
   NOT?: CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput;
 }
 
-export interface StudentCreateWithoutPaymentsInput {
-  name: String;
-  email: String;
-  mobile?: String;
-  courses?: CourseStudentCreateManyWithoutStudentInput;
-  cards?: CardCreateManyWithoutStudentInput;
-  hasReferralBonus?: Boolean;
+export interface ParticipantCreateInput {
+  student: StudentCreateOneInput;
+  courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
+  status?: ParticipantStatus;
 }
 
 export interface CourseInstanceUpdateManyWithWhereNestedInput {
@@ -2891,10 +2887,13 @@ export interface CourseInstanceUpdateManyWithWhereNestedInput {
   data: CourseInstanceUpdateManyDataInput;
 }
 
-export interface CourseStudentCreateWithoutCourseInput {
-  student: StudentCreateOneWithoutCoursesInput;
-  role: DanceRole;
-  status?: CourseStudentStatus;
+export interface StudentCreateWithoutCoursesInput {
+  name: String;
+  email: String;
+  mobile?: String;
+  cards?: CardCreateManyWithoutStudentInput;
+  hasReferralBonus?: Boolean;
+  payments?: PaymentCreateManyWithoutStudentInput;
 }
 
 export interface CourseInstanceUpdateManyDataInput {
@@ -3052,23 +3051,30 @@ export interface CourseInstanceCreateWithoutCourseInput {
   recapUrl?: String;
 }
 
-export interface CourseStudentUpdateManyMutationInput {
-  role?: DanceRole;
-  status?: CourseStudentStatus;
-}
-
-export interface CourseInstanceCreateWithoutParticipantsInput {
-  course?: CourseCreateOneWithoutInstancesInput;
-  date?: DateTimeInput;
-  topic?: String;
-  notes?: String;
-  recapUrl?: String;
-}
-
 export interface CourseStudentUpdateInput {
   student?: StudentUpdateOneRequiredWithoutCoursesInput;
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
+  status?: CourseStudentStatus;
+}
+
+export interface CourseCreateWithoutInstancesInput {
+  name: String;
+  description?: String;
+  startDate?: DateTimeInput;
+  startTime?: String;
+  day?: CourseDay;
+  duration?: Int;
+  teachers?: TeacherCreateManyWithoutCoursesInput;
+  courseStudents?: CourseStudentCreateManyWithoutCourseInput;
+  studentLimit?: Int;
+  room?: RoomCreateOneInput;
+}
+
+export interface CourseStudentCreateInput {
+  student: StudentCreateOneWithoutCoursesInput;
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
   status?: CourseStudentStatus;
 }
 
@@ -3161,14 +3167,11 @@ export interface UserSubscriptionWhereInput {
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
-export interface CardCreateWithoutStudentInput {
-  payment?: PaymentCreateOneWithoutCardInput;
-  expirationDate?: DateTimeInput;
-  active?: Boolean;
-  paid?: Boolean;
-  value: Int;
-  originalValue: Int;
-  participationHistory?: ParticipantCreateManyInput;
+export interface PaymentCreateWithoutCardInput {
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  student?: StudentCreateOneWithoutPaymentsInput;
 }
 
 export interface NodeNode {
@@ -4160,7 +4163,7 @@ export interface Participant {
 
 export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
   id: () => Promise<ID_Output>;
-  courseStudent: <T = CourseStudentPromise>() => T;
+  student: <T = StudentPromise>() => T;
   courseInstance: <T = CourseInstancePromise>() => T;
   status: () => Promise<ParticipantStatus>;
 }
@@ -4169,7 +4172,7 @@ export interface ParticipantSubscription
   extends Promise<AsyncIterator<Participant>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  courseStudent: <T = CourseStudentSubscription>() => T;
+  student: <T = StudentSubscription>() => T;
   courseInstance: <T = CourseInstanceSubscription>() => T;
   status: () => Promise<AsyncIterator<ParticipantStatus>>;
 }
