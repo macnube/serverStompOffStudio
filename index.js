@@ -295,6 +295,7 @@ const resolvers = {
                 data: {
                     expirationDate: args.expirationDate,
                     value: args.value,
+                    active: args.value === 0 ? false : true,
                 },
                 where: {
                     id: args.id,
