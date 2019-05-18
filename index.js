@@ -5,7 +5,10 @@ if (process.env.NODE_ENV !== 'production') {
 const { prisma } = require('./generated/prisma-client');
 const { ApolloServer, gql } = require('apollo-server');
 const { importSchema } = require('graphql-import');
-const { subWeeks, addWeeks } = require('date-fns');
+const { subWeeks, addWeeks, parse, endOfDay, isBefore } = require('date-fns');
+
+const getCardActiveStatus = (value, expirationDate) =>
+    value > 0 && isBefore(endOfDay(new Date()), parse(expirationDate));
 
 const resolvers = {
     Query: {
@@ -295,7 +298,10 @@ const resolvers = {
                 data: {
                     expirationDate: args.expirationDate,
                     value: args.value,
-                    active: args.value === 0 ? false : true,
+                    active: getCardActiveStatus(
+                        args.value,
+                        args.expirationDate
+                    ),
                 },
                 where: {
                     id: args.id,
