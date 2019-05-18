@@ -689,6 +689,8 @@ export type CourseStudentOrderByInput =
   | "role_DESC"
   | "status_ASC"
   | "status_DESC"
+  | "waitlistDate_ASC"
+  | "waitlistDate_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -1195,6 +1197,7 @@ export interface CourseStudentUpdateWithoutStudentDataInput {
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface UserCreateInput {
@@ -1487,6 +1490,14 @@ export interface CourseStudentWhereInput {
   status_not?: CourseStudentStatus;
   status_in?: CourseStudentStatus[] | CourseStudentStatus;
   status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
+  waitlistDate_not?: DateTimeInput;
+  waitlistDate_in?: DateTimeInput[] | DateTimeInput;
+  waitlistDate_not_in?: DateTimeInput[] | DateTimeInput;
+  waitlistDate_lt?: DateTimeInput;
+  waitlistDate_lte?: DateTimeInput;
+  waitlistDate_gt?: DateTimeInput;
+  waitlistDate_gte?: DateTimeInput;
   AND?: CourseStudentWhereInput[] | CourseStudentWhereInput;
   OR?: CourseStudentWhereInput[] | CourseStudentWhereInput;
   NOT?: CourseStudentWhereInput[] | CourseStudentWhereInput;
@@ -1805,6 +1816,7 @@ export interface CourseCreateOneWithoutCourseStudentsInput {
 export interface CourseStudentUpdateManyMutationInput {
   role?: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface TeacherCreateManyWithoutCoursesInput {
@@ -1991,6 +2003,7 @@ export interface CourseStudentUpdateWithoutCourseDataInput {
   student?: StudentUpdateOneRequiredWithoutCoursesInput;
   role?: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface StudentCreateOneWithoutCoursesInput {
@@ -2447,6 +2460,14 @@ export interface CourseStudentScalarWhereInput {
   status_not?: CourseStudentStatus;
   status_in?: CourseStudentStatus[] | CourseStudentStatus;
   status_not_in?: CourseStudentStatus[] | CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
+  waitlistDate_not?: DateTimeInput;
+  waitlistDate_in?: DateTimeInput[] | DateTimeInput;
+  waitlistDate_not_in?: DateTimeInput[] | DateTimeInput;
+  waitlistDate_lt?: DateTimeInput;
+  waitlistDate_lte?: DateTimeInput;
+  waitlistDate_gt?: DateTimeInput;
+  waitlistDate_gte?: DateTimeInput;
   AND?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
   OR?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
   NOT?: CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput;
@@ -2469,6 +2490,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface CourseStudentUpdateManyDataInput {
   role?: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface PaymentUpdateInput {
@@ -2509,6 +2531,7 @@ export interface CourseStudentCreateWithoutStudentInput {
   course: CourseCreateOneWithoutCourseStudentsInput;
   role: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface StudioUpdateOneRequiredWithoutRoomsInput {
@@ -2585,6 +2608,7 @@ export interface CourseStudentCreateWithoutCourseInput {
   student: StudentCreateOneWithoutCoursesInput;
   role: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface ParticipantUpsertWithWhereUniqueNestedInput {
@@ -3056,6 +3080,7 @@ export interface CourseStudentUpdateInput {
   course?: CourseUpdateOneRequiredWithoutCourseStudentsInput;
   role?: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export interface CourseCreateWithoutInstancesInput {
@@ -3076,6 +3101,7 @@ export interface CourseStudentCreateInput {
   course: CourseCreateOneWithoutCourseStudentsInput;
   role: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeInput;
 }
 
 export type CourseWhereUniqueInput = AtLeastOne<{
@@ -3350,6 +3376,7 @@ export interface CourseStudent {
   id: ID_Output;
   role: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeOutput;
 }
 
 export interface CourseStudentPromise
@@ -3360,6 +3387,7 @@ export interface CourseStudentPromise
   course: <T = CoursePromise>() => T;
   role: () => Promise<DanceRole>;
   status: () => Promise<CourseStudentStatus>;
+  waitlistDate: () => Promise<DateTimeOutput>;
 }
 
 export interface CourseStudentSubscription
@@ -3370,6 +3398,7 @@ export interface CourseStudentSubscription
   course: <T = CourseSubscription>() => T;
   role: () => Promise<AsyncIterator<DanceRole>>;
   status: () => Promise<AsyncIterator<CourseStudentStatus>>;
+  waitlistDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CardEdge {
@@ -4000,6 +4029,7 @@ export interface CourseStudentPreviousValues {
   id: ID_Output;
   role: DanceRole;
   status?: CourseStudentStatus;
+  waitlistDate?: DateTimeOutput;
 }
 
 export interface CourseStudentPreviousValuesPromise
@@ -4008,6 +4038,7 @@ export interface CourseStudentPreviousValuesPromise
   id: () => Promise<ID_Output>;
   role: () => Promise<DanceRole>;
   status: () => Promise<CourseStudentStatus>;
+  waitlistDate: () => Promise<DateTimeOutput>;
 }
 
 export interface CourseStudentPreviousValuesSubscription
@@ -4016,6 +4047,7 @@ export interface CourseStudentPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   role: () => Promise<AsyncIterator<DanceRole>>;
   status: () => Promise<AsyncIterator<CourseStudentStatus>>;
+  waitlistDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CourseStudentConnection {

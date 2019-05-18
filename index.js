@@ -265,10 +265,14 @@ const resolvers = {
             });
         },
         updateCourseStudentStatus(root, args, context) {
+            const data = {
+                status: args.status,
+            };
+            if (data.status === 'WAITLIST') {
+                data.waitlistDate = new Date();
+            }
             return context.prisma.updateCourseStudent({
-                data: {
-                    status: args.status,
-                },
+                data,
                 where: {
                     id: args.id,
                 },

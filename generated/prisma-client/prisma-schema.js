@@ -915,6 +915,7 @@ type CourseStudent {
   course: Course!
   role: DanceRole!
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 type CourseStudentConnection {
@@ -928,6 +929,7 @@ input CourseStudentCreateInput {
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentCreateManyWithoutCourseInput {
@@ -944,12 +946,14 @@ input CourseStudentCreateWithoutCourseInput {
   student: StudentCreateOneWithoutCoursesInput!
   role: DanceRole!
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentCreateWithoutStudentInput {
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 type CourseStudentEdge {
@@ -964,6 +968,8 @@ enum CourseStudentOrderByInput {
   role_DESC
   status_ASC
   status_DESC
+  waitlistDate_ASC
+  waitlistDate_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -974,6 +980,7 @@ type CourseStudentPreviousValues {
   id: ID!
   role: DanceRole!
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentScalarWhereInput {
@@ -999,6 +1006,14 @@ input CourseStudentScalarWhereInput {
   status_not: CourseStudentStatus
   status_in: [CourseStudentStatus!]
   status_not_in: [CourseStudentStatus!]
+  waitlistDate: DateTime
+  waitlistDate_not: DateTime
+  waitlistDate_in: [DateTime!]
+  waitlistDate_not_in: [DateTime!]
+  waitlistDate_lt: DateTime
+  waitlistDate_lte: DateTime
+  waitlistDate_gt: DateTime
+  waitlistDate_gte: DateTime
   AND: [CourseStudentScalarWhereInput!]
   OR: [CourseStudentScalarWhereInput!]
   NOT: [CourseStudentScalarWhereInput!]
@@ -1033,16 +1048,19 @@ input CourseStudentUpdateInput {
   course: CourseUpdateOneRequiredWithoutCourseStudentsInput
   role: DanceRole
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentUpdateManyDataInput {
   role: DanceRole
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentUpdateManyMutationInput {
   role: DanceRole
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentUpdateManyWithoutCourseInput {
@@ -1078,12 +1096,14 @@ input CourseStudentUpdateWithoutCourseDataInput {
   student: StudentUpdateOneRequiredWithoutCoursesInput
   role: DanceRole
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentUpdateWithoutStudentDataInput {
   course: CourseUpdateOneRequiredWithoutCourseStudentsInput
   role: DanceRole
   status: CourseStudentStatus
+  waitlistDate: DateTime
 }
 
 input CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
@@ -1133,6 +1153,14 @@ input CourseStudentWhereInput {
   status_not: CourseStudentStatus
   status_in: [CourseStudentStatus!]
   status_not_in: [CourseStudentStatus!]
+  waitlistDate: DateTime
+  waitlistDate_not: DateTime
+  waitlistDate_in: [DateTime!]
+  waitlistDate_not_in: [DateTime!]
+  waitlistDate_lt: DateTime
+  waitlistDate_lte: DateTime
+  waitlistDate_gt: DateTime
+  waitlistDate_gte: DateTime
   AND: [CourseStudentWhereInput!]
   OR: [CourseStudentWhereInput!]
   NOT: [CourseStudentWhereInput!]

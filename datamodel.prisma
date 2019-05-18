@@ -61,6 +61,7 @@ type CourseStudent {
     course: Course! @relation(name: "CourseInstanceByClass")
     role: DanceRole!
     status: CourseStudentStatus @default(value: "ACTIVE")
+    waitlistDate: DateTime
 }
 
 type Teacher {
