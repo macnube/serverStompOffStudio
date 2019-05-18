@@ -118,5 +118,6 @@ type Mutation {
         recapUrl: String
     ): CourseInstance
     addParticipantToCourseInstance(id: ID!, studentId: ID!): CourseInstance
+    deleteParticipant(id: ID!): Participant
     logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant
 }
