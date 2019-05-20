@@ -18,9 +18,15 @@ type Query {
     unpaidCards: [Card!]!
     card(id: ID!): Card!
     getParticipantByStudent(id: ID!): Participant
+    currentUser: User!
+    users: [User!]!
 }
 
 type Mutation {
+    login(email: String!, password: String!): LoginResponse!
+    createUser(email: String!, password: String!, studentId: ID!): User
+    deleteUser(id: ID!): User
+    toggleUserAdminStatus(id: ID!): User
     createTeacher(name: String!, email: String!, mobile: String): Teacher
     deleteTeacher(id: ID!): Teacher
     updateTeacher(

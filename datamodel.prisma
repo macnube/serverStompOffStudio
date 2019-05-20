@@ -2,8 +2,13 @@ type User {
   id: ID! @unique
   email: String @unique
   password: String!
-  name: String!
+  student: Student
   admin: Boolean! @default(value: "false")
+}
+
+type LoginResponse {
+  token: String
+  user: User
 }
 
 type Student {
@@ -15,6 +20,7 @@ type Student {
     cards: [Card!]
     hasReferralBonus: Boolean! @default(value: "false")
     payments: [Payment!]
+    user: User
 }
 
 enum CourseDay {

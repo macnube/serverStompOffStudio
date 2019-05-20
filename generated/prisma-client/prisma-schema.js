@@ -19,6 +19,10 @@ type AggregateCourseStudent {
   count: Int!
 }
 
+type AggregateLoginResponse {
+  count: Int!
+}
+
 type AggregateParticipant {
   count: Int!
 }
@@ -1427,6 +1431,85 @@ enum DanceRole {
 
 scalar DateTime
 
+type LoginResponse {
+  token: String
+  user: User
+}
+
+type LoginResponseConnection {
+  pageInfo: PageInfo!
+  edges: [LoginResponseEdge]!
+  aggregate: AggregateLoginResponse!
+}
+
+input LoginResponseCreateInput {
+  token: String
+  user: UserCreateOneInput
+}
+
+type LoginResponseEdge {
+  node: LoginResponse!
+  cursor: String!
+}
+
+enum LoginResponseOrderByInput {
+  token_ASC
+  token_DESC
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type LoginResponsePreviousValues {
+  token: String
+}
+
+type LoginResponseSubscriptionPayload {
+  mutation: MutationType!
+  node: LoginResponse
+  updatedFields: [String!]
+  previousValues: LoginResponsePreviousValues
+}
+
+input LoginResponseSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LoginResponseWhereInput
+  AND: [LoginResponseSubscriptionWhereInput!]
+  OR: [LoginResponseSubscriptionWhereInput!]
+  NOT: [LoginResponseSubscriptionWhereInput!]
+}
+
+input LoginResponseUpdateManyMutationInput {
+  token: String
+}
+
+input LoginResponseWhereInput {
+  token: String
+  token_not: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_gt: String
+  token_gte: String
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
+  user: UserWhereInput
+  AND: [LoginResponseWhereInput!]
+  OR: [LoginResponseWhereInput!]
+  NOT: [LoginResponseWhereInput!]
+}
+
 scalar Long
 
 type Mutation {
@@ -1454,6 +1537,9 @@ type Mutation {
   upsertCourseStudent(where: CourseStudentWhereUniqueInput!, create: CourseStudentCreateInput!, update: CourseStudentUpdateInput!): CourseStudent!
   deleteCourseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
   deleteManyCourseStudents(where: CourseStudentWhereInput): BatchPayload!
+  createLoginResponse(data: LoginResponseCreateInput!): LoginResponse!
+  updateManyLoginResponses(data: LoginResponseUpdateManyMutationInput!, where: LoginResponseWhereInput): BatchPayload!
+  deleteManyLoginResponses(where: LoginResponseWhereInput): BatchPayload!
   createParticipant(data: ParticipantCreateInput!): Participant!
   updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
   updateManyParticipants(data: ParticipantUpdateManyMutationInput!, where: ParticipantWhereInput): BatchPayload!
@@ -1997,6 +2083,8 @@ type Query {
   courseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
   courseStudents(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent]!
   courseStudentsConnection(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseStudentConnection!
+  loginResponses(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginResponse]!
+  loginResponsesConnection(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginResponseConnection!
   participant(where: ParticipantWhereUniqueInput!): Participant
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant]!
   participantsConnection(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParticipantConnection!
@@ -2264,6 +2352,7 @@ type Student {
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
   hasReferralBonus: Boolean!
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
+  user: User
 }
 
 type StudentConnection {
@@ -2280,6 +2369,7 @@ input StudentCreateInput {
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
+  user: UserCreateOneWithoutStudentInput
 }
 
 input StudentCreateOneInput {
@@ -2302,6 +2392,11 @@ input StudentCreateOneWithoutPaymentsInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentCreateOneWithoutUserInput {
+  create: StudentCreateWithoutUserInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentCreateWithoutCardsInput {
   name: String!
   email: String!
@@ -2309,6 +2404,7 @@ input StudentCreateWithoutCardsInput {
   courses: CourseStudentCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
+  user: UserCreateOneWithoutStudentInput
 }
 
 input StudentCreateWithoutCoursesInput {
@@ -2318,6 +2414,7 @@ input StudentCreateWithoutCoursesInput {
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
+  user: UserCreateOneWithoutStudentInput
 }
 
 input StudentCreateWithoutPaymentsInput {
@@ -2327,6 +2424,17 @@ input StudentCreateWithoutPaymentsInput {
   courses: CourseStudentCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  user: UserCreateOneWithoutStudentInput
+}
+
+input StudentCreateWithoutUserInput {
+  name: String!
+  email: String!
+  mobile: String
+  courses: CourseStudentCreateManyWithoutStudentInput
+  cards: CardCreateManyWithoutStudentInput
+  hasReferralBonus: Boolean
+  payments: PaymentCreateManyWithoutStudentInput
 }
 
 type StudentEdge {
@@ -2385,6 +2493,7 @@ input StudentUpdateDataInput {
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
+  user: UserUpdateOneWithoutStudentInput
 }
 
 input StudentUpdateInput {
@@ -2395,6 +2504,7 @@ input StudentUpdateInput {
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
+  user: UserUpdateOneWithoutStudentInput
 }
 
 input StudentUpdateManyMutationInput {
@@ -2434,6 +2544,15 @@ input StudentUpdateOneWithoutPaymentsInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentUpdateOneWithoutUserInput {
+  create: StudentCreateWithoutUserInput
+  update: StudentUpdateWithoutUserDataInput
+  upsert: StudentUpsertWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: StudentWhereUniqueInput
+}
+
 input StudentUpdateWithoutCardsDataInput {
   name: String
   email: String
@@ -2441,6 +2560,7 @@ input StudentUpdateWithoutCardsDataInput {
   courses: CourseStudentUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
+  user: UserUpdateOneWithoutStudentInput
 }
 
 input StudentUpdateWithoutCoursesDataInput {
@@ -2450,6 +2570,7 @@ input StudentUpdateWithoutCoursesDataInput {
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
+  user: UserUpdateOneWithoutStudentInput
 }
 
 input StudentUpdateWithoutPaymentsDataInput {
@@ -2459,6 +2580,17 @@ input StudentUpdateWithoutPaymentsDataInput {
   courses: CourseStudentUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
+  user: UserUpdateOneWithoutStudentInput
+}
+
+input StudentUpdateWithoutUserDataInput {
+  name: String
+  email: String
+  mobile: String
+  courses: CourseStudentUpdateManyWithoutStudentInput
+  cards: CardUpdateManyWithoutStudentInput
+  hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
 }
 
 input StudentUpsertNestedInput {
@@ -2479,6 +2611,11 @@ input StudentUpsertWithoutCoursesInput {
 input StudentUpsertWithoutPaymentsInput {
   update: StudentUpdateWithoutPaymentsDataInput!
   create: StudentCreateWithoutPaymentsInput!
+}
+
+input StudentUpsertWithoutUserInput {
+  update: StudentUpdateWithoutUserDataInput!
+  create: StudentCreateWithoutUserInput!
 }
 
 input StudentWhereInput {
@@ -2549,6 +2686,7 @@ input StudentWhereInput {
   payments_every: PaymentWhereInput
   payments_some: PaymentWhereInput
   payments_none: PaymentWhereInput
+  user: UserWhereInput
   AND: [StudentWhereInput!]
   OR: [StudentWhereInput!]
   NOT: [StudentWhereInput!]
@@ -2720,6 +2858,7 @@ type Subscription {
   course(where: CourseSubscriptionWhereInput): CourseSubscriptionPayload
   courseInstance(where: CourseInstanceSubscriptionWhereInput): CourseInstanceSubscriptionPayload
   courseStudent(where: CourseStudentSubscriptionWhereInput): CourseStudentSubscriptionPayload
+  loginResponse(where: LoginResponseSubscriptionWhereInput): LoginResponseSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
   room(where: RoomSubscriptionWhereInput): RoomSubscriptionPayload
@@ -2994,7 +3133,7 @@ type User {
   id: ID!
   email: String
   password: String!
-  name: String!
+  student: Student
   admin: Boolean!
 }
 
@@ -3007,7 +3146,23 @@ type UserConnection {
 input UserCreateInput {
   email: String
   password: String!
-  name: String!
+  student: StudentCreateOneWithoutUserInput
+  admin: Boolean
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutStudentInput {
+  create: UserCreateWithoutStudentInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutStudentInput {
+  email: String
+  password: String!
   admin: Boolean
 }
 
@@ -3023,8 +3178,6 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
-  name_ASC
-  name_DESC
   admin_ASC
   admin_DESC
   createdAt_ASC
@@ -3037,7 +3190,6 @@ type UserPreviousValues {
   id: ID!
   email: String
   password: String!
-  name: String!
   admin: Boolean!
 }
 
@@ -3062,15 +3214,34 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   email: String
   password: String
-  name: String
+  student: StudentUpdateOneWithoutUserInput
   admin: Boolean
 }
 
 input UserUpdateManyMutationInput {
   email: String
   password: String
-  name: String
   admin: Boolean
+}
+
+input UserUpdateOneWithoutStudentInput {
+  create: UserCreateWithoutStudentInput
+  update: UserUpdateWithoutStudentDataInput
+  upsert: UserUpsertWithoutStudentInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutStudentDataInput {
+  email: String
+  password: String
+  admin: Boolean
+}
+
+input UserUpsertWithoutStudentInput {
+  update: UserUpdateWithoutStudentDataInput!
+  create: UserCreateWithoutStudentInput!
 }
 
 input UserWhereInput {
@@ -3116,20 +3287,7 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  student: StudentWhereInput
   admin: Boolean
   admin_not: Boolean
   AND: [UserWhereInput!]

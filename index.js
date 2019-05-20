@@ -2,16 +2,39 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { prisma } = require('./generated/prisma-client');
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql, AuthenticationError } = require('apollo-server');
 const { importSchema } = require('graphql-import');
 const { subWeeks, addWeeks, parse, endOfDay, isBefore } = require('date-fns');
 
 const getCardActiveStatus = (value, expirationDate) =>
     value > 0 && isBefore(endOfDay(new Date()), parse(expirationDate));
 
+const getUser = token => {
+    try {
+        if (token) {
+            return jwt.verify(token, 'stomp-off-studio-secret');
+        }
+        return null;
+    } catch (err) {
+        return null;
+    }
+};
+
 const resolvers = {
     Query: {
+        currentUser: (parent, args, { user, prisma }) => {
+            // this if statement is our authentication check
+            if (!user) {
+                throw new Error('Not Authenticated');
+            }
+            return prisma.user({ id: user.id });
+        },
+        users(root, args, context) {
+            return context.prisma.users();
+        },
         teachers(root, args, context) {
             return context.prisma.teachers();
         },
@@ -76,6 +99,9 @@ const resolvers = {
         },
         overviewInstances(root, args, context) {
             const now = new Date();
+            if (!context.user) {
+                throw new AuthenticationError('Not Authenticated');
+            }
             return context.prisma.courseInstances({
                 where: {
                     date_lte: addWeeks(now, 3),
@@ -109,6 +135,68 @@ const resolvers = {
         },
     },
     Mutation: {
+        createUser: async (root, args, context) => {
+            const hashedPassword = await bcrypt.hash(args.password, 10);
+            const user = {
+                email: args.email,
+                password: hashedPassword,
+            };
+            if (args.studentId) {
+                user.student = {
+                    connect: {
+                        id: args.studentId,
+                    },
+                };
+            }
+            return context.prisma.createUser(user);
+        },
+        deleteUser(root, args, context) {
+            return context.prisma.deleteUser({
+                id: args.id,
+            });
+        },
+        toggleUserAdminStatus: async (root, args, context) => {
+            const user = await context.prisma.user({ id: args.id });
+
+            return context.prisma.updateUser({
+                data: {
+                    admin: !user.admin,
+                },
+                where: { id: args.id },
+            });
+        },
+        login: async (root, args, context) => {
+            const user = await context.prisma.user({ email: args.email });
+
+            if (!user) {
+                throw new Error('Invalid Login');
+            }
+
+            const passwordMatch = await bcrypt.compare(
+                args.password,
+                user.password
+            );
+
+            if (!passwordMatch) {
+                throw new Error('Invalid Login');
+            }
+
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    email: user.email,
+                },
+                'stomp-off-studio-secret',
+                {
+                    expiresIn: '30d', // token will expire in 30days
+                }
+            );
+
+            return {
+                token,
+                user,
+            };
+        },
         createTeacher(root, args, context) {
             return context.prisma.createTeacher({
                 name: args.name,
@@ -557,6 +645,13 @@ const resolvers = {
                 })
                 .payments();
         },
+        user(root, args, context) {
+            return context.prisma
+                .student({
+                    id: root.id,
+                })
+                .user();
+        },
     },
     CourseStudent: {
         course(root, args, context) {
@@ -650,13 +745,24 @@ const resolvers = {
                 .courses();
         },
     },
+    User: {
+        student(root, args, context) {
+            return context.prisma
+                .user({
+                    id: root.id,
+                })
+                .student();
+        },
+    },
 };
 
 const server = new ApolloServer({
     typeDefs: gql(importSchema('./schema.graphql')),
     resolvers,
-    context: {
-        prisma,
+    context: ({ req }) => {
+        const token = req.headers.authorization || '';
+        const user = getUser(token);
+        return { user, prisma };
     },
     introspection: true,
 });
