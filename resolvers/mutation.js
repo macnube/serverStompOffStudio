@@ -27,7 +27,7 @@ const unauthenticatedMutations = {
                 id: user.id,
                 email: user.email,
             },
-            'stomp-off-studio-secret',
+            process.env.TOKEN_SECRET,
             {
                 expiresIn: '30d', // token will expire in 30days
             }

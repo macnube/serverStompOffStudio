@@ -1,7 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
-
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { prisma } = require('./generated/prisma-client');
@@ -19,7 +16,7 @@ const { permissions } = require('./permissions');
 const getUser = async (token, prisma) => {
     try {
         if (token) {
-            const tokenUser = jwt.verify(token, 'stomp-off-studio-secret');
+            const tokenUser = jwt.verify(token, process.env.TOKEN_SECRET);
             return await prisma.user({ id: tokenUser.id });
         }
         return null;
@@ -33,8 +30,6 @@ const resolvers = {
     Mutation: mutationResolvers,
     ...typeResolvers,
 };
-
-console.log('permissions are: ', permissions);
 
 const schema = applyMiddleware(
     makeExecutableSchema({
