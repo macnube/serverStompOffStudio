@@ -1,24 +1,31 @@
 type User {
-  id: ID! @unique
+  id: ID! @id
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
   email: String @unique
   password: String!
-  student: Student
-  admin: Boolean! @default(value: "false")
+  student: Student @relation(link: INLINE)
+  admin: Boolean! @default(value: false)
 }
 
 type LoginResponse {
+  id: ID! @id
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
   token: String
   user: User
 }
 
 type Student {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     name: String! @unique
     email: String! @unique
     mobile: String
-    courses: [CourseStudent!] @relation(name: "CourseInstanceByStudent" onDelete: CASCADE)
+    courses: [CourseStudent!] @relation(link: TABLE name: "CourseInstanceByStudent" onDelete: CASCADE)
     cards: [Card!]
-    hasReferralBonus: Boolean! @default(value: "false")
+    hasReferralBonus: Boolean! @default(value: false)
     payments: [Payment!]
     user: User
 }
@@ -28,7 +35,9 @@ enum CourseDay {
 }
 
 type Course {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     name: String!
     description: String
     startDate: DateTime
@@ -36,8 +45,8 @@ type Course {
     day: CourseDay
     duration: Int
     teachers: [Teacher!]
-    courseStudents: [CourseStudent!] @relation(name: "CourseInstanceByClass" onDelete: CASCADE)
-    instances: [CourseInstance!] @relation(name: "InstanceByCourse" onDelete: CASCADE)
+    courseStudents: [CourseStudent!] @relation(link: TABLE name: "CourseInstanceByClass" onDelete: CASCADE)
+    instances: [CourseInstance!] @relation(link: TABLE name: "InstanceByCourse" onDelete: CASCADE)
     studentLimit: Int
     room: Room
 }
@@ -47,10 +56,12 @@ enum ParticipantStatus {
 }
 
 type Participant {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     student: Student!
     courseInstance: CourseInstance! @relation(name: "ParticipantByInstance")
-    status: ParticipantStatus @default(value: "NOT_LOGGED")
+    status: ParticipantStatus @default(value: NOT_LOGGED)
 }
 
 enum DanceRole {
@@ -62,16 +73,20 @@ enum CourseStudentStatus {
 }
 
 type CourseStudent {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     student: Student! @relation(name: "CourseInstanceByStudent")
     course: Course! @relation(name: "CourseInstanceByClass")
     role: DanceRole!
-    status: CourseStudentStatus @default(value: "ACTIVE")
+    status: CourseStudentStatus @default(value: ACTIVE)
     waitlistDate: DateTime
 }
 
 type Teacher {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     name: String!
     email: String!
     mobile: String
@@ -79,22 +94,26 @@ type Teacher {
 }
 
 type CourseInstance {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     course: Course @relation(name: "InstanceByCourse")
     date: DateTime
     topic: String
     notes: String
-    participants: [Participant!] @relation(name: "ParticipantByInstance" onDelete: CASCADE)
+    participants: [Participant!] @relation(link: TABLE name: "ParticipantByInstance" onDelete: CASCADE)
     recapUrl: String
 }
 
 type Card {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     student: Student!
     payment: Payment
     expirationDate: DateTime
-    active: Boolean! @default(value: "true")
-    paid: Boolean! @default(value: "false")
+    active: Boolean! @default(value: true)
+    paid: Boolean! @default(value: false)
     value: Int!
     originalValue: Int!
     participationHistory: [Participant]
@@ -105,23 +124,29 @@ enum PaymentType {
 }
 
 type Payment {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     type: PaymentType!
     date: DateTime!
     amount: Int!
     student: Student
-    card: Card
+    card: Card @relation(link: INLINE)
 }
 
 type Studio {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     name: String @unique
-    rooms: [Room!] @relation(name: "RoomsByStudio" onDelete: CASCADE)
+    rooms: [Room!] @relation(link: TABLE name: "RoomsByStudio" onDelete: CASCADE)
     address: String
 }
 
 type Room {
-    id: ID! @unique
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
     name: String
     capacity: Int
     studio: Studio! @relation(name: "RoomsByStudio")

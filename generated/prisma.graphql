@@ -52,6 +52,8 @@ type BatchPayload {
 
 type Card {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   student: Student!
   payment: Payment
   expirationDate: DateTime
@@ -69,6 +71,7 @@ type CardConnection {
 }
 
 input CardCreateInput {
+  id: ID
   student: StudentCreateOneWithoutCardsInput!
   payment: PaymentCreateOneWithoutCardInput
   expirationDate: DateTime
@@ -90,6 +93,7 @@ input CardCreateOneWithoutPaymentInput {
 }
 
 input CardCreateWithoutPaymentInput {
+  id: ID
   student: StudentCreateOneWithoutCardsInput!
   expirationDate: DateTime
   active: Boolean
@@ -100,6 +104,7 @@ input CardCreateWithoutPaymentInput {
 }
 
 input CardCreateWithoutStudentInput {
+  id: ID
   payment: PaymentCreateOneWithoutCardInput
   expirationDate: DateTime
   active: Boolean
@@ -117,6 +122,10 @@ type CardEdge {
 enum CardOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   expirationDate_ASC
   expirationDate_DESC
   active_ASC
@@ -127,14 +136,12 @@ enum CardOrderByInput {
   value_DESC
   originalValue_ASC
   originalValue_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type CardPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   expirationDate: DateTime
   active: Boolean!
   paid: Boolean!
@@ -157,6 +164,22 @@ input CardScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   expirationDate: DateTime
   expirationDate_not: DateTime
   expirationDate_in: [DateTime!]
@@ -312,6 +335,22 @@ input CardWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   student: StudentWhereInput
   payment: PaymentWhereInput
   expirationDate: DateTime
@@ -356,6 +395,8 @@ input CardWhereUniqueInput {
 
 type Course {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   description: String
   startDate: DateTime
@@ -376,6 +417,7 @@ type CourseConnection {
 }
 
 input CourseCreateInput {
+  id: ID
   name: String!
   description: String
   startDate: DateTime
@@ -405,6 +447,7 @@ input CourseCreateOneWithoutInstancesInput {
 }
 
 input CourseCreateWithoutCourseStudentsInput {
+  id: ID
   name: String!
   description: String
   startDate: DateTime
@@ -418,6 +461,7 @@ input CourseCreateWithoutCourseStudentsInput {
 }
 
 input CourseCreateWithoutInstancesInput {
+  id: ID
   name: String!
   description: String
   startDate: DateTime
@@ -431,6 +475,7 @@ input CourseCreateWithoutInstancesInput {
 }
 
 input CourseCreateWithoutTeachersInput {
+  id: ID
   name: String!
   description: String
   startDate: DateTime
@@ -460,6 +505,8 @@ type CourseEdge {
 
 type CourseInstance {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   course: Course
   date: DateTime
   topic: String
@@ -475,6 +522,7 @@ type CourseInstanceConnection {
 }
 
 input CourseInstanceCreateInput {
+  id: ID
   course: CourseCreateOneWithoutInstancesInput
   date: DateTime
   topic: String
@@ -494,6 +542,7 @@ input CourseInstanceCreateOneWithoutParticipantsInput {
 }
 
 input CourseInstanceCreateWithoutCourseInput {
+  id: ID
   date: DateTime
   topic: String
   notes: String
@@ -502,6 +551,7 @@ input CourseInstanceCreateWithoutCourseInput {
 }
 
 input CourseInstanceCreateWithoutParticipantsInput {
+  id: ID
   course: CourseCreateOneWithoutInstancesInput
   date: DateTime
   topic: String
@@ -517,6 +567,10 @@ type CourseInstanceEdge {
 enum CourseInstanceOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   date_ASC
   date_DESC
   topic_ASC
@@ -525,14 +579,12 @@ enum CourseInstanceOrderByInput {
   notes_DESC
   recapUrl_ASC
   recapUrl_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type CourseInstancePreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   date: DateTime
   topic: String
   notes: String
@@ -554,6 +606,22 @@ input CourseInstanceScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   date: DateTime
   date_not: DateTime
   date_in: [DateTime!]
@@ -721,6 +789,22 @@ input CourseInstanceWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   course: CourseWhereInput
   date: DateTime
   date_not: DateTime
@@ -787,6 +871,10 @@ input CourseInstanceWhereUniqueInput {
 enum CourseOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   name_ASC
   name_DESC
   description_ASC
@@ -801,14 +889,12 @@ enum CourseOrderByInput {
   duration_DESC
   studentLimit_ASC
   studentLimit_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type CoursePreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   description: String
   startDate: DateTime
@@ -833,6 +919,22 @@ input CourseScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -910,6 +1012,8 @@ input CourseScalarWhereInput {
 
 type CourseStudent {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   student: Student!
   course: Course!
   role: DanceRole!
@@ -924,6 +1028,7 @@ type CourseStudentConnection {
 }
 
 input CourseStudentCreateInput {
+  id: ID
   student: StudentCreateOneWithoutCoursesInput!
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
@@ -942,6 +1047,7 @@ input CourseStudentCreateManyWithoutStudentInput {
 }
 
 input CourseStudentCreateWithoutCourseInput {
+  id: ID
   student: StudentCreateOneWithoutCoursesInput!
   role: DanceRole!
   status: CourseStudentStatus
@@ -949,6 +1055,7 @@ input CourseStudentCreateWithoutCourseInput {
 }
 
 input CourseStudentCreateWithoutStudentInput {
+  id: ID
   course: CourseCreateOneWithoutCourseStudentsInput!
   role: DanceRole!
   status: CourseStudentStatus
@@ -963,20 +1070,22 @@ type CourseStudentEdge {
 enum CourseStudentOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   role_ASC
   role_DESC
   status_ASC
   status_DESC
   waitlistDate_ASC
   waitlistDate_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type CourseStudentPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   role: DanceRole!
   status: CourseStudentStatus
   waitlistDate: DateTime
@@ -997,6 +1106,22 @@ input CourseStudentScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   role: DanceRole
   role_not: DanceRole
   role_in: [DanceRole!]
@@ -1142,6 +1267,22 @@ input CourseStudentWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   student: StudentWhereInput
   course: CourseWhereInput
   role: DanceRole
@@ -1329,6 +1470,22 @@ input CourseWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -1427,6 +1584,9 @@ enum DanceRole {
 scalar DateTime
 
 type LoginResponse {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   token: String
   user: User
 }
@@ -1438,6 +1598,7 @@ type LoginResponseConnection {
 }
 
 input LoginResponseCreateInput {
+  id: ID
   token: String
   user: UserCreateOneInput
 }
@@ -1448,17 +1609,20 @@ type LoginResponseEdge {
 }
 
 enum LoginResponseOrderByInput {
-  token_ASC
-  token_DESC
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+  token_ASC
+  token_DESC
 }
 
 type LoginResponsePreviousValues {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   token: String
 }
 
@@ -1480,11 +1644,46 @@ input LoginResponseSubscriptionWhereInput {
   NOT: [LoginResponseSubscriptionWhereInput!]
 }
 
+input LoginResponseUpdateInput {
+  token: String
+  user: UserUpdateOneInput
+}
+
 input LoginResponseUpdateManyMutationInput {
   token: String
 }
 
 input LoginResponseWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   token: String
   token_not: String
   token_in: [String!]
@@ -1503,6 +1702,10 @@ input LoginResponseWhereInput {
   AND: [LoginResponseWhereInput!]
   OR: [LoginResponseWhereInput!]
   NOT: [LoginResponseWhereInput!]
+}
+
+input LoginResponseWhereUniqueInput {
+  id: ID
 }
 
 scalar Long
@@ -1533,7 +1736,10 @@ type Mutation {
   deleteCourseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
   deleteManyCourseStudents(where: CourseStudentWhereInput): BatchPayload!
   createLoginResponse(data: LoginResponseCreateInput!): LoginResponse!
+  updateLoginResponse(data: LoginResponseUpdateInput!, where: LoginResponseWhereUniqueInput!): LoginResponse
   updateManyLoginResponses(data: LoginResponseUpdateManyMutationInput!, where: LoginResponseWhereInput): BatchPayload!
+  upsertLoginResponse(where: LoginResponseWhereUniqueInput!, create: LoginResponseCreateInput!, update: LoginResponseUpdateInput!): LoginResponse!
+  deleteLoginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   deleteManyLoginResponses(where: LoginResponseWhereInput): BatchPayload!
   createParticipant(data: ParticipantCreateInput!): Participant!
   updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
@@ -1598,6 +1804,8 @@ type PageInfo {
 
 type Participant {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   student: Student!
   courseInstance: CourseInstance!
   status: ParticipantStatus
@@ -1610,6 +1818,7 @@ type ParticipantConnection {
 }
 
 input ParticipantCreateInput {
+  id: ID
   student: StudentCreateOneInput!
   courseInstance: CourseInstanceCreateOneWithoutParticipantsInput!
   status: ParticipantStatus
@@ -1626,6 +1835,7 @@ input ParticipantCreateManyWithoutCourseInstanceInput {
 }
 
 input ParticipantCreateWithoutCourseInstanceInput {
+  id: ID
   student: StudentCreateOneInput!
   status: ParticipantStatus
 }
@@ -1638,16 +1848,18 @@ type ParticipantEdge {
 enum ParticipantOrderByInput {
   id_ASC
   id_DESC
-  status_ASC
-  status_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+  status_ASC
+  status_DESC
 }
 
 type ParticipantPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   status: ParticipantStatus
 }
 
@@ -1666,6 +1878,22 @@ input ParticipantScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   status: ParticipantStatus
   status_not: ParticipantStatus
   status_in: [ParticipantStatus!]
@@ -1790,6 +2018,22 @@ input ParticipantWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   student: StudentWhereInput
   courseInstance: CourseInstanceWhereInput
   status: ParticipantStatus
@@ -1807,6 +2051,8 @@ input ParticipantWhereUniqueInput {
 
 type Payment {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   type: PaymentType!
   date: DateTime!
   amount: Int!
@@ -1821,6 +2067,7 @@ type PaymentConnection {
 }
 
 input PaymentCreateInput {
+  id: ID
   type: PaymentType!
   date: DateTime!
   amount: Int!
@@ -1839,6 +2086,7 @@ input PaymentCreateOneWithoutCardInput {
 }
 
 input PaymentCreateWithoutCardInput {
+  id: ID
   type: PaymentType!
   date: DateTime!
   amount: Int!
@@ -1846,6 +2094,7 @@ input PaymentCreateWithoutCardInput {
 }
 
 input PaymentCreateWithoutStudentInput {
+  id: ID
   type: PaymentType!
   date: DateTime!
   amount: Int!
@@ -1860,20 +2109,22 @@ type PaymentEdge {
 enum PaymentOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   type_ASC
   type_DESC
   date_ASC
   date_DESC
   amount_ASC
   amount_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type PaymentPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   type: PaymentType!
   date: DateTime!
   amount: Int!
@@ -1894,6 +2145,22 @@ input PaymentScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   type: PaymentType
   type_not: PaymentType
   type_in: [PaymentType!]
@@ -2034,6 +2301,22 @@ input PaymentWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   type: PaymentType
   type_not: PaymentType
   type_in: [PaymentType!]
@@ -2078,6 +2361,7 @@ type Query {
   courseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
   courseStudents(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent]!
   courseStudentsConnection(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseStudentConnection!
+  loginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   loginResponses(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginResponse]!
   loginResponsesConnection(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginResponseConnection!
   participant(where: ParticipantWhereUniqueInput!): Participant
@@ -2106,6 +2390,8 @@ type Query {
 
 type Room {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String
   capacity: Int
   studio: Studio!
@@ -2118,6 +2404,7 @@ type RoomConnection {
 }
 
 input RoomCreateInput {
+  id: ID
   name: String
   capacity: Int
   studio: StudioCreateOneWithoutRoomsInput!
@@ -2134,6 +2421,7 @@ input RoomCreateOneInput {
 }
 
 input RoomCreateWithoutStudioInput {
+  id: ID
   name: String
   capacity: Int
 }
@@ -2146,18 +2434,20 @@ type RoomEdge {
 enum RoomOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   name_ASC
   name_DESC
   capacity_ASC
   capacity_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type RoomPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String
   capacity: Int
 }
@@ -2177,6 +2467,22 @@ input RoomScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2306,6 +2612,22 @@ input RoomWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2340,6 +2662,8 @@ input RoomWhereUniqueInput {
 
 type Student {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   email: String!
   mobile: String
@@ -2357,6 +2681,7 @@ type StudentConnection {
 }
 
 input StudentCreateInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2393,6 +2718,7 @@ input StudentCreateOneWithoutUserInput {
 }
 
 input StudentCreateWithoutCardsInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2403,6 +2729,7 @@ input StudentCreateWithoutCardsInput {
 }
 
 input StudentCreateWithoutCoursesInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2413,6 +2740,7 @@ input StudentCreateWithoutCoursesInput {
 }
 
 input StudentCreateWithoutPaymentsInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2423,6 +2751,7 @@ input StudentCreateWithoutPaymentsInput {
 }
 
 input StudentCreateWithoutUserInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2440,6 +2769,10 @@ type StudentEdge {
 enum StudentOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   name_ASC
   name_DESC
   email_ASC
@@ -2448,14 +2781,12 @@ enum StudentOrderByInput {
   mobile_DESC
   hasReferralBonus_ASC
   hasReferralBonus_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type StudentPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   email: String!
   mobile: String
@@ -2628,6 +2959,22 @@ input StudentWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2695,6 +3042,8 @@ input StudentWhereUniqueInput {
 
 type Studio {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
   address: String
@@ -2707,6 +3056,7 @@ type StudioConnection {
 }
 
 input StudioCreateInput {
+  id: ID
   name: String
   rooms: RoomCreateManyWithoutStudioInput
   address: String
@@ -2718,6 +3068,7 @@ input StudioCreateOneWithoutRoomsInput {
 }
 
 input StudioCreateWithoutRoomsInput {
+  id: ID
   name: String
   address: String
 }
@@ -2730,18 +3081,20 @@ type StudioEdge {
 enum StudioOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   name_ASC
   name_DESC
   address_ASC
   address_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type StudioPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String
   address: String
 }
@@ -2807,6 +3160,22 @@ input StudioWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2865,6 +3234,8 @@ type Subscription {
 
 type Teacher {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   email: String!
   mobile: String
@@ -2878,6 +3249,7 @@ type TeacherConnection {
 }
 
 input TeacherCreateInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2890,6 +3262,7 @@ input TeacherCreateManyWithoutCoursesInput {
 }
 
 input TeacherCreateWithoutCoursesInput {
+  id: ID
   name: String!
   email: String!
   mobile: String
@@ -2903,20 +3276,22 @@ type TeacherEdge {
 enum TeacherOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   name_ASC
   name_DESC
   email_ASC
   email_DESC
   mobile_ASC
   mobile_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type TeacherPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   name: String!
   email: String!
   mobile: String
@@ -2937,6 +3312,22 @@ input TeacherScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -3070,6 +3461,22 @@ input TeacherWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -3126,6 +3533,8 @@ input TeacherWhereUniqueInput {
 
 type User {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   email: String
   password: String!
   student: Student
@@ -3139,6 +3548,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
   email: String
   password: String!
   student: StudentCreateOneWithoutUserInput
@@ -3156,6 +3566,7 @@ input UserCreateOneWithoutStudentInput {
 }
 
 input UserCreateWithoutStudentInput {
+  id: ID
   email: String
   password: String!
   admin: Boolean
@@ -3169,20 +3580,22 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
   email_ASC
   email_DESC
   password_ASC
   password_DESC
   admin_ASC
   admin_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
   email: String
   password: String!
   admin: Boolean!
@@ -3206,6 +3619,13 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  email: String
+  password: String
+  student: StudentUpdateOneWithoutUserInput
+  admin: Boolean
+}
+
 input UserUpdateInput {
   email: String
   password: String
@@ -3217,6 +3637,15 @@ input UserUpdateManyMutationInput {
   email: String
   password: String
   admin: Boolean
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutStudentInput {
@@ -3232,6 +3661,11 @@ input UserUpdateWithoutStudentDataInput {
   email: String
   password: String
   admin: Boolean
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutStudentInput {
@@ -3254,6 +3688,22 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   email: String
   email_not: String
   email_in: [String!]
