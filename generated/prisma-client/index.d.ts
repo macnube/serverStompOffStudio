@@ -738,35 +738,23 @@ export type StudioOrderByInput =
   | "address_ASC"
   | "address_DESC";
 
-export interface CardUpdateManyWithoutStudentInput {
-  create?: Maybe<
-    CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput
-  >;
-  delete?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
-  connect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
-  set?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
-  disconnect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
-  update?: Maybe<
-    | CardUpdateWithWhereUniqueWithoutStudentInput[]
-    | CardUpdateWithWhereUniqueWithoutStudentInput
-  >;
-  upsert?: Maybe<
-    | CardUpsertWithWhereUniqueWithoutStudentInput[]
-    | CardUpsertWithWhereUniqueWithoutStudentInput
-  >;
-  deleteMany?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
-  updateMany?: Maybe<
-    CardUpdateManyWithWhereNestedInput[] | CardUpdateManyWithWhereNestedInput
-  >;
+export interface PaymentUpdateWithoutCardDataInput {
+  type?: Maybe<PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+  student?: Maybe<StudentUpdateOneWithoutPaymentsInput>;
 }
 
 export type CardWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface StudentUpsertWithoutPaymentsInput {
-  update: StudentUpdateWithoutPaymentsDataInput;
-  create: StudentCreateWithoutPaymentsInput;
+export interface ParticipantUpdateDataInput {
+  student?: Maybe<StudentUpdateOneRequiredInput>;
+  courseInstance?: Maybe<
+    CourseInstanceUpdateOneRequiredWithoutParticipantsInput
+  >;
+  status?: Maybe<ParticipantStatus>;
 }
 
 export interface StudioWhereInput {
@@ -836,12 +824,14 @@ export interface StudioWhereInput {
   NOT?: Maybe<StudioWhereInput[] | StudioWhereInput>;
 }
 
-export interface PaymentUpsertWithoutCardInput {
-  update: PaymentUpdateWithoutCardDataInput;
-  create: PaymentCreateWithoutCardInput;
+export interface StudentUpdateOneRequiredInput {
+  create?: Maybe<StudentCreateInput>;
+  update?: Maybe<StudentUpdateDataInput>;
+  upsert?: Maybe<StudentUpsertNestedInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
 }
 
-export interface RoomWhereInput {
+export interface UserWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -872,57 +862,51 @@ export interface RoomWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  capacity?: Maybe<Int>;
-  capacity_not?: Maybe<Int>;
-  capacity_in?: Maybe<Int[] | Int>;
-  capacity_not_in?: Maybe<Int[] | Int>;
-  capacity_lt?: Maybe<Int>;
-  capacity_lte?: Maybe<Int>;
-  capacity_gt?: Maybe<Int>;
-  capacity_gte?: Maybe<Int>;
-  studio?: Maybe<StudioWhereInput>;
-  AND?: Maybe<RoomWhereInput[] | RoomWhereInput>;
-  OR?: Maybe<RoomWhereInput[] | RoomWhereInput>;
-  NOT?: Maybe<RoomWhereInput[] | RoomWhereInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  student?: Maybe<StudentWhereInput>;
+  admin?: Maybe<Boolean>;
+  admin_not?: Maybe<Boolean>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface ParticipantUpdateManyInput {
-  create?: Maybe<ParticipantCreateInput[] | ParticipantCreateInput>;
-  update?: Maybe<
-    | ParticipantUpdateWithWhereUniqueNestedInput[]
-    | ParticipantUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | ParticipantUpsertWithWhereUniqueNestedInput[]
-    | ParticipantUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  set?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  disconnect?: Maybe<
-    ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput
-  >;
-  deleteMany?: Maybe<
-    ParticipantScalarWhereInput[] | ParticipantScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ParticipantUpdateManyWithWhereNestedInput[]
-    | ParticipantUpdateManyWithWhereNestedInput
-  >;
+export interface StudentUpdateDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
+  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
+  user?: Maybe<UserUpdateOneWithoutStudentInput>;
 }
 
 export interface CourseWhereInput {
@@ -1048,9 +1032,13 @@ export interface RoomCreateInput {
   studio: StudioCreateOneWithoutRoomsInput;
 }
 
-export interface LoginResponseUpdateInput {
-  token?: Maybe<String>;
-  user?: Maybe<UserUpdateOneInput>;
+export interface CourseInstanceUpdateInput {
+  course?: Maybe<CourseUpdateOneWithoutInstancesInput>;
+  date?: Maybe<DateTimeInput>;
+  topic?: Maybe<String>;
+  notes?: Maybe<String>;
+  participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
+  recapUrl?: Maybe<String>;
 }
 
 export interface StudioCreateOneWithoutRoomsInput {
@@ -1058,9 +1046,27 @@ export interface StudioCreateOneWithoutRoomsInput {
   connect?: Maybe<StudioWhereUniqueInput>;
 }
 
-export interface ParticipantUpdateWithWhereUniqueNestedInput {
-  where: ParticipantWhereUniqueInput;
-  data: ParticipantUpdateDataInput;
+export interface PaymentUpdateManyWithoutStudentInput {
+  create?: Maybe<
+    PaymentCreateWithoutStudentInput[] | PaymentCreateWithoutStudentInput
+  >;
+  delete?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
+  connect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
+  set?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
+  disconnect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
+  update?: Maybe<
+    | PaymentUpdateWithWhereUniqueWithoutStudentInput[]
+    | PaymentUpdateWithWhereUniqueWithoutStudentInput
+  >;
+  upsert?: Maybe<
+    | PaymentUpsertWithWhereUniqueWithoutStudentInput[]
+    | PaymentUpsertWithWhereUniqueWithoutStudentInput
+  >;
+  deleteMany?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
+  updateMany?: Maybe<
+    | PaymentUpdateManyWithWhereNestedInput[]
+    | PaymentUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface StudioCreateWithoutRoomsInput {
@@ -1111,15 +1117,14 @@ export interface ParticipantWhereInput {
   NOT?: Maybe<ParticipantWhereInput[] | ParticipantWhereInput>;
 }
 
-export interface CardUpdateInput {
-  student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
-  payment?: Maybe<PaymentUpdateOneWithoutCardInput>;
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-  participationHistory?: Maybe<ParticipantUpdateManyInput>;
+export interface CourseInstanceCreateManyWithoutCourseInput {
+  create?: Maybe<
+    | CourseInstanceCreateWithoutCourseInput[]
+    | CourseInstanceCreateWithoutCourseInput
+  >;
+  connect?: Maybe<
+    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
+  >;
 }
 
 export interface StudioSubscriptionWhereInput {
@@ -1133,11 +1138,13 @@ export interface StudioSubscriptionWhereInput {
   NOT?: Maybe<StudioSubscriptionWhereInput[] | StudioSubscriptionWhereInput>;
 }
 
-export interface StudentUpdateOneRequiredWithoutCardsInput {
-  create?: Maybe<StudentCreateWithoutCardsInput>;
-  update?: Maybe<StudentUpdateWithoutCardsDataInput>;
-  upsert?: Maybe<StudentUpsertWithoutCardsInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
+export interface CourseInstanceCreateWithoutCourseInput {
+  id?: Maybe<ID_Input>;
+  date?: Maybe<DateTimeInput>;
+  topic?: Maybe<String>;
+  notes?: Maybe<String>;
+  participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
+  recapUrl?: Maybe<String>;
 }
 
 export interface RoomSubscriptionWhereInput {
@@ -1151,14 +1158,12 @@ export interface RoomSubscriptionWhereInput {
   NOT?: Maybe<RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput>;
 }
 
-export interface StudentUpdateWithoutCardsDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
-  user?: Maybe<UserUpdateOneWithoutStudentInput>;
+export interface ParticipantCreateManyWithoutCourseInstanceInput {
+  create?: Maybe<
+    | ParticipantCreateWithoutCourseInstanceInput[]
+    | ParticipantCreateWithoutCourseInstanceInput
+  >;
+  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
 }
 
 export interface ParticipantSubscriptionWhereInput {
@@ -1176,6 +1181,219 @@ export interface ParticipantSubscriptionWhereInput {
   NOT?: Maybe<
     ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput
   >;
+}
+
+export interface ParticipantCreateWithoutCourseInstanceInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneInput;
+  status?: Maybe<ParticipantStatus>;
+}
+
+export interface PaymentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  type?: Maybe<PaymentType>;
+  type_not?: Maybe<PaymentType>;
+  type_in?: Maybe<PaymentType[] | PaymentType>;
+  type_not_in?: Maybe<PaymentType[] | PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+  amount_not?: Maybe<Int>;
+  amount_in?: Maybe<Int[] | Int>;
+  amount_not_in?: Maybe<Int[] | Int>;
+  amount_lt?: Maybe<Int>;
+  amount_lte?: Maybe<Int>;
+  amount_gt?: Maybe<Int>;
+  amount_gte?: Maybe<Int>;
+  student?: Maybe<StudentWhereInput>;
+  card?: Maybe<CardWhereInput>;
+  AND?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
+  OR?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
+  NOT?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
+}
+
+export interface CardUpdateInput {
+  student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
+  payment?: Maybe<PaymentUpdateOneWithoutCardInput>;
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
+  participationHistory?: Maybe<ParticipantUpdateManyInput>;
+}
+
+export interface StudentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  mobile?: Maybe<String>;
+  mobile_not?: Maybe<String>;
+  mobile_in?: Maybe<String[] | String>;
+  mobile_not_in?: Maybe<String[] | String>;
+  mobile_lt?: Maybe<String>;
+  mobile_lte?: Maybe<String>;
+  mobile_gt?: Maybe<String>;
+  mobile_gte?: Maybe<String>;
+  mobile_contains?: Maybe<String>;
+  mobile_not_contains?: Maybe<String>;
+  mobile_starts_with?: Maybe<String>;
+  mobile_not_starts_with?: Maybe<String>;
+  mobile_ends_with?: Maybe<String>;
+  mobile_not_ends_with?: Maybe<String>;
+  courses_every?: Maybe<CourseStudentWhereInput>;
+  courses_some?: Maybe<CourseStudentWhereInput>;
+  courses_none?: Maybe<CourseStudentWhereInput>;
+  cards_every?: Maybe<CardWhereInput>;
+  cards_some?: Maybe<CardWhereInput>;
+  cards_none?: Maybe<CardWhereInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  hasReferralBonus_not?: Maybe<Boolean>;
+  payments_every?: Maybe<PaymentWhereInput>;
+  payments_some?: Maybe<PaymentWhereInput>;
+  payments_none?: Maybe<PaymentWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+  OR?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+  NOT?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+}
+
+export interface StudentUpdateOneRequiredWithoutCardsInput {
+  create?: Maybe<StudentCreateWithoutCardsInput>;
+  update?: Maybe<StudentUpdateWithoutCardsDataInput>;
+  upsert?: Maybe<StudentUpsertWithoutCardsInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface CourseInstanceSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CourseInstanceWhereInput>;
+  AND?: Maybe<
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | CourseInstanceSubscriptionWhereInput[]
+    | CourseInstanceSubscriptionWhereInput
+  >;
+}
+
+export interface StudentUpdateWithoutCardsDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
+  user?: Maybe<UserUpdateOneWithoutStudentInput>;
+}
+
+export interface CardSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CardWhereInput>;
+  AND?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
+  OR?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
+  NOT?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
 }
 
 export interface CourseStudentUpdateManyWithoutStudentInput {
@@ -1210,95 +1428,19 @@ export interface CourseStudentUpdateManyWithoutStudentInput {
   >;
 }
 
-export interface CardWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  student?: Maybe<StudentWhereInput>;
-  payment?: Maybe<PaymentWhereInput>;
-  expirationDate?: Maybe<DateTimeInput>;
-  expirationDate_not?: Maybe<DateTimeInput>;
-  expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expirationDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expirationDate_lt?: Maybe<DateTimeInput>;
-  expirationDate_lte?: Maybe<DateTimeInput>;
-  expirationDate_gt?: Maybe<DateTimeInput>;
-  expirationDate_gte?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  active_not?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  paid_not?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  value_not?: Maybe<Int>;
-  value_in?: Maybe<Int[] | Int>;
-  value_not_in?: Maybe<Int[] | Int>;
-  value_lt?: Maybe<Int>;
-  value_lte?: Maybe<Int>;
-  value_gt?: Maybe<Int>;
-  value_gte?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-  originalValue_not?: Maybe<Int>;
-  originalValue_in?: Maybe<Int[] | Int>;
-  originalValue_not_in?: Maybe<Int[] | Int>;
-  originalValue_lt?: Maybe<Int>;
-  originalValue_lte?: Maybe<Int>;
-  originalValue_gt?: Maybe<Int>;
-  originalValue_gte?: Maybe<Int>;
-  participationHistory_every?: Maybe<ParticipantWhereInput>;
-  participationHistory_some?: Maybe<ParticipantWhereInput>;
-  participationHistory_none?: Maybe<ParticipantWhereInput>;
-  AND?: Maybe<CardWhereInput[] | CardWhereInput>;
-  OR?: Maybe<CardWhereInput[] | CardWhereInput>;
-  NOT?: Maybe<CardWhereInput[] | CardWhereInput>;
-}
+export type CourseWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface CourseStudentUpdateWithWhereUniqueWithoutStudentInput {
   where: CourseStudentWhereUniqueInput;
   data: CourseStudentUpdateWithoutStudentDataInput;
 }
 
-export interface LoginResponseSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LoginResponseWhereInput>;
-  AND?: Maybe<
-    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
-  >;
+export interface TeacherUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
 }
 
 export interface CourseStudentUpdateWithoutStudentDataInput {
@@ -1308,103 +1450,15 @@ export interface CourseStudentUpdateWithoutStudentDataInput {
   waitlistDate?: Maybe<DateTimeInput>;
 }
 
-export interface CourseInstanceSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CourseInstanceWhereInput>;
-  AND?: Maybe<
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | CourseInstanceSubscriptionWhereInput[]
-    | CourseInstanceSubscriptionWhereInput
-  >;
-}
+export type CourseInstanceWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface CourseUpdateOneRequiredWithoutCourseStudentsInput {
   create?: Maybe<CourseCreateWithoutCourseStudentsInput>;
   update?: Maybe<CourseUpdateWithoutCourseStudentsDataInput>;
   upsert?: Maybe<CourseUpsertWithoutCourseStudentsInput>;
   connect?: Maybe<CourseWhereUniqueInput>;
-}
-
-export interface CardSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CardWhereInput>;
-  AND?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
-  OR?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
-  NOT?: Maybe<CardSubscriptionWhereInput[] | CardSubscriptionWhereInput>;
-}
-
-export interface CourseUpdateWithoutCourseStudentsDataInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  teachers?: Maybe<TeacherUpdateManyWithoutCoursesInput>;
-  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomUpdateOneInput>;
-}
-
-export type CourseWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface TeacherUpdateManyWithoutCoursesInput {
-  create?: Maybe<
-    TeacherCreateWithoutCoursesInput[] | TeacherCreateWithoutCoursesInput
-  >;
-  delete?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
-  connect?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
-  set?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
-  disconnect?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
-  update?: Maybe<
-    | TeacherUpdateWithWhereUniqueWithoutCoursesInput[]
-    | TeacherUpdateWithWhereUniqueWithoutCoursesInput
-  >;
-  upsert?: Maybe<
-    | TeacherUpsertWithWhereUniqueWithoutCoursesInput[]
-    | TeacherUpsertWithWhereUniqueWithoutCoursesInput
-  >;
-  deleteMany?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
-  updateMany?: Maybe<
-    | TeacherUpdateManyWithWhereNestedInput[]
-    | TeacherUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface TeacherUpdateManyMutationInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-}
-
-export interface TeacherUpdateWithWhereUniqueWithoutCoursesInput {
-  where: TeacherWhereUniqueInput;
-  data: TeacherUpdateWithoutCoursesDataInput;
-}
-
-export type CourseInstanceWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface TeacherUpdateWithoutCoursesDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
 }
 
 export interface CourseScalarWhereInput {
@@ -1513,92 +1567,44 @@ export interface CourseScalarWhereInput {
   NOT?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
 }
 
-export interface TeacherUpsertWithWhereUniqueWithoutCoursesInput {
-  where: TeacherWhereUniqueInput;
-  update: TeacherUpdateWithoutCoursesDataInput;
-  create: TeacherCreateWithoutCoursesInput;
+export interface CourseUpdateWithoutCourseStudentsDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  teachers?: Maybe<TeacherUpdateManyWithoutCoursesInput>;
+  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomUpdateOneInput>;
 }
 
 export type CourseStudentWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface TeacherScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  mobile?: Maybe<String>;
-  mobile_not?: Maybe<String>;
-  mobile_in?: Maybe<String[] | String>;
-  mobile_not_in?: Maybe<String[] | String>;
-  mobile_lt?: Maybe<String>;
-  mobile_lte?: Maybe<String>;
-  mobile_gt?: Maybe<String>;
-  mobile_gte?: Maybe<String>;
-  mobile_contains?: Maybe<String>;
-  mobile_not_contains?: Maybe<String>;
-  mobile_starts_with?: Maybe<String>;
-  mobile_not_starts_with?: Maybe<String>;
-  mobile_ends_with?: Maybe<String>;
-  mobile_not_ends_with?: Maybe<String>;
-  AND?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
-  OR?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
-  NOT?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
+export interface TeacherUpdateManyWithoutCoursesInput {
+  create?: Maybe<
+    TeacherCreateWithoutCoursesInput[] | TeacherCreateWithoutCoursesInput
+  >;
+  delete?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
+  connect?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
+  set?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
+  disconnect?: Maybe<TeacherWhereUniqueInput[] | TeacherWhereUniqueInput>;
+  update?: Maybe<
+    | TeacherUpdateWithWhereUniqueWithoutCoursesInput[]
+    | TeacherUpdateWithWhereUniqueWithoutCoursesInput
+  >;
+  upsert?: Maybe<
+    | TeacherUpsertWithWhereUniqueWithoutCoursesInput[]
+    | TeacherUpsertWithWhereUniqueWithoutCoursesInput
+  >;
+  deleteMany?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
+  updateMany?: Maybe<
+    | TeacherUpdateManyWithWhereNestedInput[]
+    | TeacherUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
@@ -1606,19 +1612,20 @@ export interface CourseUpdateWithWhereUniqueWithoutTeachersInput {
   data: CourseUpdateWithoutTeachersDataInput;
 }
 
-export interface TeacherUpdateManyWithWhereNestedInput {
-  where: TeacherScalarWhereInput;
-  data: TeacherUpdateManyDataInput;
+export interface TeacherUpdateWithWhereUniqueWithoutCoursesInput {
+  where: TeacherWhereUniqueInput;
+  data: TeacherUpdateWithoutCoursesDataInput;
 }
 
 export type LoginResponseWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface TeacherUpdateManyDataInput {
+export interface TeacherUpdateWithoutCoursesDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   mobile?: Maybe<String>;
+  user?: Maybe<UserUpdateOneInput>;
 }
 
 export interface LoginResponseWhereInput {
@@ -1672,38 +1679,13 @@ export interface LoginResponseWhereInput {
   NOT?: Maybe<LoginResponseWhereInput[] | LoginResponseWhereInput>;
 }
 
-export interface CourseInstanceUpdateManyWithoutCourseInput {
-  create?: Maybe<
-    | CourseInstanceCreateWithoutCourseInput[]
-    | CourseInstanceCreateWithoutCourseInput
-  >;
-  delete?: Maybe<
-    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
-  >;
-  connect?: Maybe<
-    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
-  >;
-  set?: Maybe<
-    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
-  >;
-  disconnect?: Maybe<
-    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
-  >;
-  update?: Maybe<
-    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput[]
-    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput
-  >;
-  upsert?: Maybe<
-    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput[]
-    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput
-  >;
-  deleteMany?: Maybe<
-    CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | CourseInstanceUpdateManyWithWhereNestedInput[]
-    | CourseInstanceUpdateManyWithWhereNestedInput
-  >;
+export interface UserUpdateOneInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface CourseCreateWithoutTeachersInput {
@@ -1720,9 +1702,11 @@ export interface CourseCreateWithoutTeachersInput {
   room?: Maybe<RoomCreateOneInput>;
 }
 
-export interface CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
-  where: CourseInstanceWhereUniqueInput;
-  data: CourseInstanceUpdateWithoutCourseDataInput;
+export interface UserUpdateDataInput {
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  student?: Maybe<StudentUpdateOneWithoutUserInput>;
+  admin?: Maybe<Boolean>;
 }
 
 export interface TeacherCreateInput {
@@ -1731,14 +1715,16 @@ export interface TeacherCreateInput {
   email: String;
   mobile?: Maybe<String>;
   courses?: Maybe<CourseCreateManyWithoutTeachersInput>;
+  user?: Maybe<UserCreateOneInput>;
 }
 
-export interface CourseInstanceUpdateWithoutCourseDataInput {
-  date?: Maybe<DateTimeInput>;
-  topic?: Maybe<String>;
-  notes?: Maybe<String>;
-  participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
-  recapUrl?: Maybe<String>;
+export interface StudentUpdateOneWithoutUserInput {
+  create?: Maybe<StudentCreateWithoutUserInput>;
+  update?: Maybe<StudentUpdateWithoutUserDataInput>;
+  upsert?: Maybe<StudentUpsertWithoutUserInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<StudentWhereUniqueInput>;
 }
 
 export interface StudioUpdateManyMutationInput {
@@ -1746,32 +1732,14 @@ export interface StudioUpdateManyMutationInput {
   address?: Maybe<String>;
 }
 
-export interface ParticipantUpdateManyWithoutCourseInstanceInput {
-  create?: Maybe<
-    | ParticipantCreateWithoutCourseInstanceInput[]
-    | ParticipantCreateWithoutCourseInstanceInput
-  >;
-  delete?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  set?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-  disconnect?: Maybe<
-    ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput
-  >;
-  update?: Maybe<
-    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput[]
-    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput
-  >;
-  upsert?: Maybe<
-    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput[]
-    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput
-  >;
-  deleteMany?: Maybe<
-    ParticipantScalarWhereInput[] | ParticipantScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ParticipantUpdateManyWithWhereNestedInput[]
-    | ParticipantUpdateManyWithWhereNestedInput
-  >;
+export interface StudentUpdateWithoutUserDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
+  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
 }
 
 export interface RoomUpdateManyWithWhereNestedInput {
@@ -1779,9 +1747,26 @@ export interface RoomUpdateManyWithWhereNestedInput {
   data: RoomUpdateManyDataInput;
 }
 
-export interface ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput {
-  where: ParticipantWhereUniqueInput;
-  data: ParticipantUpdateWithoutCourseInstanceDataInput;
+export interface CardUpdateManyWithoutStudentInput {
+  create?: Maybe<
+    CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput
+  >;
+  delete?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+  connect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+  set?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+  disconnect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+  update?: Maybe<
+    | CardUpdateWithWhereUniqueWithoutStudentInput[]
+    | CardUpdateWithWhereUniqueWithoutStudentInput
+  >;
+  upsert?: Maybe<
+    | CardUpsertWithWhereUniqueWithoutStudentInput[]
+    | CardUpsertWithWhereUniqueWithoutStudentInput
+  >;
+  deleteMany?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
+  updateMany?: Maybe<
+    CardUpdateManyWithWhereNestedInput[] | CardUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface RoomScalarWhereInput {
@@ -1842,71 +1827,14 @@ export interface RoomScalarWhereInput {
   NOT?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
 }
 
-export interface ParticipantUpdateWithoutCourseInstanceDataInput {
-  student?: Maybe<StudentUpdateOneRequiredInput>;
-  status?: Maybe<ParticipantStatus>;
-}
-
-export interface RoomUpdateWithoutStudioDataInput {
-  name?: Maybe<String>;
-  capacity?: Maybe<Int>;
-}
-
-export interface StudentUpdateOneRequiredInput {
-  create?: Maybe<StudentCreateInput>;
-  update?: Maybe<StudentUpdateDataInput>;
-  upsert?: Maybe<StudentUpsertNestedInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
-}
-
-export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
-  where: RoomWhereUniqueInput;
-  data: RoomUpdateWithoutStudioDataInput;
-}
-
-export interface StudentUpdateDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
-  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
-  user?: Maybe<UserUpdateOneWithoutStudentInput>;
-}
-
-export interface StudioUpdateInput {
-  name?: Maybe<String>;
-  rooms?: Maybe<RoomUpdateManyWithoutStudioInput>;
-  address?: Maybe<String>;
-}
-
-export interface StudentUpdateWithoutUserDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
-  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
-}
-
-export interface RoomCreateWithoutStudioInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  capacity?: Maybe<Int>;
-}
-
 export interface CardUpdateWithWhereUniqueWithoutStudentInput {
   where: CardWhereUniqueInput;
   data: CardUpdateWithoutStudentDataInput;
 }
 
-export interface StudioCreateInput {
-  id?: Maybe<ID_Input>;
+export interface RoomUpdateWithoutStudioDataInput {
   name?: Maybe<String>;
-  rooms?: Maybe<RoomCreateManyWithoutStudioInput>;
-  address?: Maybe<String>;
+  capacity?: Maybe<Int>;
 }
 
 export interface CardUpdateWithoutStudentDataInput {
@@ -1919,10 +1847,10 @@ export interface CardUpdateWithoutStudentDataInput {
   participationHistory?: Maybe<ParticipantUpdateManyInput>;
 }
 
-export type StudioWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  name?: Maybe<String>;
-}>;
+export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput;
+  data: RoomUpdateWithoutStudioDataInput;
+}
 
 export interface PaymentUpdateOneWithoutCardInput {
   create?: Maybe<PaymentCreateWithoutCardInput>;
@@ -1933,22 +1861,22 @@ export interface PaymentUpdateOneWithoutCardInput {
   connect?: Maybe<PaymentWhereUniqueInput>;
 }
 
-export interface RoomUpdateManyMutationInput {
+export interface StudioUpdateInput {
+  name?: Maybe<String>;
+  rooms?: Maybe<RoomUpdateManyWithoutStudioInput>;
+  address?: Maybe<String>;
+}
+
+export interface CourseStudentUpdateManyMutationInput {
+  role?: Maybe<DanceRole>;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
+}
+
+export interface RoomCreateWithoutStudioInput {
+  id?: Maybe<ID_Input>;
   name?: Maybe<String>;
   capacity?: Maybe<Int>;
-}
-
-export interface PaymentUpdateWithoutCardDataInput {
-  type?: Maybe<PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-  student?: Maybe<StudentUpdateOneWithoutPaymentsInput>;
-}
-
-export interface PaymentUpdateManyMutationInput {
-  type?: Maybe<PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
 }
 
 export interface StudentUpdateOneWithoutPaymentsInput {
@@ -1960,12 +1888,11 @@ export interface StudentUpdateOneWithoutPaymentsInput {
   connect?: Maybe<StudentWhereUniqueInput>;
 }
 
-export interface PaymentUpdateInput {
-  type?: Maybe<PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-  student?: Maybe<StudentUpdateOneWithoutPaymentsInput>;
-  card?: Maybe<CardUpdateOneWithoutPaymentInput>;
+export interface StudioCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  rooms?: Maybe<RoomCreateManyWithoutStudioInput>;
+  address?: Maybe<String>;
 }
 
 export interface StudentUpdateWithoutPaymentsDataInput {
@@ -1978,9 +1905,10 @@ export interface StudentUpdateWithoutPaymentsDataInput {
   user?: Maybe<UserUpdateOneWithoutStudentInput>;
 }
 
-export interface ParticipantUpdateManyMutationInput {
-  status?: Maybe<ParticipantStatus>;
-}
+export type StudioWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  name?: Maybe<String>;
+}>;
 
 export interface UserUpdateOneWithoutStudentInput {
   create?: Maybe<UserCreateWithoutStudentInput>;
@@ -1991,12 +1919,9 @@ export interface UserUpdateOneWithoutStudentInput {
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface ParticipantUpdateInput {
-  student?: Maybe<StudentUpdateOneRequiredInput>;
-  courseInstance?: Maybe<
-    CourseInstanceUpdateOneRequiredWithoutParticipantsInput
-  >;
-  status?: Maybe<ParticipantStatus>;
+export interface RoomUpdateManyMutationInput {
+  name?: Maybe<String>;
+  capacity?: Maybe<Int>;
 }
 
 export interface UserUpdateWithoutStudentDataInput {
@@ -2005,9 +1930,10 @@ export interface UserUpdateWithoutStudentDataInput {
   admin?: Maybe<Boolean>;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface PaymentUpdateManyMutationInput {
+  type?: Maybe<PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
 }
 
 export interface UserUpsertWithoutStudentInput {
@@ -2015,12 +1941,77 @@ export interface UserUpsertWithoutStudentInput {
   create: UserCreateWithoutStudentInput;
 }
 
+export interface PaymentUpdateInput {
+  type?: Maybe<PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+  student?: Maybe<StudentUpdateOneWithoutPaymentsInput>;
+  card?: Maybe<CardUpdateOneWithoutPaymentInput>;
+}
+
+export interface StudentUpsertWithoutPaymentsInput {
+  update: StudentUpdateWithoutPaymentsDataInput;
+  create: StudentCreateWithoutPaymentsInput;
+}
+
+export interface ParticipantUpdateManyMutationInput {
+  status?: Maybe<ParticipantStatus>;
+}
+
+export interface PaymentUpsertWithoutCardInput {
+  update: PaymentUpdateWithoutCardDataInput;
+  create: PaymentCreateWithoutCardInput;
+}
+
+export interface ParticipantUpdateInput {
+  student?: Maybe<StudentUpdateOneRequiredInput>;
+  courseInstance?: Maybe<
+    CourseInstanceUpdateOneRequiredWithoutParticipantsInput
+  >;
+  status?: Maybe<ParticipantStatus>;
+}
+
+export interface ParticipantUpdateManyInput {
+  create?: Maybe<ParticipantCreateInput[] | ParticipantCreateInput>;
+  update?: Maybe<
+    | ParticipantUpdateWithWhereUniqueNestedInput[]
+    | ParticipantUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ParticipantUpsertWithWhereUniqueNestedInput[]
+    | ParticipantUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  set?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  disconnect?: Maybe<
+    ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput
+  >;
+  deleteMany?: Maybe<
+    ParticipantScalarWhereInput[] | ParticipantScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ParticipantUpdateManyWithWhereNestedInput[]
+    | ParticipantUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface LoginResponseUpdateInput {
+  token?: Maybe<String>;
+  user?: Maybe<UserUpdateOneInput>;
+}
+
+export interface ParticipantUpdateWithWhereUniqueNestedInput {
+  where: ParticipantWhereUniqueInput;
+  data: ParticipantUpdateDataInput;
+}
+
 export interface StudentCreateOneWithoutCardsInput {
   create?: Maybe<StudentCreateWithoutCardsInput>;
   connect?: Maybe<StudentWhereUniqueInput>;
 }
 
-export interface UserWhereInput {
+export interface RoomWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -2051,40 +2042,32 @@ export interface UserWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
-  student?: Maybe<StudentWhereInput>;
-  admin?: Maybe<Boolean>;
-  admin_not?: Maybe<Boolean>;
-  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
-  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
-  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  capacity_not?: Maybe<Int>;
+  capacity_in?: Maybe<Int[] | Int>;
+  capacity_not_in?: Maybe<Int[] | Int>;
+  capacity_lt?: Maybe<Int>;
+  capacity_lte?: Maybe<Int>;
+  capacity_gt?: Maybe<Int>;
+  capacity_gte?: Maybe<Int>;
+  studio?: Maybe<StudioWhereInput>;
+  AND?: Maybe<RoomWhereInput[] | RoomWhereInput>;
+  OR?: Maybe<RoomWhereInput[] | RoomWhereInput>;
+  NOT?: Maybe<RoomWhereInput[] | RoomWhereInput>;
 }
 
 export interface CourseStudentCreateManyWithoutStudentInput {
@@ -2173,6 +2156,7 @@ export interface TeacherWhereInput {
   courses_every?: Maybe<CourseWhereInput>;
   courses_some?: Maybe<CourseWhereInput>;
   courses_none?: Maybe<CourseWhereInput>;
+  user?: Maybe<UserWhereInput>;
   AND?: Maybe<TeacherWhereInput[] | TeacherWhereInput>;
   OR?: Maybe<TeacherWhereInput[] | TeacherWhereInput>;
   NOT?: Maybe<TeacherWhereInput[] | TeacherWhereInput>;
@@ -2183,13 +2167,12 @@ export interface CourseCreateOneWithoutCourseStudentsInput {
   connect?: Maybe<CourseWhereUniqueInput>;
 }
 
-export interface StudentUpdateOneWithoutUserInput {
-  create?: Maybe<StudentCreateWithoutUserInput>;
-  update?: Maybe<StudentUpdateWithoutUserDataInput>;
-  upsert?: Maybe<StudentUpsertWithoutUserInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<StudentWhereUniqueInput>;
+export interface CourseStudentUpdateInput {
+  student?: Maybe<StudentUpdateOneRequiredWithoutCoursesInput>;
+  course?: Maybe<CourseUpdateOneRequiredWithoutCourseStudentsInput>;
+  role?: Maybe<DanceRole>;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
 }
 
 export interface TeacherCreateManyWithoutCoursesInput {
@@ -2289,30 +2272,177 @@ export interface CourseInstanceWhereInput {
   NOT?: Maybe<CourseInstanceWhereInput[] | CourseInstanceWhereInput>;
 }
 
-export interface CourseInstanceCreateManyWithoutCourseInput {
-  create?: Maybe<
-    | CourseInstanceCreateWithoutCourseInput[]
-    | CourseInstanceCreateWithoutCourseInput
-  >;
-  connect?: Maybe<
-    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
-  >;
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface ParticipantUpdateDataInput {
-  student?: Maybe<StudentUpdateOneRequiredInput>;
-  courseInstance?: Maybe<
-    CourseInstanceUpdateOneRequiredWithoutParticipantsInput
-  >;
-  status?: Maybe<ParticipantStatus>;
+export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput;
+  data: PaymentUpdateWithoutStudentDataInput;
 }
 
-export interface ParticipantCreateManyWithoutCourseInstanceInput {
+export interface StudentCreateOneWithoutUserInput {
+  create?: Maybe<StudentCreateWithoutUserInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface PaymentUpdateWithoutStudentDataInput {
+  type?: Maybe<PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+  card?: Maybe<CardUpdateOneWithoutPaymentInput>;
+}
+
+export interface CardCreateManyWithoutStudentInput {
   create?: Maybe<
-    | ParticipantCreateWithoutCourseInstanceInput[]
-    | ParticipantCreateWithoutCourseInstanceInput
+    CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput
   >;
+  connect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+}
+
+export interface CardUpdateOneWithoutPaymentInput {
+  create?: Maybe<CardCreateWithoutPaymentInput>;
+  update?: Maybe<CardUpdateWithoutPaymentDataInput>;
+  upsert?: Maybe<CardUpsertWithoutPaymentInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<CardWhereUniqueInput>;
+}
+
+export interface PaymentCreateOneWithoutCardInput {
+  create?: Maybe<PaymentCreateWithoutCardInput>;
+  connect?: Maybe<PaymentWhereUniqueInput>;
+}
+
+export interface CardUpdateWithoutPaymentDataInput {
+  student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
+  participationHistory?: Maybe<ParticipantUpdateManyInput>;
+}
+
+export interface StudentCreateOneWithoutPaymentsInput {
+  create?: Maybe<StudentCreateWithoutPaymentsInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface CardUpsertWithoutPaymentInput {
+  update: CardUpdateWithoutPaymentDataInput;
+  create: CardCreateWithoutPaymentInput;
+}
+
+export interface UserCreateOneWithoutStudentInput {
+  create?: Maybe<UserCreateWithoutStudentInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
+  where: PaymentWhereUniqueInput;
+  update: PaymentUpdateWithoutStudentDataInput;
+  create: PaymentCreateWithoutStudentInput;
+}
+
+export interface ParticipantCreateManyInput {
+  create?: Maybe<ParticipantCreateInput[] | ParticipantCreateInput>;
   connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+}
+
+export interface PaymentScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  type?: Maybe<PaymentType>;
+  type_not?: Maybe<PaymentType>;
+  type_in?: Maybe<PaymentType[] | PaymentType>;
+  type_not_in?: Maybe<PaymentType[] | PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+  amount_not?: Maybe<Int>;
+  amount_in?: Maybe<Int[] | Int>;
+  amount_not_in?: Maybe<Int[] | Int>;
+  amount_lt?: Maybe<Int>;
+  amount_lte?: Maybe<Int>;
+  amount_gt?: Maybe<Int>;
+  amount_gte?: Maybe<Int>;
+  AND?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
+  OR?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
+  NOT?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
+}
+
+export interface StudentCreateOneInput {
+  create?: Maybe<StudentCreateInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput;
+  data: PaymentUpdateManyDataInput;
+}
+
+export interface PaymentCreateManyWithoutStudentInput {
+  create?: Maybe<
+    PaymentCreateWithoutStudentInput[] | PaymentCreateWithoutStudentInput
+  >;
+  connect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
+}
+
+export interface PaymentUpdateManyDataInput {
+  type?: Maybe<PaymentType>;
+  date?: Maybe<DateTimeInput>;
+  amount?: Maybe<Int>;
+}
+
+export interface CardCreateOneWithoutPaymentInput {
+  create?: Maybe<CardCreateWithoutPaymentInput>;
+  connect?: Maybe<CardWhereUniqueInput>;
+}
+
+export interface StudentUpsertNestedInput {
+  update: StudentUpdateDataInput;
+  create: StudentCreateInput;
+}
+
+export interface CourseInstanceCreateOneWithoutParticipantsInput {
+  create?: Maybe<CourseInstanceCreateWithoutParticipantsInput>;
+  connect?: Maybe<CourseInstanceWhereUniqueInput>;
 }
 
 export interface CourseInstanceUpdateOneRequiredWithoutParticipantsInput {
@@ -2322,9 +2452,9 @@ export interface CourseInstanceUpdateOneRequiredWithoutParticipantsInput {
   connect?: Maybe<CourseInstanceWhereUniqueInput>;
 }
 
-export interface StudentCreateOneInput {
-  create?: Maybe<StudentCreateInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
+export interface CourseCreateOneWithoutInstancesInput {
+  create?: Maybe<CourseCreateWithoutInstancesInput>;
+  connect?: Maybe<CourseWhereUniqueInput>;
 }
 
 export interface CourseInstanceUpdateWithoutParticipantsDataInput {
@@ -2335,11 +2465,14 @@ export interface CourseInstanceUpdateWithoutParticipantsDataInput {
   recapUrl?: Maybe<String>;
 }
 
-export interface CardCreateManyWithoutStudentInput {
+export interface CourseStudentCreateManyWithoutCourseInput {
   create?: Maybe<
-    CardCreateWithoutStudentInput[] | CardCreateWithoutStudentInput
+    | CourseStudentCreateWithoutCourseInput[]
+    | CourseStudentCreateWithoutCourseInput
   >;
-  connect?: Maybe<CardWhereUniqueInput[] | CardWhereUniqueInput>;
+  connect?: Maybe<
+    CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput
+  >;
 }
 
 export interface CourseUpdateOneWithoutInstancesInput {
@@ -2351,9 +2484,9 @@ export interface CourseUpdateOneWithoutInstancesInput {
   connect?: Maybe<CourseWhereUniqueInput>;
 }
 
-export interface PaymentCreateOneWithoutCardInput {
-  create?: Maybe<PaymentCreateWithoutCardInput>;
-  connect?: Maybe<PaymentWhereUniqueInput>;
+export interface StudentCreateOneWithoutCoursesInput {
+  create?: Maybe<StudentCreateWithoutCoursesInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
 }
 
 export interface CourseUpdateWithoutInstancesDataInput {
@@ -2369,9 +2502,9 @@ export interface CourseUpdateWithoutInstancesDataInput {
   room?: Maybe<RoomUpdateOneInput>;
 }
 
-export interface StudentCreateOneWithoutPaymentsInput {
-  create?: Maybe<StudentCreateWithoutPaymentsInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
+export interface RoomCreateOneInput {
+  create?: Maybe<RoomCreateInput>;
+  connect?: Maybe<RoomWhereUniqueInput>;
 }
 
 export interface CourseStudentUpdateManyWithoutCourseInput {
@@ -2406,141 +2539,6 @@ export interface CourseStudentUpdateManyWithoutCourseInput {
   >;
 }
 
-export interface UserCreateOneWithoutStudentInput {
-  create?: Maybe<UserCreateWithoutStudentInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput;
-  data: CourseStudentUpdateWithoutCourseDataInput;
-}
-
-export interface ParticipantCreateManyInput {
-  create?: Maybe<ParticipantCreateInput[] | ParticipantCreateInput>;
-  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
-}
-
-export interface CourseStudentUpdateWithoutCourseDataInput {
-  student?: Maybe<StudentUpdateOneRequiredWithoutCoursesInput>;
-  role?: Maybe<DanceRole>;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
-}
-
-export interface CourseInstanceCreateOneWithoutParticipantsInput {
-  create?: Maybe<CourseInstanceCreateWithoutParticipantsInput>;
-  connect?: Maybe<CourseInstanceWhereUniqueInput>;
-}
-
-export interface StudentUpdateOneRequiredWithoutCoursesInput {
-  create?: Maybe<StudentCreateWithoutCoursesInput>;
-  update?: Maybe<StudentUpdateWithoutCoursesDataInput>;
-  upsert?: Maybe<StudentUpsertWithoutCoursesInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
-}
-
-export interface CourseCreateOneWithoutInstancesInput {
-  create?: Maybe<CourseCreateWithoutInstancesInput>;
-  connect?: Maybe<CourseWhereUniqueInput>;
-}
-
-export interface StudentUpdateWithoutCoursesDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
-  user?: Maybe<UserUpdateOneWithoutStudentInput>;
-}
-
-export interface CourseStudentCreateManyWithoutCourseInput {
-  create?: Maybe<
-    | CourseStudentCreateWithoutCourseInput[]
-    | CourseStudentCreateWithoutCourseInput
-  >;
-  connect?: Maybe<
-    CourseStudentWhereUniqueInput[] | CourseStudentWhereUniqueInput
-  >;
-}
-
-export interface PaymentUpdateManyWithoutStudentInput {
-  create?: Maybe<
-    PaymentCreateWithoutStudentInput[] | PaymentCreateWithoutStudentInput
-  >;
-  delete?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
-  connect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
-  set?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
-  disconnect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
-  update?: Maybe<
-    | PaymentUpdateWithWhereUniqueWithoutStudentInput[]
-    | PaymentUpdateWithWhereUniqueWithoutStudentInput
-  >;
-  upsert?: Maybe<
-    | PaymentUpsertWithWhereUniqueWithoutStudentInput[]
-    | PaymentUpsertWithWhereUniqueWithoutStudentInput
-  >;
-  deleteMany?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
-  updateMany?: Maybe<
-    | PaymentUpdateManyWithWhereNestedInput[]
-    | PaymentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface StudentCreateOneWithoutCoursesInput {
-  create?: Maybe<StudentCreateWithoutCoursesInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
-}
-
-export interface PaymentUpdateWithWhereUniqueWithoutStudentInput {
-  where: PaymentWhereUniqueInput;
-  data: PaymentUpdateWithoutStudentDataInput;
-}
-
-export interface PaymentCreateManyWithoutStudentInput {
-  create?: Maybe<
-    PaymentCreateWithoutStudentInput[] | PaymentCreateWithoutStudentInput
-  >;
-  connect?: Maybe<PaymentWhereUniqueInput[] | PaymentWhereUniqueInput>;
-}
-
-export interface PaymentUpdateWithoutStudentDataInput {
-  type?: Maybe<PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-  card?: Maybe<CardUpdateOneWithoutPaymentInput>;
-}
-
-export interface CardCreateOneWithoutPaymentInput {
-  create?: Maybe<CardCreateWithoutPaymentInput>;
-  connect?: Maybe<CardWhereUniqueInput>;
-}
-
-export interface CardUpdateOneWithoutPaymentInput {
-  create?: Maybe<CardCreateWithoutPaymentInput>;
-  update?: Maybe<CardUpdateWithoutPaymentDataInput>;
-  upsert?: Maybe<CardUpsertWithoutPaymentInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<CardWhereUniqueInput>;
-}
-
-export interface RoomCreateOneInput {
-  create?: Maybe<RoomCreateInput>;
-  connect?: Maybe<RoomWhereUniqueInput>;
-}
-
-export interface CardUpdateWithoutPaymentDataInput {
-  student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-  participationHistory?: Maybe<ParticipantUpdateManyInput>;
-}
-
 export interface TeacherSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -2552,9 +2550,9 @@ export interface TeacherSubscriptionWhereInput {
   NOT?: Maybe<TeacherSubscriptionWhereInput[] | TeacherSubscriptionWhereInput>;
 }
 
-export interface CardUpsertWithoutPaymentInput {
-  update: CardUpdateWithoutPaymentDataInput;
-  create: CardCreateWithoutPaymentInput;
+export interface CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
+  where: CourseStudentWhereUniqueInput;
+  data: CourseStudentUpdateWithoutCourseDataInput;
 }
 
 export interface PaymentSubscriptionWhereInput {
@@ -2568,13 +2566,609 @@ export interface PaymentSubscriptionWhereInput {
   NOT?: Maybe<PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput>;
 }
 
-export interface PaymentUpsertWithWhereUniqueWithoutStudentInput {
-  where: PaymentWhereUniqueInput;
-  update: PaymentUpdateWithoutStudentDataInput;
-  create: PaymentCreateWithoutStudentInput;
+export interface CourseStudentUpdateWithoutCourseDataInput {
+  student?: Maybe<StudentUpdateOneRequiredWithoutCoursesInput>;
+  role?: Maybe<DanceRole>;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
 }
 
-export interface StudentWhereInput {
+export interface CardWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  student?: Maybe<StudentWhereInput>;
+  payment?: Maybe<PaymentWhereInput>;
+  expirationDate?: Maybe<DateTimeInput>;
+  expirationDate_not?: Maybe<DateTimeInput>;
+  expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expirationDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expirationDate_lt?: Maybe<DateTimeInput>;
+  expirationDate_lte?: Maybe<DateTimeInput>;
+  expirationDate_gt?: Maybe<DateTimeInput>;
+  expirationDate_gte?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  active_not?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  paid_not?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
+  originalValue_not?: Maybe<Int>;
+  originalValue_in?: Maybe<Int[] | Int>;
+  originalValue_not_in?: Maybe<Int[] | Int>;
+  originalValue_lt?: Maybe<Int>;
+  originalValue_lte?: Maybe<Int>;
+  originalValue_gt?: Maybe<Int>;
+  originalValue_gte?: Maybe<Int>;
+  participationHistory_every?: Maybe<ParticipantWhereInput>;
+  participationHistory_some?: Maybe<ParticipantWhereInput>;
+  participationHistory_none?: Maybe<ParticipantWhereInput>;
+  AND?: Maybe<CardWhereInput[] | CardWhereInput>;
+  OR?: Maybe<CardWhereInput[] | CardWhereInput>;
+  NOT?: Maybe<CardWhereInput[] | CardWhereInput>;
+}
+
+export interface StudentUpdateOneRequiredWithoutCoursesInput {
+  create?: Maybe<StudentCreateWithoutCoursesInput>;
+  update?: Maybe<StudentUpdateWithoutCoursesDataInput>;
+  upsert?: Maybe<StudentUpsertWithoutCoursesInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface CourseSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CourseWhereInput>;
+  AND?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+  OR?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+  NOT?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+}
+
+export interface StudentUpdateWithoutCoursesDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
+  user?: Maybe<UserUpdateOneWithoutStudentInput>;
+}
+
+export interface UserUpdateInput {
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  student?: Maybe<StudentUpdateOneWithoutUserInput>;
+  admin?: Maybe<Boolean>;
+}
+
+export interface StudentUpsertWithoutCoursesInput {
+  update: StudentUpdateWithoutCoursesDataInput;
+  create: StudentCreateWithoutCoursesInput;
+}
+
+export interface CourseUpdateManyWithWhereNestedInput {
+  where: CourseScalarWhereInput;
+  data: CourseUpdateManyDataInput;
+}
+
+export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
+  where: CourseStudentWhereUniqueInput;
+  update: CourseStudentUpdateWithoutCourseDataInput;
+  create: CourseStudentCreateWithoutCourseInput;
+}
+
+export interface CourseUpdateWithoutTeachersDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  courseStudents?: Maybe<CourseStudentUpdateManyWithoutCourseInput>;
+  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomUpdateOneInput>;
+}
+
+export interface CourseStudentScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  role?: Maybe<DanceRole>;
+  role_not?: Maybe<DanceRole>;
+  role_in?: Maybe<DanceRole[] | DanceRole>;
+  role_not_in?: Maybe<DanceRole[] | DanceRole>;
+  status?: Maybe<CourseStudentStatus>;
+  status_not?: Maybe<CourseStudentStatus>;
+  status_in?: Maybe<CourseStudentStatus[] | CourseStudentStatus>;
+  status_not_in?: Maybe<CourseStudentStatus[] | CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
+  waitlistDate_not?: Maybe<DateTimeInput>;
+  waitlistDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  waitlistDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  waitlistDate_lt?: Maybe<DateTimeInput>;
+  waitlistDate_lte?: Maybe<DateTimeInput>;
+  waitlistDate_gt?: Maybe<DateTimeInput>;
+  waitlistDate_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
+  OR?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
+  NOT?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
+}
+
+export interface TeacherUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseUpdateManyWithoutTeachersInput>;
+  user?: Maybe<UserUpdateOneInput>;
+}
+
+export interface CourseStudentUpdateManyWithWhereNestedInput {
+  where: CourseStudentScalarWhereInput;
+  data: CourseStudentUpdateManyDataInput;
+}
+
+export interface CourseCreateManyWithoutTeachersInput {
+  create?: Maybe<
+    CourseCreateWithoutTeachersInput[] | CourseCreateWithoutTeachersInput
+  >;
+  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+}
+
+export interface CourseStudentUpdateManyDataInput {
+  role?: Maybe<DanceRole>;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
+}
+
+export interface RoomUpdateManyDataInput {
+  name?: Maybe<String>;
+  capacity?: Maybe<Int>;
+}
+
+export interface RoomUpdateOneInput {
+  create?: Maybe<RoomCreateInput>;
+  update?: Maybe<RoomUpdateDataInput>;
+  upsert?: Maybe<RoomUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<RoomWhereUniqueInput>;
+}
+
+export interface RoomUpsertWithWhereUniqueWithoutStudioInput {
+  where: RoomWhereUniqueInput;
+  update: RoomUpdateWithoutStudioDataInput;
+  create: RoomCreateWithoutStudioInput;
+}
+
+export interface RoomUpdateDataInput {
+  name?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  studio?: Maybe<StudioUpdateOneRequiredWithoutRoomsInput>;
+}
+
+export interface RoomUpdateManyWithoutStudioInput {
+  create?: Maybe<RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput>;
+  delete?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  set?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  disconnect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  update?: Maybe<
+    | RoomUpdateWithWhereUniqueWithoutStudioInput[]
+    | RoomUpdateWithWhereUniqueWithoutStudioInput
+  >;
+  upsert?: Maybe<
+    | RoomUpsertWithWhereUniqueWithoutStudioInput[]
+    | RoomUpsertWithWhereUniqueWithoutStudioInput
+  >;
+  deleteMany?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
+  updateMany?: Maybe<
+    RoomUpdateManyWithWhereNestedInput[] | RoomUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface StudioUpdateOneRequiredWithoutRoomsInput {
+  create?: Maybe<StudioCreateWithoutRoomsInput>;
+  update?: Maybe<StudioUpdateWithoutRoomsDataInput>;
+  upsert?: Maybe<StudioUpsertWithoutRoomsInput>;
+  connect?: Maybe<StudioWhereUniqueInput>;
+}
+
+export interface RoomCreateManyWithoutStudioInput {
+  create?: Maybe<RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput>;
+  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+}
+
+export interface StudioUpdateWithoutRoomsDataInput {
+  name?: Maybe<String>;
+  address?: Maybe<String>;
+}
+
+export interface StudentUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
+  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
+  user?: Maybe<UserUpdateOneWithoutStudentInput>;
+}
+
+export interface StudioUpsertWithoutRoomsInput {
+  update: StudioUpdateWithoutRoomsDataInput;
+  create: StudioCreateWithoutRoomsInput;
+}
+
+export type TeacherWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface RoomUpsertNestedInput {
+  update: RoomUpdateDataInput;
+  create: RoomCreateInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
+export interface CourseUpsertWithoutInstancesInput {
+  update: CourseUpdateWithoutInstancesDataInput;
+  create: CourseCreateWithoutInstancesInput;
+}
+
+export interface LoginResponseCreateInput {
+  id?: Maybe<ID_Input>;
+  token?: Maybe<String>;
+  user?: Maybe<UserCreateOneInput>;
+}
+
+export interface CourseInstanceUpsertWithoutParticipantsInput {
+  update: CourseInstanceUpdateWithoutParticipantsDataInput;
+  create: CourseInstanceCreateWithoutParticipantsInput;
+}
+
+export interface StudentCreateWithoutCardsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
+  user?: Maybe<UserCreateOneWithoutStudentInput>;
+}
+
+export interface ParticipantUpsertWithWhereUniqueNestedInput {
+  where: ParticipantWhereUniqueInput;
+  update: ParticipantUpdateDataInput;
+  create: ParticipantCreateInput;
+}
+
+export interface CourseCreateWithoutCourseStudentsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
+  instances?: Maybe<CourseInstanceCreateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomCreateOneInput>;
+}
+
+export interface ParticipantScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  status?: Maybe<ParticipantStatus>;
+  status_not?: Maybe<ParticipantStatus>;
+  status_in?: Maybe<ParticipantStatus[] | ParticipantStatus>;
+  status_not_in?: Maybe<ParticipantStatus[] | ParticipantStatus>;
+  AND?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+  OR?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+  NOT?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  password: String;
+  student?: Maybe<StudentCreateOneWithoutUserInput>;
+  admin?: Maybe<Boolean>;
+}
+
+export interface ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput;
+  data: ParticipantUpdateManyDataInput;
+}
+
+export interface CardCreateWithoutStudentInput {
+  id?: Maybe<ID_Input>;
+  payment?: Maybe<PaymentCreateOneWithoutCardInput>;
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value: Int;
+  originalValue: Int;
+  participationHistory?: Maybe<ParticipantCreateManyInput>;
+}
+
+export interface ParticipantUpdateManyDataInput {
+  status?: Maybe<ParticipantStatus>;
+}
+
+export interface StudentCreateWithoutPaymentsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
+  cards?: Maybe<CardCreateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  user?: Maybe<UserCreateOneWithoutStudentInput>;
+}
+
+export interface CardUpsertWithWhereUniqueWithoutStudentInput {
+  where: CardWhereUniqueInput;
+  update: CardUpdateWithoutStudentDataInput;
+  create: CardCreateWithoutStudentInput;
+}
+
+export interface ParticipantCreateInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneInput;
+  courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
+  status?: Maybe<ParticipantStatus>;
+}
+
+export interface CardScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  expirationDate?: Maybe<DateTimeInput>;
+  expirationDate_not?: Maybe<DateTimeInput>;
+  expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expirationDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expirationDate_lt?: Maybe<DateTimeInput>;
+  expirationDate_lte?: Maybe<DateTimeInput>;
+  expirationDate_gt?: Maybe<DateTimeInput>;
+  expirationDate_gte?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  active_not?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  paid_not?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  value_not?: Maybe<Int>;
+  value_in?: Maybe<Int[] | Int>;
+  value_not_in?: Maybe<Int[] | Int>;
+  value_lt?: Maybe<Int>;
+  value_lte?: Maybe<Int>;
+  value_gt?: Maybe<Int>;
+  value_gte?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
+  originalValue_not?: Maybe<Int>;
+  originalValue_in?: Maybe<Int[] | Int>;
+  originalValue_not_in?: Maybe<Int[] | Int>;
+  originalValue_lt?: Maybe<Int>;
+  originalValue_lte?: Maybe<Int>;
+  originalValue_gt?: Maybe<Int>;
+  originalValue_gte?: Maybe<Int>;
+  AND?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
+  OR?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
+  NOT?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
+}
+
+export interface PaymentCreateWithoutStudentInput {
+  id?: Maybe<ID_Input>;
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  card?: Maybe<CardCreateOneWithoutPaymentInput>;
+}
+
+export interface CardUpdateManyWithWhereNestedInput {
+  where: CardScalarWhereInput;
+  data: CardUpdateManyDataInput;
+}
+
+export interface CourseInstanceCreateWithoutParticipantsInput {
+  id?: Maybe<ID_Input>;
+  course?: Maybe<CourseCreateOneWithoutInstancesInput>;
+  date?: Maybe<DateTimeInput>;
+  topic?: Maybe<String>;
+  notes?: Maybe<String>;
+  recapUrl?: Maybe<String>;
+}
+
+export interface CardUpdateManyDataInput {
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
+}
+
+export interface CourseStudentCreateWithoutCourseInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneWithoutCoursesInput;
+  role: DanceRole;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
+}
+
+export interface StudentUpsertWithoutUserInput {
+  update: StudentUpdateWithoutUserDataInput;
+  create: StudentCreateWithoutUserInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface LoginResponseSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LoginResponseWhereInput>;
+  AND?: Maybe<
+    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    LoginResponseSubscriptionWhereInput[] | LoginResponseSubscriptionWhereInput
+  >;
+}
+
+export interface TeacherUpsertWithWhereUniqueWithoutCoursesInput {
+  where: TeacherWhereUniqueInput;
+  update: TeacherUpdateWithoutCoursesDataInput;
+  create: TeacherCreateWithoutCoursesInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  admin?: Maybe<Boolean>;
+}
+
+export interface TeacherScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -2647,24 +3241,23 @@ export interface StudentWhereInput {
   mobile_not_starts_with?: Maybe<String>;
   mobile_ends_with?: Maybe<String>;
   mobile_not_ends_with?: Maybe<String>;
-  courses_every?: Maybe<CourseStudentWhereInput>;
-  courses_some?: Maybe<CourseStudentWhereInput>;
-  courses_none?: Maybe<CourseStudentWhereInput>;
-  cards_every?: Maybe<CardWhereInput>;
-  cards_some?: Maybe<CardWhereInput>;
-  cards_none?: Maybe<CardWhereInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  hasReferralBonus_not?: Maybe<Boolean>;
-  payments_every?: Maybe<PaymentWhereInput>;
-  payments_some?: Maybe<PaymentWhereInput>;
-  payments_none?: Maybe<PaymentWhereInput>;
-  user?: Maybe<UserWhereInput>;
-  AND?: Maybe<StudentWhereInput[] | StudentWhereInput>;
-  OR?: Maybe<StudentWhereInput[] | StudentWhereInput>;
-  NOT?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+  AND?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
+  OR?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
+  NOT?: Maybe<TeacherScalarWhereInput[] | TeacherScalarWhereInput>;
 }
 
-export interface PaymentScalarWhereInput {
+export interface CourseUpsertWithWhereUniqueWithoutTeachersInput {
+  where: CourseWhereUniqueInput;
+  update: CourseUpdateWithoutTeachersDataInput;
+  create: CourseCreateWithoutTeachersInput;
+}
+
+export interface TeacherUpdateManyWithWhereNestedInput {
+  where: TeacherScalarWhereInput;
+  data: TeacherUpdateManyDataInput;
+}
+
+export interface CourseStudentWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -2695,127 +3288,8 @@ export interface PaymentScalarWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
-  type?: Maybe<PaymentType>;
-  type_not?: Maybe<PaymentType>;
-  type_in?: Maybe<PaymentType[] | PaymentType>;
-  type_not_in?: Maybe<PaymentType[] | PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  date_not?: Maybe<DateTimeInput>;
-  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_lt?: Maybe<DateTimeInput>;
-  date_lte?: Maybe<DateTimeInput>;
-  date_gt?: Maybe<DateTimeInput>;
-  date_gte?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-  amount_not?: Maybe<Int>;
-  amount_in?: Maybe<Int[] | Int>;
-  amount_not_in?: Maybe<Int[] | Int>;
-  amount_lt?: Maybe<Int>;
-  amount_lte?: Maybe<Int>;
-  amount_gt?: Maybe<Int>;
-  amount_gte?: Maybe<Int>;
-  AND?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
-  OR?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
-  NOT?: Maybe<PaymentScalarWhereInput[] | PaymentScalarWhereInput>;
-}
-
-export interface CourseSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CourseWhereInput>;
-  AND?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-  OR?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-  NOT?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-}
-
-export interface PaymentUpdateManyWithWhereNestedInput {
-  where: PaymentScalarWhereInput;
-  data: PaymentUpdateManyDataInput;
-}
-
-export interface UserUpdateInput {
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  student?: Maybe<StudentUpdateOneWithoutUserInput>;
-  admin?: Maybe<Boolean>;
-}
-
-export interface PaymentUpdateManyDataInput {
-  type?: Maybe<PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-}
-
-export interface CourseUpdateManyWithWhereNestedInput {
-  where: CourseScalarWhereInput;
-  data: CourseUpdateManyDataInput;
-}
-
-export interface StudentUpsertWithoutCoursesInput {
-  update: StudentUpdateWithoutCoursesDataInput;
-  create: StudentCreateWithoutCoursesInput;
-}
-
-export interface CourseUpdateWithoutTeachersDataInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  courseStudents?: Maybe<CourseStudentUpdateManyWithoutCourseInput>;
-  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomUpdateOneInput>;
-}
-
-export interface CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput;
-  update: CourseStudentUpdateWithoutCourseDataInput;
-  create: CourseStudentCreateWithoutCourseInput;
-}
-
-export interface TeacherUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseUpdateManyWithoutTeachersInput>;
-}
-
-export interface CourseStudentScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
+  student?: Maybe<StudentWhereInput>;
+  course?: Maybe<CourseWhereInput>;
   role?: Maybe<DanceRole>;
   role_not?: Maybe<DanceRole>;
   role_in?: Maybe<DanceRole[] | DanceRole>;
@@ -2832,218 +3306,126 @@ export interface CourseStudentScalarWhereInput {
   waitlistDate_lte?: Maybe<DateTimeInput>;
   waitlistDate_gt?: Maybe<DateTimeInput>;
   waitlistDate_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
-  OR?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
-  NOT?: Maybe<CourseStudentScalarWhereInput[] | CourseStudentScalarWhereInput>;
+  AND?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
+  OR?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
+  NOT?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
 }
 
-export interface CourseCreateManyWithoutTeachersInput {
-  create?: Maybe<
-    CourseCreateWithoutTeachersInput[] | CourseCreateWithoutTeachersInput
-  >;
-  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-}
-
-export interface CourseStudentUpdateManyWithWhereNestedInput {
-  where: CourseStudentScalarWhereInput;
-  data: CourseStudentUpdateManyDataInput;
-}
-
-export interface RoomUpdateManyDataInput {
+export interface TeacherUpdateManyDataInput {
   name?: Maybe<String>;
-  capacity?: Maybe<Int>;
+  email?: Maybe<String>;
+  mobile?: Maybe<String>;
 }
 
-export interface CourseStudentUpdateManyDataInput {
-  role?: Maybe<DanceRole>;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
-}
+export type PaymentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface RoomUpsertWithWhereUniqueWithoutStudioInput {
-  where: RoomWhereUniqueInput;
-  update: RoomUpdateWithoutStudioDataInput;
-  create: RoomCreateWithoutStudioInput;
-}
-
-export interface RoomUpdateOneInput {
-  create?: Maybe<RoomCreateInput>;
-  update?: Maybe<RoomUpdateDataInput>;
-  upsert?: Maybe<RoomUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<RoomWhereUniqueInput>;
-}
-
-export interface RoomUpdateManyWithoutStudioInput {
-  create?: Maybe<RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput>;
-  delete?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  set?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  disconnect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+export interface CourseInstanceUpdateManyWithoutCourseInput {
+  create?: Maybe<
+    | CourseInstanceCreateWithoutCourseInput[]
+    | CourseInstanceCreateWithoutCourseInput
+  >;
+  delete?: Maybe<
+    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
+  >;
+  connect?: Maybe<
+    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
+  >;
+  set?: Maybe<
+    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    CourseInstanceWhereUniqueInput[] | CourseInstanceWhereUniqueInput
+  >;
   update?: Maybe<
-    | RoomUpdateWithWhereUniqueWithoutStudioInput[]
-    | RoomUpdateWithWhereUniqueWithoutStudioInput
+    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput[]
+    | CourseInstanceUpdateWithWhereUniqueWithoutCourseInput
   >;
   upsert?: Maybe<
-    | RoomUpsertWithWhereUniqueWithoutStudioInput[]
-    | RoomUpsertWithWhereUniqueWithoutStudioInput
+    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput[]
+    | CourseInstanceUpsertWithWhereUniqueWithoutCourseInput
   >;
-  deleteMany?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
+  deleteMany?: Maybe<
+    CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput
+  >;
   updateMany?: Maybe<
-    RoomUpdateManyWithWhereNestedInput[] | RoomUpdateManyWithWhereNestedInput
+    | CourseInstanceUpdateManyWithWhereNestedInput[]
+    | CourseInstanceUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface RoomUpdateDataInput {
+export type StudentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+}>;
+
+export interface CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
+  where: CourseInstanceWhereUniqueInput;
+  data: CourseInstanceUpdateWithoutCourseDataInput;
+}
+
+export interface RoomUpdateInput {
   name?: Maybe<String>;
   capacity?: Maybe<Int>;
   studio?: Maybe<StudioUpdateOneRequiredWithoutRoomsInput>;
 }
 
-export interface RoomCreateManyWithoutStudioInput {
-  create?: Maybe<RoomCreateWithoutStudioInput[] | RoomCreateWithoutStudioInput>;
-  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-}
-
-export interface StudioUpdateOneRequiredWithoutRoomsInput {
-  create?: Maybe<StudioCreateWithoutRoomsInput>;
-  update?: Maybe<StudioUpdateWithoutRoomsDataInput>;
-  upsert?: Maybe<StudioUpsertWithoutRoomsInput>;
-  connect?: Maybe<StudioWhereUniqueInput>;
-}
-
-export interface StudentUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentUpdateManyWithoutStudentInput>;
-  cards?: Maybe<CardUpdateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentUpdateManyWithoutStudentInput>;
-  user?: Maybe<UserUpdateOneWithoutStudentInput>;
-}
-
-export interface StudioUpdateWithoutRoomsDataInput {
-  name?: Maybe<String>;
-  address?: Maybe<String>;
-}
-
-export type TeacherWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface StudioUpsertWithoutRoomsInput {
-  update: StudioUpdateWithoutRoomsDataInput;
-  create: StudioCreateWithoutRoomsInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface RoomUpsertNestedInput {
-  update: RoomUpdateDataInput;
-  create: RoomCreateInput;
-}
-
-export interface StudentUpsertWithoutUserInput {
-  update: StudentUpdateWithoutUserDataInput;
-  create: StudentCreateWithoutUserInput;
-}
-
-export interface CourseUpsertWithoutInstancesInput {
-  update: CourseUpdateWithoutInstancesDataInput;
-  create: CourseCreateWithoutInstancesInput;
-}
-
-export interface StudentCreateWithoutCardsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
-  user?: Maybe<UserCreateOneWithoutStudentInput>;
-}
-
-export interface CourseInstanceUpsertWithoutParticipantsInput {
-  update: CourseInstanceUpdateWithoutParticipantsDataInput;
-  create: CourseInstanceCreateWithoutParticipantsInput;
-}
-
-export interface CourseCreateWithoutCourseStudentsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
-  instances?: Maybe<CourseInstanceCreateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomCreateOneInput>;
-}
-
-export interface ParticipantUpsertWithWhereUniqueNestedInput {
-  where: ParticipantWhereUniqueInput;
-  update: ParticipantUpdateDataInput;
-  create: ParticipantCreateInput;
-}
-
-export interface CourseInstanceCreateWithoutCourseInput {
-  id?: Maybe<ID_Input>;
+export interface CourseInstanceUpdateWithoutCourseDataInput {
   date?: Maybe<DateTimeInput>;
   topic?: Maybe<String>;
   notes?: Maybe<String>;
-  participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
+  participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
 }
 
-export interface ParticipantScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  status?: Maybe<ParticipantStatus>;
-  status_not?: Maybe<ParticipantStatus>;
-  status_in?: Maybe<ParticipantStatus[] | ParticipantStatus>;
-  status_not_in?: Maybe<ParticipantStatus[] | ParticipantStatus>;
-  AND?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
-  OR?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
-  NOT?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+export interface LoginResponseUpdateManyMutationInput {
+  token?: Maybe<String>;
 }
 
-export interface StudentCreateInput {
+export interface ParticipantUpdateManyWithoutCourseInstanceInput {
+  create?: Maybe<
+    | ParticipantCreateWithoutCourseInstanceInput[]
+    | ParticipantCreateWithoutCourseInstanceInput
+  >;
+  delete?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  set?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  disconnect?: Maybe<
+    ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput[]
+    | ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput
+  >;
+  upsert?: Maybe<
+    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput[]
+    | ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput
+  >;
+  deleteMany?: Maybe<
+    ParticipantScalarWhereInput[] | ParticipantScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ParticipantUpdateManyWithWhereNestedInput[]
+    | ParticipantUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CourseStudentCreateWithoutStudentInput {
+  id?: Maybe<ID_Input>;
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
+  status?: Maybe<CourseStudentStatus>;
+  waitlistDate?: Maybe<DateTimeInput>;
+}
+
+export interface ParticipantUpdateWithWhereUniqueWithoutCourseInstanceInput {
+  where: ParticipantWhereUniqueInput;
+  data: ParticipantUpdateWithoutCourseInstanceDataInput;
+}
+
+export interface StudentCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   name: String;
   email: String;
@@ -3052,23 +3434,10 @@ export interface StudentCreateInput {
   cards?: Maybe<CardCreateManyWithoutStudentInput>;
   hasReferralBonus?: Maybe<Boolean>;
   payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
-  user?: Maybe<UserCreateOneWithoutStudentInput>;
 }
 
-export interface ParticipantUpdateManyWithWhereNestedInput {
-  where: ParticipantScalarWhereInput;
-  data: ParticipantUpdateManyDataInput;
-}
-
-export interface PaymentCreateWithoutCardInput {
-  id?: Maybe<ID_Input>;
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  student?: Maybe<StudentCreateOneWithoutPaymentsInput>;
-}
-
-export interface ParticipantUpdateManyDataInput {
+export interface ParticipantUpdateWithoutCourseInstanceDataInput {
+  student?: Maybe<StudentUpdateOneRequiredInput>;
   status?: Maybe<ParticipantStatus>;
 }
 
@@ -3079,198 +3448,21 @@ export interface UserCreateWithoutStudentInput {
   admin?: Maybe<Boolean>;
 }
 
-export interface CardUpsertWithWhereUniqueWithoutStudentInput {
-  where: CardWhereUniqueInput;
-  update: CardUpdateWithoutStudentDataInput;
-  create: CardCreateWithoutStudentInput;
-}
-
-export interface CourseInstanceCreateWithoutParticipantsInput {
-  id?: Maybe<ID_Input>;
-  course?: Maybe<CourseCreateOneWithoutInstancesInput>;
-  date?: Maybe<DateTimeInput>;
-  topic?: Maybe<String>;
-  notes?: Maybe<String>;
-  recapUrl?: Maybe<String>;
-}
-
-export interface CardScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  expirationDate?: Maybe<DateTimeInput>;
-  expirationDate_not?: Maybe<DateTimeInput>;
-  expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expirationDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expirationDate_lt?: Maybe<DateTimeInput>;
-  expirationDate_lte?: Maybe<DateTimeInput>;
-  expirationDate_gt?: Maybe<DateTimeInput>;
-  expirationDate_gte?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  active_not?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  paid_not?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  value_not?: Maybe<Int>;
-  value_in?: Maybe<Int[] | Int>;
-  value_not_in?: Maybe<Int[] | Int>;
-  value_lt?: Maybe<Int>;
-  value_lte?: Maybe<Int>;
-  value_gt?: Maybe<Int>;
-  value_gte?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-  originalValue_not?: Maybe<Int>;
-  originalValue_in?: Maybe<Int[] | Int>;
-  originalValue_not_in?: Maybe<Int[] | Int>;
-  originalValue_lt?: Maybe<Int>;
-  originalValue_lte?: Maybe<Int>;
-  originalValue_gt?: Maybe<Int>;
-  originalValue_gte?: Maybe<Int>;
-  AND?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
-  OR?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
-  NOT?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
-}
-
-export interface CourseStudentCreateWithoutCourseInput {
-  id?: Maybe<ID_Input>;
-  student: StudentCreateOneWithoutCoursesInput;
-  role: DanceRole;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
-}
-
-export interface CardUpdateManyWithWhereNestedInput {
-  where: CardScalarWhereInput;
-  data: CardUpdateManyDataInput;
-}
-
-export interface PaymentCreateWithoutStudentInput {
-  id?: Maybe<ID_Input>;
-  type: PaymentType;
-  date: DateTimeInput;
-  amount: Int;
-  card?: Maybe<CardCreateOneWithoutPaymentInput>;
-}
-
-export interface CardUpdateManyDataInput {
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface StudentUpsertNestedInput {
-  update: StudentUpdateDataInput;
-  create: StudentCreateInput;
-}
-
-export interface PaymentWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  type?: Maybe<PaymentType>;
-  type_not?: Maybe<PaymentType>;
-  type_in?: Maybe<PaymentType[] | PaymentType>;
-  type_not_in?: Maybe<PaymentType[] | PaymentType>;
-  date?: Maybe<DateTimeInput>;
-  date_not?: Maybe<DateTimeInput>;
-  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_lt?: Maybe<DateTimeInput>;
-  date_lte?: Maybe<DateTimeInput>;
-  date_gt?: Maybe<DateTimeInput>;
-  date_gte?: Maybe<DateTimeInput>;
-  amount?: Maybe<Int>;
-  amount_not?: Maybe<Int>;
-  amount_in?: Maybe<Int[] | Int>;
-  amount_not_in?: Maybe<Int[] | Int>;
-  amount_lt?: Maybe<Int>;
-  amount_lte?: Maybe<Int>;
-  amount_gt?: Maybe<Int>;
-  amount_gte?: Maybe<Int>;
-  student?: Maybe<StudentWhereInput>;
-  card?: Maybe<CardWhereInput>;
-  AND?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
-  OR?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
-  NOT?: Maybe<PaymentWhereInput[] | PaymentWhereInput>;
-}
-
 export interface ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput {
   where: ParticipantWhereUniqueInput;
   update: ParticipantUpdateWithoutCourseInstanceDataInput;
   create: ParticipantCreateWithoutCourseInstanceInput;
 }
 
-export interface UserUpdateManyMutationInput {
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  admin?: Maybe<Boolean>;
+export interface CardCreateWithoutPaymentInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneWithoutCardsInput;
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value: Int;
+  originalValue: Int;
+  participationHistory?: Maybe<ParticipantCreateManyInput>;
 }
 
 export interface CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
@@ -3279,10 +3471,15 @@ export interface CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
   create: CourseInstanceCreateWithoutCourseInput;
 }
 
-export interface CourseUpsertWithWhereUniqueWithoutTeachersInput {
-  where: CourseWhereUniqueInput;
-  update: CourseUpdateWithoutTeachersDataInput;
-  create: CourseCreateWithoutTeachersInput;
+export interface StudentCreateWithoutCoursesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  mobile?: Maybe<String>;
+  cards?: Maybe<CardCreateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
+  user?: Maybe<UserCreateOneWithoutStudentInput>;
 }
 
 export interface CourseInstanceScalarWhereInput {
@@ -3375,211 +3572,6 @@ export interface CourseInstanceScalarWhereInput {
   >;
 }
 
-export interface CourseStudentWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  student?: Maybe<StudentWhereInput>;
-  course?: Maybe<CourseWhereInput>;
-  role?: Maybe<DanceRole>;
-  role_not?: Maybe<DanceRole>;
-  role_in?: Maybe<DanceRole[] | DanceRole>;
-  role_not_in?: Maybe<DanceRole[] | DanceRole>;
-  status?: Maybe<CourseStudentStatus>;
-  status_not?: Maybe<CourseStudentStatus>;
-  status_in?: Maybe<CourseStudentStatus[] | CourseStudentStatus>;
-  status_not_in?: Maybe<CourseStudentStatus[] | CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
-  waitlistDate_not?: Maybe<DateTimeInput>;
-  waitlistDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  waitlistDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  waitlistDate_lt?: Maybe<DateTimeInput>;
-  waitlistDate_lte?: Maybe<DateTimeInput>;
-  waitlistDate_gt?: Maybe<DateTimeInput>;
-  waitlistDate_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
-  OR?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
-  NOT?: Maybe<CourseStudentWhereInput[] | CourseStudentWhereInput>;
-}
-
-export interface CourseInstanceUpdateManyWithWhereNestedInput {
-  where: CourseInstanceScalarWhereInput;
-  data: CourseInstanceUpdateManyDataInput;
-}
-
-export type PaymentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface CourseInstanceUpdateManyDataInput {
-  date?: Maybe<DateTimeInput>;
-  topic?: Maybe<String>;
-  notes?: Maybe<String>;
-  recapUrl?: Maybe<String>;
-}
-
-export type StudentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-}>;
-
-export interface CourseUpsertWithoutCourseStudentsInput {
-  update: CourseUpdateWithoutCourseStudentsDataInput;
-  create: CourseCreateWithoutCourseStudentsInput;
-}
-
-export interface RoomUpdateInput {
-  name?: Maybe<String>;
-  capacity?: Maybe<Int>;
-  studio?: Maybe<StudioUpdateOneRequiredWithoutRoomsInput>;
-}
-
-export interface CourseStudentUpsertWithWhereUniqueWithoutStudentInput {
-  where: CourseStudentWhereUniqueInput;
-  update: CourseStudentUpdateWithoutStudentDataInput;
-  create: CourseStudentCreateWithoutStudentInput;
-}
-
-export interface LoginResponseUpdateManyMutationInput {
-  token?: Maybe<String>;
-}
-
-export interface StudentUpsertWithoutCardsInput {
-  update: StudentUpdateWithoutCardsDataInput;
-  create: StudentCreateWithoutCardsInput;
-}
-
-export interface CourseStudentCreateWithoutStudentInput {
-  id?: Maybe<ID_Input>;
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
-}
-
-export interface CardUpdateManyMutationInput {
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value?: Maybe<Int>;
-  originalValue?: Maybe<Int>;
-}
-
-export interface ParticipantCreateWithoutCourseInstanceInput {
-  id?: Maybe<ID_Input>;
-  student: StudentCreateOneInput;
-  status?: Maybe<ParticipantStatus>;
-}
-
-export interface UserUpdateDataInput {
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  student?: Maybe<StudentUpdateOneWithoutUserInput>;
-  admin?: Maybe<Boolean>;
-}
-
-export interface StudentCreateWithoutPaymentsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
-  cards?: Maybe<CardCreateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  user?: Maybe<UserCreateOneWithoutStudentInput>;
-}
-
-export interface UserUpdateOneInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface CourseCreateWithoutInstancesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
-  courseStudents?: Maybe<CourseStudentCreateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomCreateOneInput>;
-}
-
-export interface CourseCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
-  courseStudents?: Maybe<CourseStudentCreateManyWithoutCourseInput>;
-  instances?: Maybe<CourseInstanceCreateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomCreateOneInput>;
-}
-
-export interface CardCreateWithoutPaymentInput {
-  id?: Maybe<ID_Input>;
-  student: StudentCreateOneWithoutCardsInput;
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value: Int;
-  originalValue: Int;
-  participationHistory?: Maybe<ParticipantCreateManyInput>;
-}
-
-export interface CourseUpdateInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  teachers?: Maybe<TeacherUpdateManyWithoutCoursesInput>;
-  courseStudents?: Maybe<CourseStudentUpdateManyWithoutCourseInput>;
-  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
-  studentLimit?: Maybe<Int>;
-  room?: Maybe<RoomUpdateOneInput>;
-}
-
 export interface CourseStudentSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -3597,14 +3589,9 @@ export interface CourseStudentSubscriptionWhereInput {
   >;
 }
 
-export interface CourseUpdateManyMutationInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startTime?: Maybe<String>;
-  day?: Maybe<CourseDay>;
-  duration?: Maybe<Int>;
-  studentLimit?: Maybe<Int>;
+export interface CourseInstanceUpdateManyWithWhereNestedInput {
+  where: CourseInstanceScalarWhereInput;
+  data: CourseInstanceUpdateManyDataInput;
 }
 
 export interface CourseUpdateManyWithoutTeachersInput {
@@ -3630,13 +3617,10 @@ export interface CourseUpdateManyWithoutTeachersInput {
   >;
 }
 
-export interface CourseInstanceCreateInput {
-  id?: Maybe<ID_Input>;
-  course?: Maybe<CourseCreateOneWithoutInstancesInput>;
+export interface CourseInstanceUpdateManyDataInput {
   date?: Maybe<DateTimeInput>;
   topic?: Maybe<String>;
   notes?: Maybe<String>;
-  participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
 }
 
@@ -3644,13 +3628,9 @@ export type RoomWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface CourseInstanceUpdateInput {
-  course?: Maybe<CourseUpdateOneWithoutInstancesInput>;
-  date?: Maybe<DateTimeInput>;
-  topic?: Maybe<String>;
-  notes?: Maybe<String>;
-  participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
-  recapUrl?: Maybe<String>;
+export interface CourseUpsertWithoutCourseStudentsInput {
+  update: CourseUpdateWithoutCourseStudentsDataInput;
+  create: CourseCreateWithoutCourseStudentsInput;
 }
 
 export interface PaymentCreateInput {
@@ -3662,11 +3642,10 @@ export interface PaymentCreateInput {
   card?: Maybe<CardCreateOneWithoutPaymentInput>;
 }
 
-export interface CourseInstanceUpdateManyMutationInput {
-  date?: Maybe<DateTimeInput>;
-  topic?: Maybe<String>;
-  notes?: Maybe<String>;
-  recapUrl?: Maybe<String>;
+export interface CourseStudentUpsertWithWhereUniqueWithoutStudentInput {
+  where: CourseStudentWhereUniqueInput;
+  update: CourseStudentUpdateWithoutStudentDataInput;
+  create: CourseStudentCreateWithoutStudentInput;
 }
 
 export interface TeacherCreateWithoutCoursesInput {
@@ -3674,30 +3653,32 @@ export interface TeacherCreateWithoutCoursesInput {
   name: String;
   email: String;
   mobile?: Maybe<String>;
+  user?: Maybe<UserCreateOneInput>;
 }
 
-export interface CourseStudentCreateInput {
+export interface StudentUpsertWithoutCardsInput {
+  update: StudentUpdateWithoutCardsDataInput;
+  create: StudentCreateWithoutCardsInput;
+}
+
+export interface StudentCreateInput {
   id?: Maybe<ID_Input>;
-  student: StudentCreateOneWithoutCoursesInput;
-  course: CourseCreateOneWithoutCourseStudentsInput;
-  role: DanceRole;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
+  name: String;
+  email: String;
+  mobile?: Maybe<String>;
+  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
+  cards?: Maybe<CardCreateManyWithoutStudentInput>;
+  hasReferralBonus?: Maybe<Boolean>;
+  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
+  user?: Maybe<UserCreateOneWithoutStudentInput>;
 }
 
-export interface ParticipantCreateInput {
-  id?: Maybe<ID_Input>;
-  student: StudentCreateOneInput;
-  courseInstance: CourseInstanceCreateOneWithoutParticipantsInput;
-  status?: Maybe<ParticipantStatus>;
-}
-
-export interface CourseStudentUpdateInput {
-  student?: Maybe<StudentUpdateOneRequiredWithoutCoursesInput>;
-  course?: Maybe<CourseUpdateOneRequiredWithoutCourseStudentsInput>;
-  role?: Maybe<DanceRole>;
-  status?: Maybe<CourseStudentStatus>;
-  waitlistDate?: Maybe<DateTimeInput>;
+export interface CardUpdateManyMutationInput {
+  expirationDate?: Maybe<DateTimeInput>;
+  active?: Maybe<Boolean>;
+  paid?: Maybe<Boolean>;
+  value?: Maybe<Int>;
+  originalValue?: Maybe<Int>;
 }
 
 export interface StudentSubscriptionWhereInput {
@@ -3711,8 +3692,11 @@ export interface StudentSubscriptionWhereInput {
   NOT?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
 }
 
-export interface CourseStudentUpdateManyMutationInput {
-  role?: Maybe<DanceRole>;
+export interface CourseStudentCreateInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneWithoutCoursesInput;
+  course: CourseCreateOneWithoutCourseStudentsInput;
+  role: DanceRole;
   status?: Maybe<CourseStudentStatus>;
   waitlistDate?: Maybe<DateTimeInput>;
 }
@@ -3721,10 +3705,11 @@ export type ParticipantWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface LoginResponseCreateInput {
-  id?: Maybe<ID_Input>;
-  token?: Maybe<String>;
-  user?: Maybe<UserCreateOneInput>;
+export interface CourseInstanceUpdateManyMutationInput {
+  date?: Maybe<DateTimeInput>;
+  topic?: Maybe<String>;
+  notes?: Maybe<String>;
+  recapUrl?: Maybe<String>;
 }
 
 export interface CardCreateInput {
@@ -3739,44 +3724,61 @@ export interface CardCreateInput {
   participationHistory?: Maybe<ParticipantCreateManyInput>;
 }
 
-export interface StudentCreateWithoutUserInput {
+export interface CourseInstanceCreateInput {
+  id?: Maybe<ID_Input>;
+  course?: Maybe<CourseCreateOneWithoutInstancesInput>;
+  date?: Maybe<DateTimeInput>;
+  topic?: Maybe<String>;
+  notes?: Maybe<String>;
+  participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
+  recapUrl?: Maybe<String>;
+}
+
+export interface CourseUpdateManyMutationInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  studentLimit?: Maybe<Int>;
+}
+
+export interface CourseUpdateInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  teachers?: Maybe<TeacherUpdateManyWithoutCoursesInput>;
+  courseStudents?: Maybe<CourseStudentUpdateManyWithoutCourseInput>;
+  instances?: Maybe<CourseInstanceUpdateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomUpdateOneInput>;
+}
+
+export interface CourseCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
-  email: String;
-  mobile?: Maybe<String>;
-  courses?: Maybe<CourseStudentCreateManyWithoutStudentInput>;
-  cards?: Maybe<CardCreateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
+  courseStudents?: Maybe<CourseStudentCreateManyWithoutCourseInput>;
+  instances?: Maybe<CourseInstanceCreateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomCreateOneInput>;
 }
 
-export interface StudentCreateOneWithoutUserInput {
-  create?: Maybe<StudentCreateWithoutUserInput>;
-  connect?: Maybe<StudentWhereUniqueInput>;
-}
-
-export interface UserCreateInput {
+export interface PaymentCreateWithoutCardInput {
   id?: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  password: String;
-  student?: Maybe<StudentCreateOneWithoutUserInput>;
-  admin?: Maybe<Boolean>;
-}
-
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface CardCreateWithoutStudentInput {
-  id?: Maybe<ID_Input>;
-  payment?: Maybe<PaymentCreateOneWithoutCardInput>;
-  expirationDate?: Maybe<DateTimeInput>;
-  active?: Maybe<Boolean>;
-  paid?: Maybe<Boolean>;
-  value: Int;
-  originalValue: Int;
-  participationHistory?: Maybe<ParticipantCreateManyInput>;
+  type: PaymentType;
+  date: DateTimeInput;
+  amount: Int;
+  student?: Maybe<StudentCreateOneWithoutPaymentsInput>;
 }
 
 export interface StudentUpdateManyMutationInput {
@@ -3796,15 +3798,18 @@ export interface CourseUpdateManyDataInput {
   studentLimit?: Maybe<Int>;
 }
 
-export interface StudentCreateWithoutCoursesInput {
+export interface CourseCreateWithoutInstancesInput {
   id?: Maybe<ID_Input>;
   name: String;
-  email: String;
-  mobile?: Maybe<String>;
-  cards?: Maybe<CardCreateManyWithoutStudentInput>;
-  hasReferralBonus?: Maybe<Boolean>;
-  payments?: Maybe<PaymentCreateManyWithoutStudentInput>;
-  user?: Maybe<UserCreateOneWithoutStudentInput>;
+  description?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startTime?: Maybe<String>;
+  day?: Maybe<CourseDay>;
+  duration?: Maybe<Int>;
+  teachers?: Maybe<TeacherCreateManyWithoutCoursesInput>;
+  courseStudents?: Maybe<CourseStudentCreateManyWithoutCourseInput>;
+  studentLimit?: Maybe<Int>;
+  room?: Maybe<RoomCreateOneInput>;
 }
 
 export interface NodeNode {
@@ -4548,29 +4553,47 @@ export interface AggregateStudentSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface TeacherSubscriptionPayload {
-  mutation: MutationType;
-  node: Teacher;
-  updatedFields: String[];
-  previousValues: TeacherPreviousValues;
+export interface User {
+  id: ID_Output;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  email?: String;
+  password: String;
+  admin: Boolean;
 }
 
-export interface TeacherSubscriptionPayloadPromise
-  extends Promise<TeacherSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TeacherPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TeacherPreviousValuesPromise>() => T;
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  student: <T = StudentPromise>() => T;
+  admin: () => Promise<Boolean>;
 }
 
-export interface TeacherSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TeacherSubscriptionPayload>>,
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TeacherSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TeacherPreviousValuesSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  student: <T = StudentSubscription>() => T;
+  admin: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  student: <T = StudentPromise>() => T;
+  admin: () => Promise<Boolean>;
 }
 
 export interface StudentConnection {
@@ -4808,47 +4831,50 @@ export interface ParticipantConnectionSubscription
   aggregate: <T = AggregateParticipantSubscription>() => T;
 }
 
-export interface User {
+export interface Payment {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
-  email?: String;
-  password: String;
-  admin: Boolean;
+  type: PaymentType;
+  date: DateTimeOutput;
+  amount: Int;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface PaymentPromise extends Promise<Payment>, Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
+  type: () => Promise<PaymentType>;
+  date: () => Promise<DateTimeOutput>;
+  amount: () => Promise<Int>;
   student: <T = StudentPromise>() => T;
-  admin: () => Promise<Boolean>;
+  card: <T = CardPromise>() => T;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface PaymentSubscription
+  extends Promise<AsyncIterator<Payment>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<PaymentType>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  amount: () => Promise<AsyncIterator<Int>>;
   student: <T = StudentSubscription>() => T;
-  admin: () => Promise<AsyncIterator<Boolean>>;
+  card: <T = CardSubscription>() => T;
 }
 
-export interface UserNullablePromise
-  extends Promise<User | null>,
+export interface PaymentNullablePromise
+  extends Promise<Payment | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
+  type: () => Promise<PaymentType>;
+  date: () => Promise<DateTimeOutput>;
+  amount: () => Promise<Int>;
   student: <T = StudentPromise>() => T;
-  admin: () => Promise<Boolean>;
+  card: <T = CardPromise>() => T;
 }
 
 export interface LoginResponseEdge {
@@ -4982,50 +5008,67 @@ export interface CourseStudentEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Payment {
+export interface Studio {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
-  type: PaymentType;
-  date: DateTimeOutput;
-  amount: Int;
+  name?: String;
+  address?: String;
 }
 
-export interface PaymentPromise extends Promise<Payment>, Fragmentable {
+export interface StudioPromise extends Promise<Studio>, Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  type: () => Promise<PaymentType>;
-  date: () => Promise<DateTimeOutput>;
-  amount: () => Promise<Int>;
-  student: <T = StudentPromise>() => T;
-  card: <T = CardPromise>() => T;
+  name: () => Promise<String>;
+  rooms: <T = FragmentableArray<Room>>(args?: {
+    where?: RoomWhereInput;
+    orderBy?: RoomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  address: () => Promise<String>;
 }
 
-export interface PaymentSubscription
-  extends Promise<AsyncIterator<Payment>>,
+export interface StudioSubscription
+  extends Promise<AsyncIterator<Studio>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  type: () => Promise<AsyncIterator<PaymentType>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  amount: () => Promise<AsyncIterator<Int>>;
-  student: <T = StudentSubscription>() => T;
-  card: <T = CardSubscription>() => T;
+  name: () => Promise<AsyncIterator<String>>;
+  rooms: <T = Promise<AsyncIterator<RoomSubscription>>>(args?: {
+    where?: RoomWhereInput;
+    orderBy?: RoomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  address: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PaymentNullablePromise
-  extends Promise<Payment | null>,
+export interface StudioNullablePromise
+  extends Promise<Studio | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  type: () => Promise<PaymentType>;
-  date: () => Promise<DateTimeOutput>;
-  amount: () => Promise<Int>;
-  student: <T = StudentPromise>() => T;
-  card: <T = CardPromise>() => T;
+  name: () => Promise<String>;
+  rooms: <T = FragmentableArray<Room>>(args?: {
+    where?: RoomWhereInput;
+    orderBy?: RoomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  address: () => Promise<String>;
 }
 
 export interface AggregateCourseInstance {
@@ -5131,67 +5174,43 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface Studio {
+export interface Room {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
   name?: String;
-  address?: String;
+  capacity?: Int;
 }
 
-export interface StudioPromise extends Promise<Studio>, Fragmentable {
+export interface RoomPromise extends Promise<Room>, Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
   name: () => Promise<String>;
-  rooms: <T = FragmentableArray<Room>>(args?: {
-    where?: RoomWhereInput;
-    orderBy?: RoomOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  address: () => Promise<String>;
+  capacity: () => Promise<Int>;
+  studio: <T = StudioPromise>() => T;
 }
 
-export interface StudioSubscription
-  extends Promise<AsyncIterator<Studio>>,
+export interface RoomSubscription
+  extends Promise<AsyncIterator<Room>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   name: () => Promise<AsyncIterator<String>>;
-  rooms: <T = Promise<AsyncIterator<RoomSubscription>>>(args?: {
-    where?: RoomWhereInput;
-    orderBy?: RoomOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  address: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Int>>;
+  studio: <T = StudioSubscription>() => T;
 }
 
-export interface StudioNullablePromise
-  extends Promise<Studio | null>,
+export interface RoomNullablePromise
+  extends Promise<Room | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
   name: () => Promise<String>;
-  rooms: <T = FragmentableArray<Room>>(args?: {
-    where?: RoomWhereInput;
-    orderBy?: RoomOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  address: () => Promise<String>;
+  capacity: () => Promise<Int>;
+  studio: <T = StudioPromise>() => T;
 }
 
 export interface UserEdge {
@@ -5299,43 +5318,42 @@ export interface StudioConnectionSubscription
   aggregate: <T = AggregateStudioSubscription>() => T;
 }
 
-export interface Room {
+export interface Participant {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
-  name?: String;
-  capacity?: Int;
+  status?: ParticipantStatus;
 }
 
-export interface RoomPromise extends Promise<Room>, Fragmentable {
+export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  name: () => Promise<String>;
-  capacity: () => Promise<Int>;
-  studio: <T = StudioPromise>() => T;
+  student: <T = StudentPromise>() => T;
+  courseInstance: <T = CourseInstancePromise>() => T;
+  status: () => Promise<ParticipantStatus>;
 }
 
-export interface RoomSubscription
-  extends Promise<AsyncIterator<Room>>,
+export interface ParticipantSubscription
+  extends Promise<AsyncIterator<Participant>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  name: () => Promise<AsyncIterator<String>>;
-  capacity: () => Promise<AsyncIterator<Int>>;
-  studio: <T = StudioSubscription>() => T;
+  student: <T = StudentSubscription>() => T;
+  courseInstance: <T = CourseInstanceSubscription>() => T;
+  status: () => Promise<AsyncIterator<ParticipantStatus>>;
 }
 
-export interface RoomNullablePromise
-  extends Promise<Room | null>,
+export interface ParticipantNullablePromise
+  extends Promise<Participant | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  name: () => Promise<String>;
-  capacity: () => Promise<Int>;
-  studio: <T = StudioPromise>() => T;
+  student: <T = StudentPromise>() => T;
+  courseInstance: <T = CourseInstancePromise>() => T;
+  status: () => Promise<ParticipantStatus>;
 }
 
 export interface AggregatePayment {
@@ -5450,42 +5468,35 @@ export interface LoginResponseConnectionSubscription
   aggregate: <T = AggregateLoginResponseSubscription>() => T;
 }
 
-export interface Participant {
+export interface TeacherPreviousValues {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
-  status?: ParticipantStatus;
+  name: String;
+  email: String;
+  mobile?: String;
 }
 
-export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
+export interface TeacherPreviousValuesPromise
+  extends Promise<TeacherPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  student: <T = StudentPromise>() => T;
-  courseInstance: <T = CourseInstancePromise>() => T;
-  status: () => Promise<ParticipantStatus>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  mobile: () => Promise<String>;
 }
 
-export interface ParticipantSubscription
-  extends Promise<AsyncIterator<Participant>>,
+export interface TeacherPreviousValuesSubscription
+  extends Promise<AsyncIterator<TeacherPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  student: <T = StudentSubscription>() => T;
-  courseInstance: <T = CourseInstanceSubscription>() => T;
-  status: () => Promise<AsyncIterator<ParticipantStatus>>;
-}
-
-export interface ParticipantNullablePromise
-  extends Promise<Participant | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-  student: <T = StudentPromise>() => T;
-  courseInstance: <T = CourseInstancePromise>() => T;
-  status: () => Promise<ParticipantStatus>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  mobile: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CourseStudentConnection {
@@ -5603,6 +5614,7 @@ export interface TeacherPromise extends Promise<Teacher>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface TeacherSubscription
@@ -5623,6 +5635,7 @@ export interface TeacherSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  user: <T = UserSubscription>() => T;
 }
 
 export interface TeacherNullablePromise
@@ -5643,37 +5656,83 @@ export interface TeacherNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  user: <T = UserPromise>() => T;
 }
 
-export interface TeacherPreviousValues {
+export interface CourseInstance {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
-  name: String;
-  email: String;
-  mobile?: String;
+  date?: DateTimeOutput;
+  topic?: String;
+  notes?: String;
+  recapUrl?: String;
 }
 
-export interface TeacherPreviousValuesPromise
-  extends Promise<TeacherPreviousValues>,
+export interface CourseInstancePromise
+  extends Promise<CourseInstance>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  mobile: () => Promise<String>;
+  course: <T = CoursePromise>() => T;
+  date: () => Promise<DateTimeOutput>;
+  topic: () => Promise<String>;
+  notes: () => Promise<String>;
+  participants: <T = FragmentableArray<Participant>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  recapUrl: () => Promise<String>;
 }
 
-export interface TeacherPreviousValuesSubscription
-  extends Promise<AsyncIterator<TeacherPreviousValues>>,
+export interface CourseInstanceSubscription
+  extends Promise<AsyncIterator<CourseInstance>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  mobile: () => Promise<AsyncIterator<String>>;
+  course: <T = CourseSubscription>() => T;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  topic: () => Promise<AsyncIterator<String>>;
+  notes: () => Promise<AsyncIterator<String>>;
+  participants: <T = Promise<AsyncIterator<ParticipantSubscription>>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  recapUrl: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CourseInstanceNullablePromise
+  extends Promise<CourseInstance | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+  course: <T = CoursePromise>() => T;
+  date: () => Promise<DateTimeOutput>;
+  topic: () => Promise<String>;
+  notes: () => Promise<String>;
+  participants: <T = FragmentableArray<Participant>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  recapUrl: () => Promise<String>;
 }
 
 export interface RoomEdge {
@@ -5806,80 +5865,29 @@ export interface StudioSubscriptionPayloadSubscription
   previousValues: <T = StudioPreviousValuesSubscription>() => T;
 }
 
-export interface CourseInstance {
-  id: ID_Output;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-  date?: DateTimeOutput;
-  topic?: String;
-  notes?: String;
-  recapUrl?: String;
+export interface TeacherSubscriptionPayload {
+  mutation: MutationType;
+  node: Teacher;
+  updatedFields: String[];
+  previousValues: TeacherPreviousValues;
 }
 
-export interface CourseInstancePromise
-  extends Promise<CourseInstance>,
+export interface TeacherSubscriptionPayloadPromise
+  extends Promise<TeacherSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-  course: <T = CoursePromise>() => T;
-  date: () => Promise<DateTimeOutput>;
-  topic: () => Promise<String>;
-  notes: () => Promise<String>;
-  participants: <T = FragmentableArray<Participant>>(args?: {
-    where?: ParticipantWhereInput;
-    orderBy?: ParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  recapUrl: () => Promise<String>;
+  mutation: () => Promise<MutationType>;
+  node: <T = TeacherPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TeacherPreviousValuesPromise>() => T;
 }
 
-export interface CourseInstanceSubscription
-  extends Promise<AsyncIterator<CourseInstance>>,
+export interface TeacherSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TeacherSubscriptionPayload>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  course: <T = CourseSubscription>() => T;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  topic: () => Promise<AsyncIterator<String>>;
-  notes: () => Promise<AsyncIterator<String>>;
-  participants: <T = Promise<AsyncIterator<ParticipantSubscription>>>(args?: {
-    where?: ParticipantWhereInput;
-    orderBy?: ParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  recapUrl: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CourseInstanceNullablePromise
-  extends Promise<CourseInstance | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-  course: <T = CoursePromise>() => T;
-  date: () => Promise<DateTimeOutput>;
-  topic: () => Promise<String>;
-  notes: () => Promise<String>;
-  participants: <T = FragmentableArray<Participant>>(args?: {
-    where?: ParticipantWhereInput;
-    orderBy?: ParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  recapUrl: () => Promise<String>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TeacherSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TeacherPreviousValuesSubscription>() => T;
 }
 
 export interface StudentPreviousValues {

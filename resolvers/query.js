@@ -1,10 +1,11 @@
 const { subWeeks, addWeeks } = require('date-fns');
+const { AuthenticationError } = require('apollo-server');
 
 const studentQueries = {
     currentUser: (parent, args, { user, prisma }) => {
         // this if statement is our authentication check
         if (!user) {
-            throw new Error('Not Authenticated');
+            throw new AuthenticationError('Not Authenticated');
         }
         return prisma.user({ id: user.id });
     },
@@ -83,9 +84,6 @@ const adminQueries = {
     },
     overviewInstances(root, args, context) {
         const now = new Date();
-        if (!context.user) {
-            throw new AuthenticationError('Not Authenticated');
-        }
         return context.prisma.courseInstances({
             where: {
                 date_lte: addWeeks(now, 3),

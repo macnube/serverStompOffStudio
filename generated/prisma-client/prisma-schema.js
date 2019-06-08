@@ -3245,6 +3245,7 @@ type Teacher {
   email: String!
   mobile: String
   courses(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course!]
+  user: User
 }
 
 type TeacherConnection {
@@ -3259,6 +3260,7 @@ input TeacherCreateInput {
   email: String!
   mobile: String
   courses: CourseCreateManyWithoutTeachersInput
+  user: UserCreateOneInput
 }
 
 input TeacherCreateManyWithoutCoursesInput {
@@ -3271,6 +3273,7 @@ input TeacherCreateWithoutCoursesInput {
   name: String!
   email: String!
   mobile: String
+  user: UserCreateOneInput
 }
 
 type TeacherEdge {
@@ -3403,6 +3406,7 @@ input TeacherUpdateInput {
   email: String
   mobile: String
   courses: CourseUpdateManyWithoutTeachersInput
+  user: UserUpdateOneInput
 }
 
 input TeacherUpdateManyDataInput {
@@ -3438,6 +3442,7 @@ input TeacherUpdateWithoutCoursesDataInput {
   name: String
   email: String
   mobile: String
+  user: UserUpdateOneInput
 }
 
 input TeacherUpdateWithWhereUniqueWithoutCoursesInput {
@@ -3527,6 +3532,7 @@ input TeacherWhereInput {
   courses_every: CourseWhereInput
   courses_some: CourseWhereInput
   courses_none: CourseWhereInput
+  user: UserWhereInput
   AND: [TeacherWhereInput!]
   OR: [TeacherWhereInput!]
   NOT: [TeacherWhereInput!]

@@ -91,6 +91,7 @@ type Teacher {
     email: String!
     mobile: String
     courses: [Course!]
+    user: User
 }
 
 type CourseInstance {

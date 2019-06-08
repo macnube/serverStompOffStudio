@@ -92,6 +92,13 @@ const adminMutations = {
             name: args.name,
             email: args.email,
             mobile: args.mobile,
+            user: {
+                create: {
+                    email: args.email,
+                    password: args.email,
+                    admin: true,
+                },
+            },
         });
     },
     deleteTeacher(root, args, context) {
@@ -205,6 +212,13 @@ const adminMutations = {
             name: args.name,
             email: args.email,
             mobile: args.mobile,
+            user: {
+                create: {
+                    email: args.email,
+                    password: args.email,
+                    admin: false,
+                },
+            },
         });
     },
     deleteStudent(root, args, context) {
