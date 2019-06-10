@@ -349,21 +349,24 @@ const adminMutations = {
         });
     },
     createPayment(root, args, context) {
-        return context.prisma.createPayment({
+        const payment = {
             student: {
                 connect: {
                     id: args.studentId,
                 },
             },
-            card: {
-                connect: {
-                    id: args.cardId,
-                },
-            },
             type: args.type,
             amount: args.amount,
             date: args.date,
-        });
+        };
+        if (args.cardId) {
+            payment.card = {
+                connect: {
+                    id: args.cardId,
+                },
+            };
+        }
+        return context.prisma.createPayment(payment);
     },
     updatePayment(root, args, context) {
         return context.prisma.updatePayment({

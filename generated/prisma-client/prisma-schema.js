@@ -2213,6 +2213,7 @@ enum PaymentType {
   CARD
   PRIVATE
   DROP_IN
+  OLD_CARD
 }
 
 input PaymentUpdateInput {

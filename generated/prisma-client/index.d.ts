@@ -554,7 +554,7 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN";
+export type PaymentType = "CARD" | "PRIVATE" | "DROP_IN" | "OLD_CARD";
 
 export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED";
 

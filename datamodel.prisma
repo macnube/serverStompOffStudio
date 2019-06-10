@@ -121,7 +121,7 @@ type Card {
 }
 
 enum PaymentType {
-    CARD, PRIVATE, DROP_IN
+    CARD, PRIVATE, DROP_IN, OLD_CARD
 }
 
 type Payment {
