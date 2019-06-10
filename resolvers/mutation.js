@@ -40,20 +40,7 @@ const unauthenticatedMutations = {
     },
 };
 
-const studentMutations = {
-    updateStudent(root, args, context) {
-        return context.prisma.updateStudent({
-            data: {
-                name: args.name,
-                email: args.email,
-                mobile: args.mobile,
-            },
-            where: {
-                id: args.id,
-            },
-        });
-    },
-};
+const studentMutations = {};
 
 const adminMutations = {
     createUser: async (root, args, context) => {
@@ -218,6 +205,19 @@ const adminMutations = {
                     password: args.email,
                     admin: false,
                 },
+            },
+        });
+    },
+    updateStudent(root, args, context) {
+        return context.prisma.updateStudent({
+            data: {
+                name: args.name,
+                email: args.email,
+                mobile: args.mobile,
+                hasReferralBonus: args.hasReferralBonus,
+            },
+            where: {
+                id: args.id,
             },
         });
     },
