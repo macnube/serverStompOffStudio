@@ -23,7 +23,7 @@ type Student {
     name: String! @unique
     email: String! @unique
     mobile: String
-    courses: [CourseStudent!] @relation(link: TABLE name: "CourseInstanceByStudent" onDelete: CASCADE)
+    memberships: [Membership!] @relation(link: TABLE name: "MembershipByStudent" onDelete: CASCADE)
     cards: [Card!]
     hasReferralBonus: Boolean! @default(value: false)
     payments: [Payment!]
@@ -45,7 +45,7 @@ type Course {
     day: CourseDay
     duration: Int
     teachers: [Teacher!]
-    courseStudents: [CourseStudent!] @relation(link: TABLE name: "CourseInstanceByClass" onDelete: CASCADE)
+    memberships: [Membership!] @relation(link: TABLE name: "MembershipByCourse" onDelete: CASCADE)
     instances: [CourseInstance!] @relation(link: TABLE name: "InstanceByCourse" onDelete: CASCADE)
     studentLimit: Int
     room: Room
@@ -68,18 +68,18 @@ enum DanceRole {
     LEADER, FOLLOWER, SOLO
 }
 
-enum CourseStudentStatus {
+enum MembershipStatus {
     ACTIVE, INACTIVE, WAITLIST
 }
 
-type CourseStudent {
+type Membership {
     id: ID! @id
     updatedAt: DateTime! @updatedAt
     createdAt: DateTime! @createdAt
-    student: Student! @relation(name: "CourseInstanceByStudent")
-    course: Course! @relation(name: "CourseInstanceByClass")
+    student: Student! @relation(name: "MembershipByStudent")
+    course: Course! @relation(name: "MembershipByCourse")
     role: DanceRole!
-    status: CourseStudentStatus @default(value: ACTIVE)
+    status: MembershipStatus @default(value: ACTIVE)
     waitlistDate: DateTime
 }
 

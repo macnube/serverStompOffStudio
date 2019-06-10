@@ -10,11 +10,11 @@ type AggregateCourseInstance {
   count: Int!
 }
 
-type AggregateCourseStudent {
+type AggregateLoginResponse {
   count: Int!
 }
 
-type AggregateLoginResponse {
+type AggregateMembership {
   count: Int!
 }
 
@@ -404,7 +404,7 @@ type Course {
   day: CourseDay
   duration: Int
   teachers(where: TeacherWhereInput, orderBy: TeacherOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Teacher!]
-  courseStudents(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent!]
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership!]
   instances(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
   studentLimit: Int
   room: Room
@@ -425,7 +425,7 @@ input CourseCreateInput {
   day: CourseDay
   duration: Int
   teachers: TeacherCreateManyWithoutCoursesInput
-  courseStudents: CourseStudentCreateManyWithoutCourseInput
+  memberships: MembershipCreateManyWithoutCourseInput
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
@@ -436,28 +436,14 @@ input CourseCreateManyWithoutTeachersInput {
   connect: [CourseWhereUniqueInput!]
 }
 
-input CourseCreateOneWithoutCourseStudentsInput {
-  create: CourseCreateWithoutCourseStudentsInput
-  connect: CourseWhereUniqueInput
-}
-
 input CourseCreateOneWithoutInstancesInput {
   create: CourseCreateWithoutInstancesInput
   connect: CourseWhereUniqueInput
 }
 
-input CourseCreateWithoutCourseStudentsInput {
-  id: ID
-  name: String!
-  description: String
-  startDate: DateTime
-  startTime: String
-  day: CourseDay
-  duration: Int
-  teachers: TeacherCreateManyWithoutCoursesInput
-  instances: CourseInstanceCreateManyWithoutCourseInput
-  studentLimit: Int
-  room: RoomCreateOneInput
+input CourseCreateOneWithoutMembershipsInput {
+  create: CourseCreateWithoutMembershipsInput
+  connect: CourseWhereUniqueInput
 }
 
 input CourseCreateWithoutInstancesInput {
@@ -469,7 +455,21 @@ input CourseCreateWithoutInstancesInput {
   day: CourseDay
   duration: Int
   teachers: TeacherCreateManyWithoutCoursesInput
-  courseStudents: CourseStudentCreateManyWithoutCourseInput
+  memberships: MembershipCreateManyWithoutCourseInput
+  studentLimit: Int
+  room: RoomCreateOneInput
+}
+
+input CourseCreateWithoutMembershipsInput {
+  id: ID
+  name: String!
+  description: String
+  startDate: DateTime
+  startTime: String
+  day: CourseDay
+  duration: Int
+  teachers: TeacherCreateManyWithoutCoursesInput
+  instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
 }
@@ -482,7 +482,7 @@ input CourseCreateWithoutTeachersInput {
   startTime: String
   day: CourseDay
   duration: Int
-  courseStudents: CourseStudentCreateManyWithoutCourseInput
+  memberships: MembershipCreateManyWithoutCourseInput
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
@@ -1010,306 +1010,6 @@ input CourseScalarWhereInput {
   NOT: [CourseScalarWhereInput!]
 }
 
-type CourseStudent {
-  id: ID!
-  updatedAt: DateTime!
-  createdAt: DateTime!
-  student: Student!
-  course: Course!
-  role: DanceRole!
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-type CourseStudentConnection {
-  pageInfo: PageInfo!
-  edges: [CourseStudentEdge]!
-  aggregate: AggregateCourseStudent!
-}
-
-input CourseStudentCreateInput {
-  id: ID
-  student: StudentCreateOneWithoutCoursesInput!
-  course: CourseCreateOneWithoutCourseStudentsInput!
-  role: DanceRole!
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentCreateManyWithoutCourseInput {
-  create: [CourseStudentCreateWithoutCourseInput!]
-  connect: [CourseStudentWhereUniqueInput!]
-}
-
-input CourseStudentCreateManyWithoutStudentInput {
-  create: [CourseStudentCreateWithoutStudentInput!]
-  connect: [CourseStudentWhereUniqueInput!]
-}
-
-input CourseStudentCreateWithoutCourseInput {
-  id: ID
-  student: StudentCreateOneWithoutCoursesInput!
-  role: DanceRole!
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentCreateWithoutStudentInput {
-  id: ID
-  course: CourseCreateOneWithoutCourseStudentsInput!
-  role: DanceRole!
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-type CourseStudentEdge {
-  node: CourseStudent!
-  cursor: String!
-}
-
-enum CourseStudentOrderByInput {
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-  role_ASC
-  role_DESC
-  status_ASC
-  status_DESC
-  waitlistDate_ASC
-  waitlistDate_DESC
-}
-
-type CourseStudentPreviousValues {
-  id: ID!
-  updatedAt: DateTime!
-  createdAt: DateTime!
-  role: DanceRole!
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  role: DanceRole
-  role_not: DanceRole
-  role_in: [DanceRole!]
-  role_not_in: [DanceRole!]
-  status: CourseStudentStatus
-  status_not: CourseStudentStatus
-  status_in: [CourseStudentStatus!]
-  status_not_in: [CourseStudentStatus!]
-  waitlistDate: DateTime
-  waitlistDate_not: DateTime
-  waitlistDate_in: [DateTime!]
-  waitlistDate_not_in: [DateTime!]
-  waitlistDate_lt: DateTime
-  waitlistDate_lte: DateTime
-  waitlistDate_gt: DateTime
-  waitlistDate_gte: DateTime
-  AND: [CourseStudentScalarWhereInput!]
-  OR: [CourseStudentScalarWhereInput!]
-  NOT: [CourseStudentScalarWhereInput!]
-}
-
-enum CourseStudentStatus {
-  ACTIVE
-  INACTIVE
-  WAITLIST
-}
-
-type CourseStudentSubscriptionPayload {
-  mutation: MutationType!
-  node: CourseStudent
-  updatedFields: [String!]
-  previousValues: CourseStudentPreviousValues
-}
-
-input CourseStudentSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: CourseStudentWhereInput
-  AND: [CourseStudentSubscriptionWhereInput!]
-  OR: [CourseStudentSubscriptionWhereInput!]
-  NOT: [CourseStudentSubscriptionWhereInput!]
-}
-
-input CourseStudentUpdateInput {
-  student: StudentUpdateOneRequiredWithoutCoursesInput
-  course: CourseUpdateOneRequiredWithoutCourseStudentsInput
-  role: DanceRole
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentUpdateManyDataInput {
-  role: DanceRole
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentUpdateManyMutationInput {
-  role: DanceRole
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentUpdateManyWithoutCourseInput {
-  create: [CourseStudentCreateWithoutCourseInput!]
-  delete: [CourseStudentWhereUniqueInput!]
-  connect: [CourseStudentWhereUniqueInput!]
-  set: [CourseStudentWhereUniqueInput!]
-  disconnect: [CourseStudentWhereUniqueInput!]
-  update: [CourseStudentUpdateWithWhereUniqueWithoutCourseInput!]
-  upsert: [CourseStudentUpsertWithWhereUniqueWithoutCourseInput!]
-  deleteMany: [CourseStudentScalarWhereInput!]
-  updateMany: [CourseStudentUpdateManyWithWhereNestedInput!]
-}
-
-input CourseStudentUpdateManyWithoutStudentInput {
-  create: [CourseStudentCreateWithoutStudentInput!]
-  delete: [CourseStudentWhereUniqueInput!]
-  connect: [CourseStudentWhereUniqueInput!]
-  set: [CourseStudentWhereUniqueInput!]
-  disconnect: [CourseStudentWhereUniqueInput!]
-  update: [CourseStudentUpdateWithWhereUniqueWithoutStudentInput!]
-  upsert: [CourseStudentUpsertWithWhereUniqueWithoutStudentInput!]
-  deleteMany: [CourseStudentScalarWhereInput!]
-  updateMany: [CourseStudentUpdateManyWithWhereNestedInput!]
-}
-
-input CourseStudentUpdateManyWithWhereNestedInput {
-  where: CourseStudentScalarWhereInput!
-  data: CourseStudentUpdateManyDataInput!
-}
-
-input CourseStudentUpdateWithoutCourseDataInput {
-  student: StudentUpdateOneRequiredWithoutCoursesInput
-  role: DanceRole
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentUpdateWithoutStudentDataInput {
-  course: CourseUpdateOneRequiredWithoutCourseStudentsInput
-  role: DanceRole
-  status: CourseStudentStatus
-  waitlistDate: DateTime
-}
-
-input CourseStudentUpdateWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput!
-  data: CourseStudentUpdateWithoutCourseDataInput!
-}
-
-input CourseStudentUpdateWithWhereUniqueWithoutStudentInput {
-  where: CourseStudentWhereUniqueInput!
-  data: CourseStudentUpdateWithoutStudentDataInput!
-}
-
-input CourseStudentUpsertWithWhereUniqueWithoutCourseInput {
-  where: CourseStudentWhereUniqueInput!
-  update: CourseStudentUpdateWithoutCourseDataInput!
-  create: CourseStudentCreateWithoutCourseInput!
-}
-
-input CourseStudentUpsertWithWhereUniqueWithoutStudentInput {
-  where: CourseStudentWhereUniqueInput!
-  update: CourseStudentUpdateWithoutStudentDataInput!
-  create: CourseStudentCreateWithoutStudentInput!
-}
-
-input CourseStudentWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  student: StudentWhereInput
-  course: CourseWhereInput
-  role: DanceRole
-  role_not: DanceRole
-  role_in: [DanceRole!]
-  role_not_in: [DanceRole!]
-  status: CourseStudentStatus
-  status_not: CourseStudentStatus
-  status_in: [CourseStudentStatus!]
-  status_not_in: [CourseStudentStatus!]
-  waitlistDate: DateTime
-  waitlistDate_not: DateTime
-  waitlistDate_in: [DateTime!]
-  waitlistDate_not_in: [DateTime!]
-  waitlistDate_lt: DateTime
-  waitlistDate_lte: DateTime
-  waitlistDate_gt: DateTime
-  waitlistDate_gte: DateTime
-  AND: [CourseStudentWhereInput!]
-  OR: [CourseStudentWhereInput!]
-  NOT: [CourseStudentWhereInput!]
-}
-
-input CourseStudentWhereUniqueInput {
-  id: ID
-}
-
 type CourseSubscriptionPayload {
   mutation: MutationType!
   node: Course
@@ -1336,7 +1036,7 @@ input CourseUpdateInput {
   day: CourseDay
   duration: Int
   teachers: TeacherUpdateManyWithoutCoursesInput
-  courseStudents: CourseStudentUpdateManyWithoutCourseInput
+  memberships: MembershipUpdateManyWithoutCourseInput
   instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
@@ -1379,10 +1079,10 @@ input CourseUpdateManyWithWhereNestedInput {
   data: CourseUpdateManyDataInput!
 }
 
-input CourseUpdateOneRequiredWithoutCourseStudentsInput {
-  create: CourseCreateWithoutCourseStudentsInput
-  update: CourseUpdateWithoutCourseStudentsDataInput
-  upsert: CourseUpsertWithoutCourseStudentsInput
+input CourseUpdateOneRequiredWithoutMembershipsInput {
+  create: CourseCreateWithoutMembershipsInput
+  update: CourseUpdateWithoutMembershipsDataInput
+  upsert: CourseUpsertWithoutMembershipsInput
   connect: CourseWhereUniqueInput
 }
 
@@ -1395,19 +1095,6 @@ input CourseUpdateOneWithoutInstancesInput {
   connect: CourseWhereUniqueInput
 }
 
-input CourseUpdateWithoutCourseStudentsDataInput {
-  name: String
-  description: String
-  startDate: DateTime
-  startTime: String
-  day: CourseDay
-  duration: Int
-  teachers: TeacherUpdateManyWithoutCoursesInput
-  instances: CourseInstanceUpdateManyWithoutCourseInput
-  studentLimit: Int
-  room: RoomUpdateOneInput
-}
-
 input CourseUpdateWithoutInstancesDataInput {
   name: String
   description: String
@@ -1416,7 +1103,20 @@ input CourseUpdateWithoutInstancesDataInput {
   day: CourseDay
   duration: Int
   teachers: TeacherUpdateManyWithoutCoursesInput
-  courseStudents: CourseStudentUpdateManyWithoutCourseInput
+  memberships: MembershipUpdateManyWithoutCourseInput
+  studentLimit: Int
+  room: RoomUpdateOneInput
+}
+
+input CourseUpdateWithoutMembershipsDataInput {
+  name: String
+  description: String
+  startDate: DateTime
+  startTime: String
+  day: CourseDay
+  duration: Int
+  teachers: TeacherUpdateManyWithoutCoursesInput
+  instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
 }
@@ -1428,7 +1128,7 @@ input CourseUpdateWithoutTeachersDataInput {
   startTime: String
   day: CourseDay
   duration: Int
-  courseStudents: CourseStudentUpdateManyWithoutCourseInput
+  memberships: MembershipUpdateManyWithoutCourseInput
   instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
@@ -1439,14 +1139,14 @@ input CourseUpdateWithWhereUniqueWithoutTeachersInput {
   data: CourseUpdateWithoutTeachersDataInput!
 }
 
-input CourseUpsertWithoutCourseStudentsInput {
-  update: CourseUpdateWithoutCourseStudentsDataInput!
-  create: CourseCreateWithoutCourseStudentsInput!
-}
-
 input CourseUpsertWithoutInstancesInput {
   update: CourseUpdateWithoutInstancesDataInput!
   create: CourseCreateWithoutInstancesInput!
+}
+
+input CourseUpsertWithoutMembershipsInput {
+  update: CourseUpdateWithoutMembershipsDataInput!
+  create: CourseCreateWithoutMembershipsInput!
 }
 
 input CourseUpsertWithWhereUniqueWithoutTeachersInput {
@@ -1551,9 +1251,9 @@ input CourseWhereInput {
   teachers_every: TeacherWhereInput
   teachers_some: TeacherWhereInput
   teachers_none: TeacherWhereInput
-  courseStudents_every: CourseStudentWhereInput
-  courseStudents_some: CourseStudentWhereInput
-  courseStudents_none: CourseStudentWhereInput
+  memberships_every: MembershipWhereInput
+  memberships_some: MembershipWhereInput
+  memberships_none: MembershipWhereInput
   instances_every: CourseInstanceWhereInput
   instances_some: CourseInstanceWhereInput
   instances_none: CourseInstanceWhereInput
@@ -1710,6 +1410,306 @@ input LoginResponseWhereUniqueInput {
 
 scalar Long
 
+type Membership {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  student: Student!
+  course: Course!
+  role: DanceRole!
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+type MembershipConnection {
+  pageInfo: PageInfo!
+  edges: [MembershipEdge]!
+  aggregate: AggregateMembership!
+}
+
+input MembershipCreateInput {
+  id: ID
+  student: StudentCreateOneWithoutMembershipsInput!
+  course: CourseCreateOneWithoutMembershipsInput!
+  role: DanceRole!
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipCreateManyWithoutCourseInput {
+  create: [MembershipCreateWithoutCourseInput!]
+  connect: [MembershipWhereUniqueInput!]
+}
+
+input MembershipCreateManyWithoutStudentInput {
+  create: [MembershipCreateWithoutStudentInput!]
+  connect: [MembershipWhereUniqueInput!]
+}
+
+input MembershipCreateWithoutCourseInput {
+  id: ID
+  student: StudentCreateOneWithoutMembershipsInput!
+  role: DanceRole!
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipCreateWithoutStudentInput {
+  id: ID
+  course: CourseCreateOneWithoutMembershipsInput!
+  role: DanceRole!
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+type MembershipEdge {
+  node: Membership!
+  cursor: String!
+}
+
+enum MembershipOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+  role_ASC
+  role_DESC
+  status_ASC
+  status_DESC
+  waitlistDate_ASC
+  waitlistDate_DESC
+}
+
+type MembershipPreviousValues {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  role: DanceRole!
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  role: DanceRole
+  role_not: DanceRole
+  role_in: [DanceRole!]
+  role_not_in: [DanceRole!]
+  status: MembershipStatus
+  status_not: MembershipStatus
+  status_in: [MembershipStatus!]
+  status_not_in: [MembershipStatus!]
+  waitlistDate: DateTime
+  waitlistDate_not: DateTime
+  waitlistDate_in: [DateTime!]
+  waitlistDate_not_in: [DateTime!]
+  waitlistDate_lt: DateTime
+  waitlistDate_lte: DateTime
+  waitlistDate_gt: DateTime
+  waitlistDate_gte: DateTime
+  AND: [MembershipScalarWhereInput!]
+  OR: [MembershipScalarWhereInput!]
+  NOT: [MembershipScalarWhereInput!]
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INACTIVE
+  WAITLIST
+}
+
+type MembershipSubscriptionPayload {
+  mutation: MutationType!
+  node: Membership
+  updatedFields: [String!]
+  previousValues: MembershipPreviousValues
+}
+
+input MembershipSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MembershipWhereInput
+  AND: [MembershipSubscriptionWhereInput!]
+  OR: [MembershipSubscriptionWhereInput!]
+  NOT: [MembershipSubscriptionWhereInput!]
+}
+
+input MembershipUpdateInput {
+  student: StudentUpdateOneRequiredWithoutMembershipsInput
+  course: CourseUpdateOneRequiredWithoutMembershipsInput
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipUpdateManyDataInput {
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipUpdateManyMutationInput {
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipUpdateManyWithoutCourseInput {
+  create: [MembershipCreateWithoutCourseInput!]
+  delete: [MembershipWhereUniqueInput!]
+  connect: [MembershipWhereUniqueInput!]
+  set: [MembershipWhereUniqueInput!]
+  disconnect: [MembershipWhereUniqueInput!]
+  update: [MembershipUpdateWithWhereUniqueWithoutCourseInput!]
+  upsert: [MembershipUpsertWithWhereUniqueWithoutCourseInput!]
+  deleteMany: [MembershipScalarWhereInput!]
+  updateMany: [MembershipUpdateManyWithWhereNestedInput!]
+}
+
+input MembershipUpdateManyWithoutStudentInput {
+  create: [MembershipCreateWithoutStudentInput!]
+  delete: [MembershipWhereUniqueInput!]
+  connect: [MembershipWhereUniqueInput!]
+  set: [MembershipWhereUniqueInput!]
+  disconnect: [MembershipWhereUniqueInput!]
+  update: [MembershipUpdateWithWhereUniqueWithoutStudentInput!]
+  upsert: [MembershipUpsertWithWhereUniqueWithoutStudentInput!]
+  deleteMany: [MembershipScalarWhereInput!]
+  updateMany: [MembershipUpdateManyWithWhereNestedInput!]
+}
+
+input MembershipUpdateManyWithWhereNestedInput {
+  where: MembershipScalarWhereInput!
+  data: MembershipUpdateManyDataInput!
+}
+
+input MembershipUpdateWithoutCourseDataInput {
+  student: StudentUpdateOneRequiredWithoutMembershipsInput
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipUpdateWithoutStudentDataInput {
+  course: CourseUpdateOneRequiredWithoutMembershipsInput
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
+input MembershipUpdateWithWhereUniqueWithoutCourseInput {
+  where: MembershipWhereUniqueInput!
+  data: MembershipUpdateWithoutCourseDataInput!
+}
+
+input MembershipUpdateWithWhereUniqueWithoutStudentInput {
+  where: MembershipWhereUniqueInput!
+  data: MembershipUpdateWithoutStudentDataInput!
+}
+
+input MembershipUpsertWithWhereUniqueWithoutCourseInput {
+  where: MembershipWhereUniqueInput!
+  update: MembershipUpdateWithoutCourseDataInput!
+  create: MembershipCreateWithoutCourseInput!
+}
+
+input MembershipUpsertWithWhereUniqueWithoutStudentInput {
+  where: MembershipWhereUniqueInput!
+  update: MembershipUpdateWithoutStudentDataInput!
+  create: MembershipCreateWithoutStudentInput!
+}
+
+input MembershipWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  student: StudentWhereInput
+  course: CourseWhereInput
+  role: DanceRole
+  role_not: DanceRole
+  role_in: [DanceRole!]
+  role_not_in: [DanceRole!]
+  status: MembershipStatus
+  status_not: MembershipStatus
+  status_in: [MembershipStatus!]
+  status_not_in: [MembershipStatus!]
+  waitlistDate: DateTime
+  waitlistDate_not: DateTime
+  waitlistDate_in: [DateTime!]
+  waitlistDate_not_in: [DateTime!]
+  waitlistDate_lt: DateTime
+  waitlistDate_lte: DateTime
+  waitlistDate_gt: DateTime
+  waitlistDate_gte: DateTime
+  AND: [MembershipWhereInput!]
+  OR: [MembershipWhereInput!]
+  NOT: [MembershipWhereInput!]
+}
+
+input MembershipWhereUniqueInput {
+  id: ID
+}
+
 type Mutation {
   createCard(data: CardCreateInput!): Card!
   updateCard(data: CardUpdateInput!, where: CardWhereUniqueInput!): Card
@@ -1729,18 +1729,18 @@ type Mutation {
   upsertCourseInstance(where: CourseInstanceWhereUniqueInput!, create: CourseInstanceCreateInput!, update: CourseInstanceUpdateInput!): CourseInstance!
   deleteCourseInstance(where: CourseInstanceWhereUniqueInput!): CourseInstance
   deleteManyCourseInstances(where: CourseInstanceWhereInput): BatchPayload!
-  createCourseStudent(data: CourseStudentCreateInput!): CourseStudent!
-  updateCourseStudent(data: CourseStudentUpdateInput!, where: CourseStudentWhereUniqueInput!): CourseStudent
-  updateManyCourseStudents(data: CourseStudentUpdateManyMutationInput!, where: CourseStudentWhereInput): BatchPayload!
-  upsertCourseStudent(where: CourseStudentWhereUniqueInput!, create: CourseStudentCreateInput!, update: CourseStudentUpdateInput!): CourseStudent!
-  deleteCourseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
-  deleteManyCourseStudents(where: CourseStudentWhereInput): BatchPayload!
   createLoginResponse(data: LoginResponseCreateInput!): LoginResponse!
   updateLoginResponse(data: LoginResponseUpdateInput!, where: LoginResponseWhereUniqueInput!): LoginResponse
   updateManyLoginResponses(data: LoginResponseUpdateManyMutationInput!, where: LoginResponseWhereInput): BatchPayload!
   upsertLoginResponse(where: LoginResponseWhereUniqueInput!, create: LoginResponseCreateInput!, update: LoginResponseUpdateInput!): LoginResponse!
   deleteLoginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   deleteManyLoginResponses(where: LoginResponseWhereInput): BatchPayload!
+  createMembership(data: MembershipCreateInput!): Membership!
+  updateMembership(data: MembershipUpdateInput!, where: MembershipWhereUniqueInput!): Membership
+  updateManyMemberships(data: MembershipUpdateManyMutationInput!, where: MembershipWhereInput): BatchPayload!
+  upsertMembership(where: MembershipWhereUniqueInput!, create: MembershipCreateInput!, update: MembershipUpdateInput!): Membership!
+  deleteMembership(where: MembershipWhereUniqueInput!): Membership
+  deleteManyMemberships(where: MembershipWhereInput): BatchPayload!
   createParticipant(data: ParticipantCreateInput!): Participant!
   updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
   updateManyParticipants(data: ParticipantUpdateManyMutationInput!, where: ParticipantWhereInput): BatchPayload!
@@ -2359,12 +2359,12 @@ type Query {
   courseInstance(where: CourseInstanceWhereUniqueInput!): CourseInstance
   courseInstances(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance]!
   courseInstancesConnection(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseInstanceConnection!
-  courseStudent(where: CourseStudentWhereUniqueInput!): CourseStudent
-  courseStudents(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent]!
-  courseStudentsConnection(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseStudentConnection!
   loginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   loginResponses(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginResponse]!
   loginResponsesConnection(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginResponseConnection!
+  membership(where: MembershipWhereUniqueInput!): Membership
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership]!
+  membershipsConnection(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MembershipConnection!
   participant(where: ParticipantWhereUniqueInput!): Participant
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant]!
   participantsConnection(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParticipantConnection!
@@ -2668,7 +2668,7 @@ type Student {
   name: String!
   email: String!
   mobile: String
-  courses(where: CourseStudentWhereInput, orderBy: CourseStudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseStudent!]
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership!]
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
   hasReferralBonus: Boolean!
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
@@ -2686,7 +2686,7 @@ input StudentCreateInput {
   name: String!
   email: String!
   mobile: String
-  courses: CourseStudentCreateManyWithoutStudentInput
+  memberships: MembershipCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
@@ -2703,8 +2703,8 @@ input StudentCreateOneWithoutCardsInput {
   connect: StudentWhereUniqueInput
 }
 
-input StudentCreateOneWithoutCoursesInput {
-  create: StudentCreateWithoutCoursesInput
+input StudentCreateOneWithoutMembershipsInput {
+  create: StudentCreateWithoutMembershipsInput
   connect: StudentWhereUniqueInput
 }
 
@@ -2723,13 +2723,13 @@ input StudentCreateWithoutCardsInput {
   name: String!
   email: String!
   mobile: String
-  courses: CourseStudentCreateManyWithoutStudentInput
+  memberships: MembershipCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
   user: UserCreateOneWithoutStudentInput
 }
 
-input StudentCreateWithoutCoursesInput {
+input StudentCreateWithoutMembershipsInput {
   id: ID
   name: String!
   email: String!
@@ -2745,7 +2745,7 @@ input StudentCreateWithoutPaymentsInput {
   name: String!
   email: String!
   mobile: String
-  courses: CourseStudentCreateManyWithoutStudentInput
+  memberships: MembershipCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   user: UserCreateOneWithoutStudentInput
@@ -2756,7 +2756,7 @@ input StudentCreateWithoutUserInput {
   name: String!
   email: String!
   mobile: String
-  courses: CourseStudentCreateManyWithoutStudentInput
+  memberships: MembershipCreateManyWithoutStudentInput
   cards: CardCreateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentCreateManyWithoutStudentInput
@@ -2816,7 +2816,7 @@ input StudentUpdateDataInput {
   name: String
   email: String
   mobile: String
-  courses: CourseStudentUpdateManyWithoutStudentInput
+  memberships: MembershipUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
@@ -2827,7 +2827,7 @@ input StudentUpdateInput {
   name: String
   email: String
   mobile: String
-  courses: CourseStudentUpdateManyWithoutStudentInput
+  memberships: MembershipUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
@@ -2855,10 +2855,10 @@ input StudentUpdateOneRequiredWithoutCardsInput {
   connect: StudentWhereUniqueInput
 }
 
-input StudentUpdateOneRequiredWithoutCoursesInput {
-  create: StudentCreateWithoutCoursesInput
-  update: StudentUpdateWithoutCoursesDataInput
-  upsert: StudentUpsertWithoutCoursesInput
+input StudentUpdateOneRequiredWithoutMembershipsInput {
+  create: StudentCreateWithoutMembershipsInput
+  update: StudentUpdateWithoutMembershipsDataInput
+  upsert: StudentUpsertWithoutMembershipsInput
   connect: StudentWhereUniqueInput
 }
 
@@ -2884,13 +2884,13 @@ input StudentUpdateWithoutCardsDataInput {
   name: String
   email: String
   mobile: String
-  courses: CourseStudentUpdateManyWithoutStudentInput
+  memberships: MembershipUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
   user: UserUpdateOneWithoutStudentInput
 }
 
-input StudentUpdateWithoutCoursesDataInput {
+input StudentUpdateWithoutMembershipsDataInput {
   name: String
   email: String
   mobile: String
@@ -2904,7 +2904,7 @@ input StudentUpdateWithoutPaymentsDataInput {
   name: String
   email: String
   mobile: String
-  courses: CourseStudentUpdateManyWithoutStudentInput
+  memberships: MembershipUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   user: UserUpdateOneWithoutStudentInput
@@ -2914,7 +2914,7 @@ input StudentUpdateWithoutUserDataInput {
   name: String
   email: String
   mobile: String
-  courses: CourseStudentUpdateManyWithoutStudentInput
+  memberships: MembershipUpdateManyWithoutStudentInput
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
@@ -2930,9 +2930,9 @@ input StudentUpsertWithoutCardsInput {
   create: StudentCreateWithoutCardsInput!
 }
 
-input StudentUpsertWithoutCoursesInput {
-  update: StudentUpdateWithoutCoursesDataInput!
-  create: StudentCreateWithoutCoursesInput!
+input StudentUpsertWithoutMembershipsInput {
+  update: StudentUpdateWithoutMembershipsDataInput!
+  create: StudentCreateWithoutMembershipsInput!
 }
 
 input StudentUpsertWithoutPaymentsInput {
@@ -3018,9 +3018,9 @@ input StudentWhereInput {
   mobile_not_starts_with: String
   mobile_ends_with: String
   mobile_not_ends_with: String
-  courses_every: CourseStudentWhereInput
-  courses_some: CourseStudentWhereInput
-  courses_none: CourseStudentWhereInput
+  memberships_every: MembershipWhereInput
+  memberships_some: MembershipWhereInput
+  memberships_none: MembershipWhereInput
   cards_every: CardWhereInput
   cards_some: CardWhereInput
   cards_none: CardWhereInput
@@ -3222,8 +3222,8 @@ type Subscription {
   card(where: CardSubscriptionWhereInput): CardSubscriptionPayload
   course(where: CourseSubscriptionWhereInput): CourseSubscriptionPayload
   courseInstance(where: CourseInstanceSubscriptionWhereInput): CourseInstanceSubscriptionPayload
-  courseStudent(where: CourseStudentSubscriptionWhereInput): CourseStudentSubscriptionPayload
   loginResponse(where: LoginResponseSubscriptionWhereInput): LoginResponseSubscriptionPayload
+  membership(where: MembershipSubscriptionWhereInput): MembershipSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
   room(where: RoomSubscriptionWhereInput): RoomSubscriptionPayload

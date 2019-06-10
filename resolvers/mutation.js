@@ -226,8 +226,8 @@ const adminMutations = {
             id: args.id,
         });
     },
-    createCourseStudent(root, args, context) {
-        return context.prisma.createCourseStudent({
+    createMembership(root, args, context) {
+        return context.prisma.createMembership({
             student: {
                 connect: {
                     id: args.studentId,
@@ -242,19 +242,19 @@ const adminMutations = {
             status: args.status,
         });
     },
-    deleteCourseStudent(root, args, context) {
-        return context.prisma.deleteCourseStudent({
+    deleteMembership(root, args, context) {
+        return context.prisma.deleteMembership({
             id: args.id,
         });
     },
-    updateCourseStudentStatus(root, args, context) {
+    updateMembershipStatus(root, args, context) {
         const data = {
             status: args.status,
         };
         if (data.status === 'WAITLIST') {
             data.waitlistDate = new Date();
         }
-        return context.prisma.updateCourseStudent({
+        return context.prisma.updateMembership({
             data,
             where: {
                 id: args.id,
@@ -369,22 +369,25 @@ const adminMutations = {
         return context.prisma.createPayment(payment);
     },
     updatePayment(root, args, context) {
-        return context.prisma.updatePayment({
-            data: {
-                student: {
-                    connect: {
-                        id: args.studentId,
-                    },
+        const payment = {
+            student: {
+                connect: {
+                    id: args.studentId,
                 },
-                card: {
-                    connect: {
-                        id: args.cardId,
-                    },
-                },
-                type: args.type,
-                amount: args.amount,
-                date: args.date,
             },
+            type: args.type,
+            amount: args.amount,
+            date: args.date,
+        };
+        if (args.cardId) {
+            payment.card = {
+                connect: {
+                    id: args.cardId,
+                },
+            };
+        }
+        return context.prisma.updatePayment({
+            data: payment,
             where: {
                 id: args.id,
             },

@@ -1,4 +1,4 @@
-# import User, Payment, PaymentType, CourseStudentStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, CourseStudent, Card from "./generated/prisma.graphql"
+# import User, Payment, PaymentType, MembershipStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, Membership, Card from "./generated/prisma.graphql"
 
 type Query {
     teachers: [Teacher!]!
@@ -12,8 +12,9 @@ type Query {
     students: [Student!]!
     student(id: ID!): Student!
     payments: [Payment!]!
+    unlinkedCardPayments: [Payment!]!
     courseInstance(id: ID!): CourseInstance
-    courseStudentsByCourseInstance(courseInstanceId: ID!): [CourseStudent!]!
+    membershipsByCourseInstance(courseInstanceId: ID!): [Membership!]!
     overviewInstances: [CourseInstance!]!
     unpaidCards: [Card!]!
     card(id: ID!): Card!
@@ -72,17 +73,14 @@ type Mutation {
         email: String!
         mobile: String
     ): Student
-    createCourseStudent(
+    createMembership(
         studentId: ID!
         courseId: ID!
         role: DanceRole!
-        status: CourseStudentStatus
-    ): CourseStudent
-    deleteCourseStudent(id: ID!): CourseStudent
-    updateCourseStudentStatus(
-        id: ID!
-        status: CourseStudentStatus!
-    ): CourseStudent
+        status: MembershipStatus
+    ): Membership
+    deleteMembership(id: ID!): Membership
+    updateMembershipStatus(id: ID!, status: MembershipStatus!): Membership
     createCard(studentId: ID!, value: Int!, expirationDate: DateTime!): Card
     updateCard(id: ID!, value: Int!, expirationDate: DateTime!): Card
     deleteCard(id: ID!): Card

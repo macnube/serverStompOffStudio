@@ -74,13 +74,13 @@ const adminQueries = {
     payments(root, args, context) {
         return context.prisma.payments();
     },
-    courseStudentsByCourseInstance(root, args, context) {
+    membershipsByCourseInstance(root, args, context) {
         return context.prisma
             .courseInstance({
                 id: args.courseInstanceId,
             })
             .course()
-            .courseStudents();
+            .memberships();
     },
     overviewInstances(root, args, context) {
         const now = new Date();
@@ -96,6 +96,14 @@ const adminQueries = {
         return context.prisma.cards({
             where: {
                 paid: false,
+            },
+        });
+    },
+    unlinkedCardPayments(root, args, context) {
+        return context.prisma.payments({
+            where: {
+                type: 'CARD',
+                card: null,
             },
         });
     },

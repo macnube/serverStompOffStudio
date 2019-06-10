@@ -32,12 +32,12 @@ const typeResolvers = {
                 })
                 .teachers();
         },
-        courseStudents(root, args, context) {
+        memberships(root, args, context) {
             return context.prisma
                 .course({
                     id: root.id,
                 })
-                .courseStudents();
+                .memberships();
         },
         instances(root, args, context) {
             return context.prisma
@@ -50,12 +50,12 @@ const typeResolvers = {
         },
     },
     Student: {
-        courses(root, args, context) {
+        memberships(root, args, context) {
             return context.prisma
                 .student({
                     id: root.id,
                 })
-                .courses();
+                .memberships();
         },
         cards(root, args, context) {
             return context.prisma
@@ -79,17 +79,17 @@ const typeResolvers = {
                 .user();
         },
     },
-    CourseStudent: {
+    Membership: {
         course(root, args, context) {
             return context.prisma
-                .courseStudent({
+                .membership({
                     id: root.id,
                 })
                 .course();
         },
         student(root, args, context) {
             return context.prisma
-                .courseStudent({
+                .membership({
                     id: root.id,
                 })
                 .student();

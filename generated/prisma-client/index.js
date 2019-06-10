@@ -37,11 +37,11 @@ var models = [
     embedded: false
   },
   {
-    name: "CourseStudentStatus",
+    name: "MembershipStatus",
     embedded: false
   },
   {
-    name: "CourseStudent",
+    name: "Membership",
     embedded: false
   },
   {
