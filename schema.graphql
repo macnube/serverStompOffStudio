@@ -73,6 +73,7 @@ type Mutation {
         name: String!
         email: String!
         mobile: String
+        hasReferralBonus: Boolean!
     ): Student
     createMembership(
         studentId: ID!
