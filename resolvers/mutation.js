@@ -208,7 +208,8 @@ const adminMutations = {
             where: { id: args.id },
         });
     },
-    createStudent(root, args, context) {
+    createStudent: async (root, args, context) => {
+        const hashedPassword = await bcrypt.hash(args.email, 10);
         return context.prisma.createStudent({
             name: args.name,
             email: args.email,
@@ -216,7 +217,7 @@ const adminMutations = {
             user: {
                 create: {
                     email: args.email,
-                    password: args.email,
+                    password: hashedPassword,
                     admin: false,
                 },
             },
@@ -241,7 +242,7 @@ const adminMutations = {
         });
     },
     createMembership(root, args, context) {
-        return context.prisma.createMembership({
+        const membership = {
             student: {
                 connect: {
                     id: args.studentId,
@@ -254,7 +255,11 @@ const adminMutations = {
             },
             role: args.role,
             status: args.status,
-        });
+        };
+        if (membership.status === 'WAITLIST') {
+            membership.waitlistDate = new Date();
+        }
+        return context.prisma.createMembership(membership);
     },
     deleteMembership(root, args, context) {
         return context.prisma.deleteMembership({
@@ -413,9 +418,9 @@ const adminMutations = {
         });
     },
     createCourseInstance(root, args, context) {
-        const participantsCreate = args.studentIds.map(id => {
+        const participantsCreate = args.membershipIds.map(id => {
             return {
-                student: {
+                membership: {
                     connect: {
                         id,
                     },
@@ -458,9 +463,9 @@ const adminMutations = {
                 participants: {
                     create: [
                         {
-                            student: {
+                            membership: {
                                 connect: {
-                                    id: args.studentId,
+                                    id: args.membershipId,
                                 },
                             },
                         },

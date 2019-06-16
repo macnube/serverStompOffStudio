@@ -147,12 +147,12 @@ const typeResolvers = {
         },
     },
     Participant: {
-        student(root, args, context) {
+        membership(root, args, context) {
             return context.prisma
                 .participant({
                     id: root.id,
                 })
-                .student();
+                .membership();
         },
         courseInstance(root, args, context) {
             return context.prisma

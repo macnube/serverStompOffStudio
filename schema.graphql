@@ -16,6 +16,8 @@ type Query {
     courseInstance(id: ID!): CourseInstance
     membershipsByCourseInstance(courseInstanceId: ID!): [Membership!]!
     overviewInstances: [CourseInstance!]!
+    instancesByStudent(id: ID!): [CourseInstance!]!
+    unpaidCardsByStudent(id: ID!): [Card!]!
     unpaidCards: [Card!]!
     card(id: ID!): Card!
     getParticipantByStudent(id: ID!): Participant
@@ -113,7 +115,7 @@ type Mutation {
         date: DateTime!
         recapUrl: String
         courseId: ID!
-        studentIds: [ID!]!
+        membershipIds: [ID!]!
     ): CourseInstance
     deleteCourseInstance(id: ID!): CourseInstance
     updateCourseInstance(
@@ -123,7 +125,7 @@ type Mutation {
         date: DateTime!
         recapUrl: String
     ): CourseInstance
-    addParticipantToCourseInstance(id: ID!, studentId: ID!): CourseInstance
+    addParticipantToCourseInstance(id: ID!, membershipId: ID!): CourseInstance
     deleteParticipant(id: ID!): Participant
     logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant
 }

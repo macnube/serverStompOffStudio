@@ -1451,6 +1451,11 @@ input MembershipCreateManyWithoutStudentInput {
   connect: [MembershipWhereUniqueInput!]
 }
 
+input MembershipCreateOneInput {
+  create: MembershipCreateInput
+  connect: MembershipWhereUniqueInput
+}
+
 input MembershipCreateWithoutCourseInput {
   id: ID
   student: StudentCreateOneWithoutMembershipsInput!
@@ -1572,6 +1577,14 @@ input MembershipSubscriptionWhereInput {
   NOT: [MembershipSubscriptionWhereInput!]
 }
 
+input MembershipUpdateDataInput {
+  student: StudentUpdateOneRequiredWithoutMembershipsInput
+  course: CourseUpdateOneRequiredWithoutMembershipsInput
+  role: DanceRole
+  status: MembershipStatus
+  waitlistDate: DateTime
+}
+
 input MembershipUpdateInput {
   student: StudentUpdateOneRequiredWithoutMembershipsInput
   course: CourseUpdateOneRequiredWithoutMembershipsInput
@@ -1621,6 +1634,13 @@ input MembershipUpdateManyWithWhereNestedInput {
   data: MembershipUpdateManyDataInput!
 }
 
+input MembershipUpdateOneRequiredInput {
+  create: MembershipCreateInput
+  update: MembershipUpdateDataInput
+  upsert: MembershipUpsertNestedInput
+  connect: MembershipWhereUniqueInput
+}
+
 input MembershipUpdateWithoutCourseDataInput {
   student: StudentUpdateOneRequiredWithoutMembershipsInput
   role: DanceRole
@@ -1643,6 +1663,11 @@ input MembershipUpdateWithWhereUniqueWithoutCourseInput {
 input MembershipUpdateWithWhereUniqueWithoutStudentInput {
   where: MembershipWhereUniqueInput!
   data: MembershipUpdateWithoutStudentDataInput!
+}
+
+input MembershipUpsertNestedInput {
+  update: MembershipUpdateDataInput!
+  create: MembershipCreateInput!
 }
 
 input MembershipUpsertWithWhereUniqueWithoutCourseInput {
@@ -1811,7 +1836,7 @@ type Participant {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
-  student: Student!
+  membership: Membership!
   courseInstance: CourseInstance!
   status: ParticipantStatus
 }
@@ -1824,7 +1849,7 @@ type ParticipantConnection {
 
 input ParticipantCreateInput {
   id: ID
-  student: StudentCreateOneInput!
+  membership: MembershipCreateOneInput!
   courseInstance: CourseInstanceCreateOneWithoutParticipantsInput!
   status: ParticipantStatus
 }
@@ -1841,7 +1866,7 @@ input ParticipantCreateManyWithoutCourseInstanceInput {
 
 input ParticipantCreateWithoutCourseInstanceInput {
   id: ID
-  student: StudentCreateOneInput!
+  membership: MembershipCreateOneInput!
   status: ParticipantStatus
 }
 
@@ -1933,13 +1958,13 @@ input ParticipantSubscriptionWhereInput {
 }
 
 input ParticipantUpdateDataInput {
-  student: StudentUpdateOneRequiredInput
+  membership: MembershipUpdateOneRequiredInput
   courseInstance: CourseInstanceUpdateOneRequiredWithoutParticipantsInput
   status: ParticipantStatus
 }
 
 input ParticipantUpdateInput {
-  student: StudentUpdateOneRequiredInput
+  membership: MembershipUpdateOneRequiredInput
   courseInstance: CourseInstanceUpdateOneRequiredWithoutParticipantsInput
   status: ParticipantStatus
 }
@@ -1982,7 +2007,7 @@ input ParticipantUpdateManyWithWhereNestedInput {
 }
 
 input ParticipantUpdateWithoutCourseInstanceDataInput {
-  student: StudentUpdateOneRequiredInput
+  membership: MembershipUpdateOneRequiredInput
   status: ParticipantStatus
 }
 
@@ -2039,7 +2064,7 @@ input ParticipantWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
-  student: StudentWhereInput
+  membership: MembershipWhereInput
   courseInstance: CourseInstanceWhereInput
   status: ParticipantStatus
   status_not: ParticipantStatus
@@ -2698,11 +2723,6 @@ input StudentCreateInput {
   user: UserCreateOneWithoutStudentInput
 }
 
-input StudentCreateOneInput {
-  create: StudentCreateInput
-  connect: StudentWhereUniqueInput
-}
-
 input StudentCreateOneWithoutCardsInput {
   create: StudentCreateWithoutCardsInput
   connect: StudentWhereUniqueInput
@@ -2817,17 +2837,6 @@ input StudentSubscriptionWhereInput {
   NOT: [StudentSubscriptionWhereInput!]
 }
 
-input StudentUpdateDataInput {
-  name: String
-  email: String
-  mobile: String
-  memberships: MembershipUpdateManyWithoutStudentInput
-  cards: CardUpdateManyWithoutStudentInput
-  hasReferralBonus: Boolean
-  payments: PaymentUpdateManyWithoutStudentInput
-  user: UserUpdateOneWithoutStudentInput
-}
-
 input StudentUpdateInput {
   name: String
   email: String
@@ -2844,13 +2853,6 @@ input StudentUpdateManyMutationInput {
   email: String
   mobile: String
   hasReferralBonus: Boolean
-}
-
-input StudentUpdateOneRequiredInput {
-  create: StudentCreateInput
-  update: StudentUpdateDataInput
-  upsert: StudentUpsertNestedInput
-  connect: StudentWhereUniqueInput
 }
 
 input StudentUpdateOneRequiredWithoutCardsInput {
@@ -2923,11 +2925,6 @@ input StudentUpdateWithoutUserDataInput {
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
-}
-
-input StudentUpsertNestedInput {
-  update: StudentUpdateDataInput!
-  create: StudentCreateInput!
 }
 
 input StudentUpsertWithoutCardsInput {

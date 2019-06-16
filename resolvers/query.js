@@ -1,5 +1,6 @@
 const { subWeeks, addWeeks } = require('date-fns');
 const { AuthenticationError } = require('apollo-server');
+const { map } = require('lodash');
 
 const studentQueries = {
     currentUser: (parent, args, { user, prisma }) => {
@@ -29,11 +30,50 @@ const studentQueries = {
             id: args.id,
         });
     },
+    unpaidCardsByStudent(root, args, context) {
+        return context.prisma.cards({
+            where: {
+                paid: false,
+                student: {
+                    id: args.id,
+                },
+            },
+        });
+    },
+    instancesByStudent(root, args, context) {
+        const now = new Date();
+        return context.prisma.courseInstances({
+            where: {
+                participants_some: {
+                    membership: {
+                        student: { id: args.id },
+                    },
+                },
+                date_lte: addWeeks(now, 3),
+                date_gte: subWeeks(now, 3),
+            },
+            orderBy: 'date_DESC',
+        });
+    },
+    getParticipantByStudent(root, args, context) {
+        return context.prisma.participant({
+            where: {
+                student: {
+                    where: {
+                        id: args.id,
+                    },
+                },
+            },
+        });
+    },
 };
 
 const adminQueries = {
     users(root, args, context) {
         return context.prisma.users();
+    },
+    courses(root, args, context) {
+        return context.prisma.courses();
     },
     teachers(root, args, context) {
         return context.prisma.teachers();
@@ -64,9 +104,6 @@ const adminQueries = {
                 id: args.roomId,
             })
             .studio();
-    },
-    courses(root, args, context) {
-        return context.prisma.courses();
     },
     students(root, args, context) {
         return context.prisma.students();
@@ -108,17 +145,6 @@ const adminQueries = {
             where: {
                 type: 'CARD',
                 card: null,
-            },
-        });
-    },
-    getParticipantByStudent(root, args, context) {
-        return context.prisma.participant({
-            where: {
-                student: {
-                    where: {
-                        id: args.id,
-                    },
-                },
             },
         });
     },

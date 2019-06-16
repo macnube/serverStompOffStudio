@@ -59,7 +59,7 @@ type Participant {
     id: ID! @id
     updatedAt: DateTime! @updatedAt
     createdAt: DateTime! @createdAt
-    student: Student!
+    membership: Membership!
     courseInstance: CourseInstance! @relation(name: "ParticipantByInstance")
     status: ParticipantStatus @default(value: NOT_LOGGED)
 }
