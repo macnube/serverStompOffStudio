@@ -40,7 +40,21 @@ const unauthenticatedMutations = {
     },
 };
 
-const studentMutations = {};
+const studentMutations = {
+    updateUserEmailPassword: async (root, args, context) => {
+        const user = {
+            email: args.email,
+        };
+        if (args.password) {
+            const hashedPassword = await bcrypt.hash(args.password, 10);
+            user.password = hashedPassword;
+        }
+        return context.prisma.updateUser({
+            data: user,
+            where: { id: args.id },
+        });
+    },
+};
 
 const adminMutations = {
     createUser: async (root, args, context) => {

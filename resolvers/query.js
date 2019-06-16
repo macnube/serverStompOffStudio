@@ -80,7 +80,11 @@ const adminQueries = {
                 id: args.courseInstanceId,
             })
             .course()
-            .memberships();
+            .memberships({
+                where: {
+                    status: 'ACTIVE',
+                },
+            });
     },
     overviewInstances(root, args, context) {
         const now = new Date();

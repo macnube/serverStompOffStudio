@@ -44,7 +44,6 @@ const server = new ApolloServer({
     context: async ({ req }) => {
         const token = req.headers.authorization || '';
         const user = await getUser(token, prisma);
-        console.log('user is: ', user);
         return { user, prisma };
     },
     introspection: true,
