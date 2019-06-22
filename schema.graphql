@@ -1,4 +1,4 @@
-# import User, Payment, PaymentType, MembershipStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, Membership, Card from "./generated/prisma.graphql"
+# import User, CourseAbsence, Payment, PaymentType, MembershipStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, Membership, Card from "./generated/prisma.graphql"
 
 type Query {
     teachers: [Teacher!]!
@@ -9,6 +9,7 @@ type Query {
     studioByRoom(roomId: ID!): Studio!
     courses: [Course!]!
     course(id: ID!): Course!
+    coursesByStudent(id: ID!): [Course!]!
     students: [Student!]!
     student(id: ID!): Student!
     payments: [Payment!]!
@@ -19,6 +20,7 @@ type Query {
     instancesByStudent(id: ID!): [CourseInstance!]!
     unpaidCardsByStudent(id: ID!): [Card!]!
     unpaidCards: [Card!]!
+    studentCards(id: ID!): [Card!]!
     card(id: ID!): Card!
     getParticipantByStudent(id: ID!): Participant
     currentUser: User!
@@ -128,4 +130,12 @@ type Mutation {
     addParticipantToCourseInstance(id: ID!, membershipId: ID!): CourseInstance
     deleteParticipant(id: ID!): Participant
     logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant
+    logParticipantAbsence(id: ID!): Participant
+    clearParticipantAbsence(id: ID!): Participant
+    logCourseAbsence(
+        date: DateTime!
+        courseId: ID!
+        studentId: ID!
+    ): CourseAbsence
+    clearCourseAbsence(id: ID!): CourseAbsence
 }

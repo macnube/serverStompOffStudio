@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { parse, endOfDay, isBefore } = require('date-fns');
+const { map, includes } = require('lodash');
+const { parse, endOfDay, isBefore, startOfDay } = require('date-fns');
 
 const getCardActiveStatus = (value, expirationDate) =>
     value > 0 && isBefore(endOfDay(new Date()), parse(expirationDate));
@@ -52,6 +53,46 @@ const studentMutations = {
         return context.prisma.updateUser({
             data: user,
             where: { id: args.id },
+        });
+    },
+    logCourseAbsence(root, args, context) {
+        return context.prisma.createCourseAbsence({
+            date: startOfDay(args.date),
+            course: {
+                connect: {
+                    id: args.courseId,
+                },
+            },
+            student: {
+                connect: {
+                    id: args.studentId,
+                },
+            },
+        });
+    },
+    clearCourseAbsence(root, args, context) {
+        return context.prisma.deleteCourseAbsence({
+            id: args.id,
+        });
+    },
+    logParticipantAbsence(root, args, context) {
+        return context.prisma.updateParticipant({
+            data: {
+                status: 'ABSENT',
+            },
+            where: {
+                id: args.id,
+            },
+        });
+    },
+    clearParticipantAbsence(root, args, context) {
+        return context.prisma.updateParticipant({
+            data: {
+                status: 'NOT_LOGGED',
+            },
+            where: {
+                id: args.id,
+            },
         });
     },
 };
@@ -376,7 +417,7 @@ const adminMutations = {
             },
             type: args.type,
             amount: args.amount,
-            date: args.date,
+            date: startOfDay(args.date),
         };
         if (args.cardId) {
             payment.card = {
@@ -396,7 +437,7 @@ const adminMutations = {
             },
             type: args.type,
             amount: args.amount,
-            date: args.date,
+            date: startOfDay(args.date),
         };
         if (args.cardId) {
             payment.card = {
@@ -417,15 +458,60 @@ const adminMutations = {
             id: args.id,
         });
     },
-    createCourseInstance(root, args, context) {
+    createCourseInstance: async (root, args, context) => {
+        const absentStudents = await context.prisma
+            .courseAbsences({
+                where: {
+                    AND: [
+                        {
+                            course: {
+                                id: args.courseId,
+                            },
+                        },
+                        {
+                            date: startOfDay(args.date),
+                        },
+                    ],
+                },
+            })
+            .student();
+        const absentStudentIds = map(absentStudents, s => s.student.id);
+        const memberships = await context.prisma.memberships({
+            where: {
+                course: {
+                    id: args.courseId,
+                },
+            },
+        });
+        const absentMemberships = await context.prisma.memberships({
+            where: {
+                AND: [
+                    {
+                        course: {
+                            id: args.courseId,
+                        },
+                    },
+                    {
+                        student: {
+                            id_in: absentStudentIds,
+                        },
+                    },
+                ],
+            },
+        });
+        const absentMembershipIds = map(absentMemberships, m => m.id);
         const participantsCreate = args.membershipIds.map(id => {
-            return {
+            let result = {
                 membership: {
                     connect: {
                         id,
                     },
                 },
             };
+            if (includes(absentMembershipIds, id)) {
+                result.status = 'ABSENT';
+            }
+            return result;
         });
         return context.prisma.createCourseInstance({
             course: {
@@ -437,7 +523,7 @@ const adminMutations = {
             topic: args.topic,
             notes: args.notes,
             recapUrl: args.recapUrl,
-            date: args.date,
+            date: startOfDay(args.date),
         });
     },
     deleteCourseInstance(root, args, context) {
@@ -451,7 +537,7 @@ const adminMutations = {
                 topic: args.topic,
                 notes: args.notes,
                 recapUrl: args.recapUrl,
-                date: args.date,
+                date: startOfDay(args.date),
             },
             where: { id: args.id },
         });

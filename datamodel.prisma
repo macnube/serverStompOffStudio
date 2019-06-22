@@ -49,6 +49,16 @@ type Course {
     instances: [CourseInstance!] @relation(link: TABLE name: "InstanceByCourse" onDelete: CASCADE)
     studentLimit: Int
     room: Room
+    absences: [CourseAbsence!]
+}
+
+type CourseAbsence {
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
+    date: DateTime!
+    student: Student!
+    course: Course!
 }
 
 enum ParticipantStatus {

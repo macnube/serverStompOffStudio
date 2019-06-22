@@ -25,6 +25,10 @@ var models = [
     embedded: false
   },
   {
+    name: "CourseAbsence",
+    embedded: false
+  },
+  {
     name: "ParticipantStatus",
     embedded: false
   },

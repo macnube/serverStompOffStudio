@@ -11,6 +11,10 @@ type AggregateCourse {
   count: Int!
 }
 
+type AggregateCourseAbsence {
+  count: Int!
+}
+
 type AggregateCourseInstance {
   count: Int!
 }
@@ -413,6 +417,222 @@ type Course {
   instances(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance!]
   studentLimit: Int
   room: Room
+  absences(where: CourseAbsenceWhereInput, orderBy: CourseAbsenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseAbsence!]
+}
+
+type CourseAbsence {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  date: DateTime!
+  student: Student!
+  course: Course!
+}
+
+type CourseAbsenceConnection {
+  pageInfo: PageInfo!
+  edges: [CourseAbsenceEdge]!
+  aggregate: AggregateCourseAbsence!
+}
+
+input CourseAbsenceCreateInput {
+  id: ID
+  date: DateTime!
+  student: StudentCreateOneInput!
+  course: CourseCreateOneWithoutAbsencesInput!
+}
+
+input CourseAbsenceCreateManyWithoutCourseInput {
+  create: [CourseAbsenceCreateWithoutCourseInput!]
+  connect: [CourseAbsenceWhereUniqueInput!]
+}
+
+input CourseAbsenceCreateWithoutCourseInput {
+  id: ID
+  date: DateTime!
+  student: StudentCreateOneInput!
+}
+
+type CourseAbsenceEdge {
+  node: CourseAbsence!
+  cursor: String!
+}
+
+enum CourseAbsenceOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+  date_ASC
+  date_DESC
+}
+
+type CourseAbsencePreviousValues {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  date: DateTime!
+}
+
+input CourseAbsenceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  AND: [CourseAbsenceScalarWhereInput!]
+  OR: [CourseAbsenceScalarWhereInput!]
+  NOT: [CourseAbsenceScalarWhereInput!]
+}
+
+type CourseAbsenceSubscriptionPayload {
+  mutation: MutationType!
+  node: CourseAbsence
+  updatedFields: [String!]
+  previousValues: CourseAbsencePreviousValues
+}
+
+input CourseAbsenceSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CourseAbsenceWhereInput
+  AND: [CourseAbsenceSubscriptionWhereInput!]
+  OR: [CourseAbsenceSubscriptionWhereInput!]
+  NOT: [CourseAbsenceSubscriptionWhereInput!]
+}
+
+input CourseAbsenceUpdateInput {
+  date: DateTime
+  student: StudentUpdateOneRequiredInput
+  course: CourseUpdateOneRequiredWithoutAbsencesInput
+}
+
+input CourseAbsenceUpdateManyDataInput {
+  date: DateTime
+}
+
+input CourseAbsenceUpdateManyMutationInput {
+  date: DateTime
+}
+
+input CourseAbsenceUpdateManyWithoutCourseInput {
+  create: [CourseAbsenceCreateWithoutCourseInput!]
+  delete: [CourseAbsenceWhereUniqueInput!]
+  connect: [CourseAbsenceWhereUniqueInput!]
+  set: [CourseAbsenceWhereUniqueInput!]
+  disconnect: [CourseAbsenceWhereUniqueInput!]
+  update: [CourseAbsenceUpdateWithWhereUniqueWithoutCourseInput!]
+  upsert: [CourseAbsenceUpsertWithWhereUniqueWithoutCourseInput!]
+  deleteMany: [CourseAbsenceScalarWhereInput!]
+  updateMany: [CourseAbsenceUpdateManyWithWhereNestedInput!]
+}
+
+input CourseAbsenceUpdateManyWithWhereNestedInput {
+  where: CourseAbsenceScalarWhereInput!
+  data: CourseAbsenceUpdateManyDataInput!
+}
+
+input CourseAbsenceUpdateWithoutCourseDataInput {
+  date: DateTime
+  student: StudentUpdateOneRequiredInput
+}
+
+input CourseAbsenceUpdateWithWhereUniqueWithoutCourseInput {
+  where: CourseAbsenceWhereUniqueInput!
+  data: CourseAbsenceUpdateWithoutCourseDataInput!
+}
+
+input CourseAbsenceUpsertWithWhereUniqueWithoutCourseInput {
+  where: CourseAbsenceWhereUniqueInput!
+  update: CourseAbsenceUpdateWithoutCourseDataInput!
+  create: CourseAbsenceCreateWithoutCourseInput!
+}
+
+input CourseAbsenceWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  student: StudentWhereInput
+  course: CourseWhereInput
+  AND: [CourseAbsenceWhereInput!]
+  OR: [CourseAbsenceWhereInput!]
+  NOT: [CourseAbsenceWhereInput!]
+}
+
+input CourseAbsenceWhereUniqueInput {
+  id: ID
 }
 
 type CourseConnection {
@@ -434,11 +654,17 @@ input CourseCreateInput {
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
+  absences: CourseAbsenceCreateManyWithoutCourseInput
 }
 
 input CourseCreateManyWithoutTeachersInput {
   create: [CourseCreateWithoutTeachersInput!]
   connect: [CourseWhereUniqueInput!]
+}
+
+input CourseCreateOneWithoutAbsencesInput {
+  create: CourseCreateWithoutAbsencesInput
+  connect: CourseWhereUniqueInput
 }
 
 input CourseCreateOneWithoutInstancesInput {
@@ -449,6 +675,21 @@ input CourseCreateOneWithoutInstancesInput {
 input CourseCreateOneWithoutMembershipsInput {
   create: CourseCreateWithoutMembershipsInput
   connect: CourseWhereUniqueInput
+}
+
+input CourseCreateWithoutAbsencesInput {
+  id: ID
+  name: String!
+  description: String
+  startDate: DateTime
+  startTime: String
+  day: CourseDay
+  duration: Int
+  teachers: TeacherCreateManyWithoutCoursesInput
+  memberships: MembershipCreateManyWithoutCourseInput
+  instances: CourseInstanceCreateManyWithoutCourseInput
+  studentLimit: Int
+  room: RoomCreateOneInput
 }
 
 input CourseCreateWithoutInstancesInput {
@@ -463,6 +704,7 @@ input CourseCreateWithoutInstancesInput {
   memberships: MembershipCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
+  absences: CourseAbsenceCreateManyWithoutCourseInput
 }
 
 input CourseCreateWithoutMembershipsInput {
@@ -477,6 +719,7 @@ input CourseCreateWithoutMembershipsInput {
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
+  absences: CourseAbsenceCreateManyWithoutCourseInput
 }
 
 input CourseCreateWithoutTeachersInput {
@@ -491,6 +734,7 @@ input CourseCreateWithoutTeachersInput {
   instances: CourseInstanceCreateManyWithoutCourseInput
   studentLimit: Int
   room: RoomCreateOneInput
+  absences: CourseAbsenceCreateManyWithoutCourseInput
 }
 
 enum CourseDay {
@@ -1045,6 +1289,7 @@ input CourseUpdateInput {
   instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
+  absences: CourseAbsenceUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateManyDataInput {
@@ -1084,6 +1329,13 @@ input CourseUpdateManyWithWhereNestedInput {
   data: CourseUpdateManyDataInput!
 }
 
+input CourseUpdateOneRequiredWithoutAbsencesInput {
+  create: CourseCreateWithoutAbsencesInput
+  update: CourseUpdateWithoutAbsencesDataInput
+  upsert: CourseUpsertWithoutAbsencesInput
+  connect: CourseWhereUniqueInput
+}
+
 input CourseUpdateOneRequiredWithoutMembershipsInput {
   create: CourseCreateWithoutMembershipsInput
   update: CourseUpdateWithoutMembershipsDataInput
@@ -1100,6 +1352,20 @@ input CourseUpdateOneWithoutInstancesInput {
   connect: CourseWhereUniqueInput
 }
 
+input CourseUpdateWithoutAbsencesDataInput {
+  name: String
+  description: String
+  startDate: DateTime
+  startTime: String
+  day: CourseDay
+  duration: Int
+  teachers: TeacherUpdateManyWithoutCoursesInput
+  memberships: MembershipUpdateManyWithoutCourseInput
+  instances: CourseInstanceUpdateManyWithoutCourseInput
+  studentLimit: Int
+  room: RoomUpdateOneInput
+}
+
 input CourseUpdateWithoutInstancesDataInput {
   name: String
   description: String
@@ -1111,6 +1377,7 @@ input CourseUpdateWithoutInstancesDataInput {
   memberships: MembershipUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
+  absences: CourseAbsenceUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateWithoutMembershipsDataInput {
@@ -1124,6 +1391,7 @@ input CourseUpdateWithoutMembershipsDataInput {
   instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
+  absences: CourseAbsenceUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateWithoutTeachersDataInput {
@@ -1137,11 +1405,17 @@ input CourseUpdateWithoutTeachersDataInput {
   instances: CourseInstanceUpdateManyWithoutCourseInput
   studentLimit: Int
   room: RoomUpdateOneInput
+  absences: CourseAbsenceUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateWithWhereUniqueWithoutTeachersInput {
   where: CourseWhereUniqueInput!
   data: CourseUpdateWithoutTeachersDataInput!
+}
+
+input CourseUpsertWithoutAbsencesInput {
+  update: CourseUpdateWithoutAbsencesDataInput!
+  create: CourseCreateWithoutAbsencesInput!
 }
 
 input CourseUpsertWithoutInstancesInput {
@@ -1271,6 +1545,9 @@ input CourseWhereInput {
   studentLimit_gt: Int
   studentLimit_gte: Int
   room: RoomWhereInput
+  absences_every: CourseAbsenceWhereInput
+  absences_some: CourseAbsenceWhereInput
+  absences_none: CourseAbsenceWhereInput
   AND: [CourseWhereInput!]
   OR: [CourseWhereInput!]
   NOT: [CourseWhereInput!]
@@ -1753,6 +2030,12 @@ type Mutation {
   upsertCourse(where: CourseWhereUniqueInput!, create: CourseCreateInput!, update: CourseUpdateInput!): Course!
   deleteCourse(where: CourseWhereUniqueInput!): Course
   deleteManyCourses(where: CourseWhereInput): BatchPayload!
+  createCourseAbsence(data: CourseAbsenceCreateInput!): CourseAbsence!
+  updateCourseAbsence(data: CourseAbsenceUpdateInput!, where: CourseAbsenceWhereUniqueInput!): CourseAbsence
+  updateManyCourseAbsences(data: CourseAbsenceUpdateManyMutationInput!, where: CourseAbsenceWhereInput): BatchPayload!
+  upsertCourseAbsence(where: CourseAbsenceWhereUniqueInput!, create: CourseAbsenceCreateInput!, update: CourseAbsenceUpdateInput!): CourseAbsence!
+  deleteCourseAbsence(where: CourseAbsenceWhereUniqueInput!): CourseAbsence
+  deleteManyCourseAbsences(where: CourseAbsenceWhereInput): BatchPayload!
   createCourseInstance(data: CourseInstanceCreateInput!): CourseInstance!
   updateCourseInstance(data: CourseInstanceUpdateInput!, where: CourseInstanceWhereUniqueInput!): CourseInstance
   updateManyCourseInstances(data: CourseInstanceUpdateManyMutationInput!, where: CourseInstanceWhereInput): BatchPayload!
@@ -2386,6 +2669,9 @@ type Query {
   course(where: CourseWhereUniqueInput!): Course
   courses(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course]!
   coursesConnection(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseConnection!
+  courseAbsence(where: CourseAbsenceWhereUniqueInput!): CourseAbsence
+  courseAbsences(where: CourseAbsenceWhereInput, orderBy: CourseAbsenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseAbsence]!
+  courseAbsencesConnection(where: CourseAbsenceWhereInput, orderBy: CourseAbsenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseAbsenceConnection!
   courseInstance(where: CourseInstanceWhereUniqueInput!): CourseInstance
   courseInstances(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance]!
   courseInstancesConnection(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseInstanceConnection!
@@ -2723,6 +3009,11 @@ input StudentCreateInput {
   user: UserCreateOneWithoutStudentInput
 }
 
+input StudentCreateOneInput {
+  create: StudentCreateInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentCreateOneWithoutCardsInput {
   create: StudentCreateWithoutCardsInput
   connect: StudentWhereUniqueInput
@@ -2837,6 +3128,17 @@ input StudentSubscriptionWhereInput {
   NOT: [StudentSubscriptionWhereInput!]
 }
 
+input StudentUpdateDataInput {
+  name: String
+  email: String
+  mobile: String
+  memberships: MembershipUpdateManyWithoutStudentInput
+  cards: CardUpdateManyWithoutStudentInput
+  hasReferralBonus: Boolean
+  payments: PaymentUpdateManyWithoutStudentInput
+  user: UserUpdateOneWithoutStudentInput
+}
+
 input StudentUpdateInput {
   name: String
   email: String
@@ -2853,6 +3155,13 @@ input StudentUpdateManyMutationInput {
   email: String
   mobile: String
   hasReferralBonus: Boolean
+}
+
+input StudentUpdateOneRequiredInput {
+  create: StudentCreateInput
+  update: StudentUpdateDataInput
+  upsert: StudentUpsertNestedInput
+  connect: StudentWhereUniqueInput
 }
 
 input StudentUpdateOneRequiredWithoutCardsInput {
@@ -2925,6 +3234,11 @@ input StudentUpdateWithoutUserDataInput {
   cards: CardUpdateManyWithoutStudentInput
   hasReferralBonus: Boolean
   payments: PaymentUpdateManyWithoutStudentInput
+}
+
+input StudentUpsertNestedInput {
+  update: StudentUpdateDataInput!
+  create: StudentCreateInput!
 }
 
 input StudentUpsertWithoutCardsInput {
@@ -3223,6 +3537,7 @@ input StudioWhereUniqueInput {
 type Subscription {
   card(where: CardSubscriptionWhereInput): CardSubscriptionPayload
   course(where: CourseSubscriptionWhereInput): CourseSubscriptionPayload
+  courseAbsence(where: CourseAbsenceSubscriptionWhereInput): CourseAbsenceSubscriptionPayload
   courseInstance(where: CourseInstanceSubscriptionWhereInput): CourseInstanceSubscriptionPayload
   loginResponse(where: LoginResponseSubscriptionWhereInput): LoginResponseSubscriptionPayload
   membership(where: MembershipSubscriptionWhereInput): MembershipSubscriptionPayload

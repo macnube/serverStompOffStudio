@@ -48,6 +48,13 @@ const typeResolvers = {
                     orderBy: 'date_DESC',
                 });
         },
+        absences(root, args, context) {
+            return context.prisma
+                .course({
+                    id: root.id,
+                })
+                .absences(args);
+        },
     },
     Student: {
         memberships(root, args, context) {
@@ -62,14 +69,14 @@ const typeResolvers = {
                 .student({
                     id: root.id,
                 })
-                .cards();
+                .cards(args);
         },
         payments(root, args, context) {
             return context.prisma
                 .student({
                     id: root.id,
                 })
-                .payments();
+                .payments(args);
         },
         user(root, args, context) {
             return context.prisma
@@ -175,6 +182,22 @@ const typeResolvers = {
         student(root, args, context) {
             return context.prisma
                 .user({
+                    id: root.id,
+                })
+                .student();
+        },
+    },
+    CourseAbsence: {
+        course(root, args, context) {
+            return context.prisma
+                .courseAbsence({
+                    id: root.id,
+                })
+                .course();
+        },
+        student(root, args, context) {
+            return context.prisma
+                .courseAbsence({
                     id: root.id,
                 })
                 .student();

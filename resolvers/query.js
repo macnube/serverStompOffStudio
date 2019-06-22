@@ -25,6 +25,15 @@ const studentQueries = {
             id: args.id,
         });
     },
+    studentCards(root, args, context) {
+        return context.prisma.cards({
+            where: {
+                student: {
+                    id: args.id,
+                },
+            },
+        });
+    },
     course(root, args, context) {
         return context.prisma.course({
             id: args.id,
@@ -62,6 +71,15 @@ const studentQueries = {
                     where: {
                         id: args.id,
                     },
+                },
+            },
+        });
+    },
+    coursesByStudent(root, args, context) {
+        return context.prisma.courses({
+            where: {
+                memberships_some: {
+                    student: { id: args.id },
                 },
             },
         });
@@ -106,11 +124,12 @@ const adminQueries = {
             .studio();
     },
     students(root, args, context) {
-        return context.prisma.students();
+        return context.prisma.students({ orderBy: 'name_ASC' });
     },
     payments(root, args, context) {
         return context.prisma.payments();
     },
+
     membershipsByCourseInstance(root, args, context) {
         return context.prisma
             .courseInstance({
