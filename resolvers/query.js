@@ -127,7 +127,7 @@ const adminQueries = {
         return context.prisma.students({ orderBy: 'name_ASC' });
     },
     payments(root, args, context) {
-        return context.prisma.payments();
+        return context.prisma.payments({ orderBy: 'date_DESC' });
     },
 
     membershipsByCourseInstance(root, args, context) {
