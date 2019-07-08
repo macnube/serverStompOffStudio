@@ -25,6 +25,7 @@ type Query {
     getParticipantByStudent(id: ID!): Participant
     currentUser: User!
     users: [User!]!
+    upcomingAbsencesByStudent(id: ID!): [CourseAbsence!]!
 }
 
 type Mutation {

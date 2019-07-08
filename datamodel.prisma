@@ -145,6 +145,20 @@ type Payment {
     card: Card @relation(link: INLINE)
 }
 
+enum ExpenseType {
+    RENT, MISC
+}
+
+type Expense {
+    id: ID! @id
+    updatedAt: DateTime! @updatedAt
+    createdAt: DateTime! @createdAt
+    type: ExpenseType!
+    date: DateTime!
+    amount: Int!
+    note: String
+}
+
 type Studio {
     id: ID! @id
     updatedAt: DateTime! @updatedAt

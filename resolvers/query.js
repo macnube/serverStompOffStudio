@@ -84,6 +84,16 @@ const studentQueries = {
             },
         });
     },
+    upcomingAbsencesByStudent(root, args, context) {
+        const now = new Date();
+        return context.prisma.courseAbsences({
+            where: {
+                date_gte: now,
+                student: { id: args.id },
+            },
+            orderBy: 'date_ASC',
+        });
+    },
 };
 
 const adminQueries = {
