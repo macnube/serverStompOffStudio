@@ -520,9 +520,6 @@ const adminMutations = {
             participants: {
                 create: participantsCreate,
             },
-            topic: args.topic,
-            notes: args.notes,
-            recapUrl: args.recapUrl,
             date: startOfDay(args.date),
         });
     },

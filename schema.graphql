@@ -113,10 +113,7 @@ type Mutation {
     ): Payment
     deletePayment(id: ID!): Payment
     createCourseInstance(
-        topic: String!
-        notes: String
         date: DateTime!
-        recapUrl: String
         courseId: ID!
         membershipIds: [ID!]!
     ): CourseInstance
