@@ -109,7 +109,7 @@ type CourseInstance {
     updatedAt: DateTime! @updatedAt
     createdAt: DateTime! @createdAt
     course: Course @relation(name: "InstanceByCourse")
-    date: DateTime
+    date: DateTime!
     topic: String
     notes: String
     participants: [Participant!] @relation(link: TABLE name: "ParticipantByInstance" onDelete: CASCADE)

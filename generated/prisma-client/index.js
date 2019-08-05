@@ -69,6 +69,14 @@ var models = [
     embedded: false
   },
   {
+    name: "ExpenseType",
+    embedded: false
+  },
+  {
+    name: "Expense",
+    embedded: false
+  },
+  {
     name: "Studio",
     embedded: false
   },

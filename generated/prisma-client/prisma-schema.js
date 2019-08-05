@@ -19,6 +19,10 @@ type AggregateCourseInstance {
   count: Int!
 }
 
+type AggregateExpense {
+  count: Int!
+}
+
 type AggregateLoginResponse {
   count: Int!
 }
@@ -757,7 +761,7 @@ type CourseInstance {
   updatedAt: DateTime!
   createdAt: DateTime!
   course: Course
-  date: DateTime
+  date: DateTime!
   topic: String
   notes: String
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
@@ -773,7 +777,7 @@ type CourseInstanceConnection {
 input CourseInstanceCreateInput {
   id: ID
   course: CourseCreateOneWithoutInstancesInput
-  date: DateTime
+  date: DateTime!
   topic: String
   notes: String
   participants: ParticipantCreateManyWithoutCourseInstanceInput
@@ -792,7 +796,7 @@ input CourseInstanceCreateOneWithoutParticipantsInput {
 
 input CourseInstanceCreateWithoutCourseInput {
   id: ID
-  date: DateTime
+  date: DateTime!
   topic: String
   notes: String
   participants: ParticipantCreateManyWithoutCourseInstanceInput
@@ -802,7 +806,7 @@ input CourseInstanceCreateWithoutCourseInput {
 input CourseInstanceCreateWithoutParticipantsInput {
   id: ID
   course: CourseCreateOneWithoutInstancesInput
-  date: DateTime
+  date: DateTime!
   topic: String
   notes: String
   recapUrl: String
@@ -834,7 +838,7 @@ type CourseInstancePreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
-  date: DateTime
+  date: DateTime!
   topic: String
   notes: String
   recapUrl: String
@@ -1565,6 +1569,173 @@ enum DanceRole {
 
 scalar DateTime
 
+type Expense {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  type: ExpenseType!
+  date: DateTime!
+  amount: Int!
+  note: String
+}
+
+type ExpenseConnection {
+  pageInfo: PageInfo!
+  edges: [ExpenseEdge]!
+  aggregate: AggregateExpense!
+}
+
+input ExpenseCreateInput {
+  id: ID
+  type: ExpenseType!
+  date: DateTime!
+  amount: Int!
+  note: String
+}
+
+type ExpenseEdge {
+  node: Expense!
+  cursor: String!
+}
+
+enum ExpenseOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+  type_ASC
+  type_DESC
+  date_ASC
+  date_DESC
+  amount_ASC
+  amount_DESC
+  note_ASC
+  note_DESC
+}
+
+type ExpensePreviousValues {
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  type: ExpenseType!
+  date: DateTime!
+  amount: Int!
+  note: String
+}
+
+type ExpenseSubscriptionPayload {
+  mutation: MutationType!
+  node: Expense
+  updatedFields: [String!]
+  previousValues: ExpensePreviousValues
+}
+
+input ExpenseSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ExpenseWhereInput
+  AND: [ExpenseSubscriptionWhereInput!]
+  OR: [ExpenseSubscriptionWhereInput!]
+  NOT: [ExpenseSubscriptionWhereInput!]
+}
+
+enum ExpenseType {
+  RENT
+  MISC
+}
+
+input ExpenseUpdateInput {
+  type: ExpenseType
+  date: DateTime
+  amount: Int
+  note: String
+}
+
+input ExpenseUpdateManyMutationInput {
+  type: ExpenseType
+  date: DateTime
+  amount: Int
+  note: String
+}
+
+input ExpenseWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  type: ExpenseType
+  type_not: ExpenseType
+  type_in: [ExpenseType!]
+  type_not_in: [ExpenseType!]
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
+  note: String
+  note_not: String
+  note_in: [String!]
+  note_not_in: [String!]
+  note_lt: String
+  note_lte: String
+  note_gt: String
+  note_gte: String
+  note_contains: String
+  note_not_contains: String
+  note_starts_with: String
+  note_not_starts_with: String
+  note_ends_with: String
+  note_not_ends_with: String
+  AND: [ExpenseWhereInput!]
+  OR: [ExpenseWhereInput!]
+  NOT: [ExpenseWhereInput!]
+}
+
+input ExpenseWhereUniqueInput {
+  id: ID
+}
+
 type LoginResponse {
   id: ID!
   updatedAt: DateTime!
@@ -2042,6 +2213,12 @@ type Mutation {
   upsertCourseInstance(where: CourseInstanceWhereUniqueInput!, create: CourseInstanceCreateInput!, update: CourseInstanceUpdateInput!): CourseInstance!
   deleteCourseInstance(where: CourseInstanceWhereUniqueInput!): CourseInstance
   deleteManyCourseInstances(where: CourseInstanceWhereInput): BatchPayload!
+  createExpense(data: ExpenseCreateInput!): Expense!
+  updateExpense(data: ExpenseUpdateInput!, where: ExpenseWhereUniqueInput!): Expense
+  updateManyExpenses(data: ExpenseUpdateManyMutationInput!, where: ExpenseWhereInput): BatchPayload!
+  upsertExpense(where: ExpenseWhereUniqueInput!, create: ExpenseCreateInput!, update: ExpenseUpdateInput!): Expense!
+  deleteExpense(where: ExpenseWhereUniqueInput!): Expense
+  deleteManyExpenses(where: ExpenseWhereInput): BatchPayload!
   createLoginResponse(data: LoginResponseCreateInput!): LoginResponse!
   updateLoginResponse(data: LoginResponseUpdateInput!, where: LoginResponseWhereUniqueInput!): LoginResponse
   updateManyLoginResponses(data: LoginResponseUpdateManyMutationInput!, where: LoginResponseWhereInput): BatchPayload!
@@ -2675,6 +2852,9 @@ type Query {
   courseInstance(where: CourseInstanceWhereUniqueInput!): CourseInstance
   courseInstances(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CourseInstance]!
   courseInstancesConnection(where: CourseInstanceWhereInput, orderBy: CourseInstanceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseInstanceConnection!
+  expense(where: ExpenseWhereUniqueInput!): Expense
+  expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense]!
+  expensesConnection(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExpenseConnection!
   loginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   loginResponses(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginResponse]!
   loginResponsesConnection(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginResponseConnection!
@@ -3539,6 +3719,7 @@ type Subscription {
   course(where: CourseSubscriptionWhereInput): CourseSubscriptionPayload
   courseAbsence(where: CourseAbsenceSubscriptionWhereInput): CourseAbsenceSubscriptionPayload
   courseInstance(where: CourseInstanceSubscriptionWhereInput): CourseInstanceSubscriptionPayload
+  expense(where: ExpenseSubscriptionWhereInput): ExpenseSubscriptionPayload
   loginResponse(where: LoginResponseSubscriptionWhereInput): LoginResponseSubscriptionPayload
   membership(where: MembershipSubscriptionWhereInput): MembershipSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
