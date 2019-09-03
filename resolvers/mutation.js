@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { map, includes } = require('lodash');
+const { map, includes, lowerCase } = require('lodash');
 const { parse, endOfDay, isBefore, startOfDay } = require('date-fns');
 
 const getCardActiveStatus = (value, expirationDate) =>
@@ -8,7 +8,8 @@ const getCardActiveStatus = (value, expirationDate) =>
 
 const unauthenticatedMutations = {
     login: async (root, args, context) => {
-        const user = await context.prisma.user({ email: args.email });
+        const email = lowerCase(args.email)
+        const user = await context.prisma.user({ email });
 
         if (!user) {
             throw new Error('Invalid Login');
@@ -43,8 +44,9 @@ const unauthenticatedMutations = {
 
 const studentMutations = {
     updateUserEmailPassword: async (root, args, context) => {
+        const email = lowerCase(args.email)
         const user = {
-            email: args.email,
+            email,
         };
         if (args.password) {
             const hashedPassword = await bcrypt.hash(args.password, 10);
@@ -99,9 +101,10 @@ const studentMutations = {
 
 const adminMutations = {
     createUser: async (root, args, context) => {
+        const email = lowerCase(args.email);
         const hashedPassword = await bcrypt.hash(args.password, 10);
         const user = {
-            email: args.email,
+            email,
             password: hashedPassword,
         };
         if (args.studentId) {
@@ -250,14 +253,15 @@ const adminMutations = {
         });
     },
     createStudent: async (root, args, context) => {
-        const hashedPassword = await bcrypt.hash(args.email, 10);
+        const email = lowerCase(args.email);
+        const hashedPassword = await bcrypt.hash(email, 10);
         return context.prisma.createStudent({
             name: args.name,
-            email: args.email,
+            email: email,
             mobile: args.mobile,
             user: {
                 create: {
-                    email: args.email,
+                    email: email,
                     password: hashedPassword,
                     admin: false,
                 },
