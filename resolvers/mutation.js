@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { map, includes, lowerCase } = require('lodash');
+const { map, includes, toLower } = require('lodash');
 const { parse, endOfDay, isBefore, startOfDay } = require('date-fns');
 
 const getCardActiveStatus = (value, expirationDate) =>
@@ -8,7 +8,8 @@ const getCardActiveStatus = (value, expirationDate) =>
 
 const unauthenticatedMutations = {
     login: async (root, args, context) => {
-        const email = lowerCase(args.email)
+        const email = toLower(args.email);
+        console.log('email is: ', email);
         const user = await context.prisma.user({ email });
 
         if (!user) {
@@ -44,7 +45,7 @@ const unauthenticatedMutations = {
 
 const studentMutations = {
     updateUserEmailPassword: async (root, args, context) => {
-        const email = lowerCase(args.email)
+        const email = toLower(args.email);
         const user = {
             email,
         };
@@ -101,7 +102,7 @@ const studentMutations = {
 
 const adminMutations = {
     createUser: async (root, args, context) => {
-        const email = lowerCase(args.email);
+        const email = toLower(args.email);
         const hashedPassword = await bcrypt.hash(args.password, 10);
         const user = {
             email,
@@ -253,7 +254,7 @@ const adminMutations = {
         });
     },
     createStudent: async (root, args, context) => {
-        const email = lowerCase(args.email);
+        const email = toLower(args.email);
         const hashedPassword = await bcrypt.hash(email, 10);
         return context.prisma.createStudent({
             name: args.name,
