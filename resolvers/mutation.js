@@ -2,11 +2,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const FormData = require('form-data');
 require('isomorphic-fetch');
-const { map, includes, toLower } = require('lodash');
+const { map, includes, toLower, find } = require('lodash');
 const { parse, endOfDay, isBefore, startOfDay } = require('date-fns');
 
+const isValidDate = expirationDate => {
+    const startOfToday = startOfDay(new Date());
+    const parsedExpiration = parse(expirationDate);
+    return isBefore(startOfToday, parsedExpiration);
+};
+
 const getCardActiveStatus = (value, expirationDate) =>
-    value > 0 && isBefore(endOfDay(new Date()), parse(expirationDate));
+    value > 0 && isValidDate(expirationDate);
 
 const unauthenticatedMutations = {
     login: async (root, args, context) => {
@@ -328,7 +334,36 @@ const adminMutations = {
             },
         });
     },
-    createCard(root, args, context) {
+    createCard: async (root, args, context) => {
+        const activeCards = await context.prisma.cards({
+            where: {
+                student: {
+                    id: args.studentId,
+                },
+                active: true,
+            },
+        });
+        const activeNonExpiredCard = find(activeCards, card =>
+            isValidDate(card.expirationDate)
+        );
+        console.log('activeNonExpiredCard is: ', activeNonExpiredCard);
+        activeCards.forEach(async card => {
+            if (!isValidDate(card.expirationDate)) {
+                console.log('here with card', card);
+                await context.prisma.updateCard({
+                    data: {
+                        active: false,
+                    },
+                    where: {
+                        id: card.id,
+                    },
+                });
+            }
+        });
+
+        if (activeNonExpiredCard) {
+            throw new Error('Active card already exists');
+        }
         return context.prisma.createCard({
             student: {
                 connect: {
