@@ -177,4 +177,8 @@ type Room {
     studio: Studio! @relation(name: "RoomsByStudio")
 }
 
+type MailgunEmailPayload {
+    id: ID! @id
+    success: Boolean!
+}
 

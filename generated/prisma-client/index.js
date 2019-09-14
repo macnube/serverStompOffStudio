@@ -83,6 +83,10 @@ var models = [
   {
     name: "Room",
     embedded: false
+  },
+  {
+    name: "MailgunEmailPayload",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

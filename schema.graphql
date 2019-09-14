@@ -1,4 +1,6 @@
-# import User, PaymentOrderByInput, CourseAbsence, Payment, PaymentType, MembershipStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, Membership, Card from "./generated/prisma.graphql"
+# import MailgunEmailPayload, User, PaymentOrderByInput, CourseAbsence, Payment, PaymentType, MembershipStatus, Course, CourseDay, CourseInstance, Student, Studio, Room, BatchPayload, Teacher, DanceRole, Participant, ParticipantStatus, Membership, Card from "./generated/prisma.graphql"
+
+scalar Json
 
 type Query {
     teachers: [Teacher!]!
@@ -136,4 +138,12 @@ type Mutation {
         studentId: ID!
     ): CourseAbsence
     clearCourseAbsence(id: ID!): CourseAbsence
+    sendMailgunEmail(
+        tag: String!
+        from: String!
+        to: [String!]!
+        subject: String!
+        text: String!
+        recipientVariables: Json
+    ): MailgunEmailPayload
 }

@@ -22,6 +22,10 @@ type AggregateLoginResponse {
   count: Int!
 }
 
+type AggregateMailgunEmailPayload {
+  count: Int!
+}
+
 type AggregateMembership {
   count: Int!
 }
@@ -1858,6 +1862,91 @@ input LoginResponseWhereUniqueInput {
 
 scalar Long
 
+type MailgunEmailPayload {
+  id: ID!
+  success: Boolean!
+}
+
+type MailgunEmailPayloadConnection {
+  pageInfo: PageInfo!
+  edges: [MailgunEmailPayloadEdge]!
+  aggregate: AggregateMailgunEmailPayload!
+}
+
+input MailgunEmailPayloadCreateInput {
+  id: ID
+  success: Boolean!
+}
+
+type MailgunEmailPayloadEdge {
+  node: MailgunEmailPayload!
+  cursor: String!
+}
+
+enum MailgunEmailPayloadOrderByInput {
+  id_ASC
+  id_DESC
+  success_ASC
+  success_DESC
+}
+
+type MailgunEmailPayloadPreviousValues {
+  id: ID!
+  success: Boolean!
+}
+
+type MailgunEmailPayloadSubscriptionPayload {
+  mutation: MutationType!
+  node: MailgunEmailPayload
+  updatedFields: [String!]
+  previousValues: MailgunEmailPayloadPreviousValues
+}
+
+input MailgunEmailPayloadSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MailgunEmailPayloadWhereInput
+  AND: [MailgunEmailPayloadSubscriptionWhereInput!]
+  OR: [MailgunEmailPayloadSubscriptionWhereInput!]
+  NOT: [MailgunEmailPayloadSubscriptionWhereInput!]
+}
+
+input MailgunEmailPayloadUpdateInput {
+  success: Boolean
+}
+
+input MailgunEmailPayloadUpdateManyMutationInput {
+  success: Boolean
+}
+
+input MailgunEmailPayloadWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  success: Boolean
+  success_not: Boolean
+  AND: [MailgunEmailPayloadWhereInput!]
+  OR: [MailgunEmailPayloadWhereInput!]
+  NOT: [MailgunEmailPayloadWhereInput!]
+}
+
+input MailgunEmailPayloadWhereUniqueInput {
+  id: ID
+}
+
 type Membership {
   id: ID!
   updatedAt: DateTime!
@@ -2220,6 +2309,12 @@ type Mutation {
   upsertLoginResponse(where: LoginResponseWhereUniqueInput!, create: LoginResponseCreateInput!, update: LoginResponseUpdateInput!): LoginResponse!
   deleteLoginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   deleteManyLoginResponses(where: LoginResponseWhereInput): BatchPayload!
+  createMailgunEmailPayload(data: MailgunEmailPayloadCreateInput!): MailgunEmailPayload!
+  updateMailgunEmailPayload(data: MailgunEmailPayloadUpdateInput!, where: MailgunEmailPayloadWhereUniqueInput!): MailgunEmailPayload
+  updateManyMailgunEmailPayloads(data: MailgunEmailPayloadUpdateManyMutationInput!, where: MailgunEmailPayloadWhereInput): BatchPayload!
+  upsertMailgunEmailPayload(where: MailgunEmailPayloadWhereUniqueInput!, create: MailgunEmailPayloadCreateInput!, update: MailgunEmailPayloadUpdateInput!): MailgunEmailPayload!
+  deleteMailgunEmailPayload(where: MailgunEmailPayloadWhereUniqueInput!): MailgunEmailPayload
+  deleteManyMailgunEmailPayloads(where: MailgunEmailPayloadWhereInput): BatchPayload!
   createMembership(data: MembershipCreateInput!): Membership!
   updateMembership(data: MembershipUpdateInput!, where: MembershipWhereUniqueInput!): Membership
   updateManyMemberships(data: MembershipUpdateManyMutationInput!, where: MembershipWhereInput): BatchPayload!
@@ -2853,6 +2948,9 @@ type Query {
   loginResponse(where: LoginResponseWhereUniqueInput!): LoginResponse
   loginResponses(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginResponse]!
   loginResponsesConnection(where: LoginResponseWhereInput, orderBy: LoginResponseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginResponseConnection!
+  mailgunEmailPayload(where: MailgunEmailPayloadWhereUniqueInput!): MailgunEmailPayload
+  mailgunEmailPayloads(where: MailgunEmailPayloadWhereInput, orderBy: MailgunEmailPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [MailgunEmailPayload]!
+  mailgunEmailPayloadsConnection(where: MailgunEmailPayloadWhereInput, orderBy: MailgunEmailPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MailgunEmailPayloadConnection!
   membership(where: MembershipWhereUniqueInput!): Membership
   memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership]!
   membershipsConnection(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MembershipConnection!
@@ -3716,6 +3814,7 @@ type Subscription {
   courseInstance(where: CourseInstanceSubscriptionWhereInput): CourseInstanceSubscriptionPayload
   expense(where: ExpenseSubscriptionWhereInput): ExpenseSubscriptionPayload
   loginResponse(where: LoginResponseSubscriptionWhereInput): LoginResponseSubscriptionPayload
+  mailgunEmailPayload(where: MailgunEmailPayloadSubscriptionWhereInput): MailgunEmailPayloadSubscriptionPayload
   membership(where: MembershipSubscriptionWhereInput): MembershipSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
