@@ -95,8 +95,8 @@ type Mutation {
     deleteCard(id: ID!): Card
     payCard(id: ID!): Card
     unpayCard(id: ID!): Card
-    logCardParticipation(id: ID!, participantId: ID!, value: Int!): Card
-    removeCardParticipation(id: ID!, participantId: ID!, value: Int!): Card
+    logCardParticipation(id: ID!, participantId: ID!): Card
+    removeCardParticipation(id: ID!, participantId: ID!): Card
     deactivateCard(id: ID!): Card
     createPayment(
         type: PaymentType!

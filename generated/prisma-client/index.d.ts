@@ -841,7 +841,7 @@ export type StudioOrderByInput =
   | "address_ASC"
   | "address_DESC";
 
-export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED";
+export type ParticipantStatus = "PRESENT" | "ABSENT" | "NOT_LOGGED" | "NO_SHOW";
 
 export type MembershipStatus = "ACTIVE" | "INACTIVE" | "WAITLIST";
 

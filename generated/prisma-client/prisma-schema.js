@@ -2492,6 +2492,7 @@ enum ParticipantStatus {
   PRESENT
   ABSENT
   NOT_LOGGED
+  NO_SHOW
 }
 
 type ParticipantSubscriptionPayload {

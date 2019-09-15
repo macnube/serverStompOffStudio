@@ -387,28 +387,38 @@ const adminMutations = {
             },
         });
     },
-    logCardParticipation(root, args, context) {
+    logCardParticipation: async (root, args, context) => {
+        const card = await context.prisma.card({ id: args.id });
+        const newValue = card.value - 1;
         return context.prisma.updateCard({
             data: {
                 participationHistory: {
                     connect: { id: args.participantId },
                 },
-                value: args.value,
-                active: args.value === 0 ? false : true,
+                value: newValue,
+                active: newValue === 0 ? false : true,
             },
             where: {
                 id: args.id,
             },
         });
     },
-    removeCardParticipation(root, args, context) {
+    removeCardParticipation: async (root, args, context) => {
+        const card = await context.prisma.card({ id: args.id });
+        const newValue = card.value++;
+        await context.prisma.updateParticipant({
+            data: {
+                status: 'NOT_LOGGED',
+            },
+            where: { id: args.participantId },
+        });
         return context.prisma.updateCard({
             data: {
                 participationHistory: {
-                    disconnect: { id: args.participantId },
+                    disconnect: [{ id: args.participantId }],
                 },
-                value: args.value,
-                active: true,
+                value: newValue,
+                active: newValue > 0 && isValidDate(card.expirationDate),
             },
             where: {
                 id: args.id,

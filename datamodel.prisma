@@ -62,7 +62,7 @@ type CourseAbsence {
 }
 
 enum ParticipantStatus {
-    PRESENT, ABSENT, NOT_LOGGED
+    PRESENT, ABSENT, NOT_LOGGED, NO_SHOW
 }
 
 type Participant {
