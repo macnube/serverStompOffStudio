@@ -1,4 +1,4 @@
-const { subWeeks, addWeeks } = require('date-fns');
+const { subWeeks, addWeeks, startOfDay } = require('date-fns');
 const { AuthenticationError } = require('apollo-server');
 const { map } = require('lodash');
 
@@ -85,10 +85,10 @@ const studentQueries = {
         });
     },
     upcomingAbsencesByStudent(root, args, context) {
-        const now = new Date();
+        const startOfToday = startOfDay(new Date());
         return context.prisma.courseAbsences({
             where: {
-                date_gte: now,
+                date_gte: startOfToday,
                 student: { id: args.id },
             },
             orderBy: 'date_ASC',
