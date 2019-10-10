@@ -405,7 +405,7 @@ const adminMutations = {
     },
     removeCardParticipation: async (root, args, context) => {
         const card = await context.prisma.card({ id: args.id });
-        const newValue = card.value++;
+        const newValue = ++card.value;
         await context.prisma.updateParticipant({
             data: {
                 status: 'NOT_LOGGED',
