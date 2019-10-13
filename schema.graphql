@@ -74,6 +74,14 @@ type Mutation {
     removeTeacherFromCourse(id: ID!, teacherId: ID!): Course
     deleteCourse(id: ID!): Course
     createStudent(name: String!, email: String!, mobile: String): Student
+    importStudent(
+        name: String!
+        email: String!
+        mobile: String
+        role: DanceRole!
+        waitlistDate: DateTime!
+        courseId: ID!
+    ): Student
     deleteStudent(id: ID!): Student
     updateStudent(
         id: ID!

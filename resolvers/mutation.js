@@ -17,7 +17,6 @@ const getCardActiveStatus = (value, expirationDate) =>
 const unauthenticatedMutations = {
     login: async (root, args, context) => {
         const email = toLower(args.email);
-        console.log('email is: ', email);
         const user = await context.prisma.user({ email });
 
         if (!user) {
@@ -32,6 +31,8 @@ const unauthenticatedMutations = {
         if (!passwordMatch) {
             throw new Error('Invalid Login');
         }
+
+        console.log('here');
 
         const token = jwt.sign(
             {
@@ -261,6 +262,48 @@ const adminMutations = {
             where: { id: args.id },
         });
     },
+    importStudent: async (root, args, context) => {
+        const email = toLower(args.email);
+        const student = await context.prisma.student({ email });
+        const membership = {
+            course: {
+                connect: {
+                    id: args.courseId,
+                },
+            },
+            role: args.role,
+            status: 'WAITLIST',
+            waitlistDate: args.waitlistDate,
+        };
+        if (student) {
+            return context.prisma.updateStudent({
+                data: {
+                    memberships: {
+                        create: [membership],
+                    },
+                },
+                where: {
+                    id: student.id,
+                },
+            });
+        }
+        const hashedPassword = await bcrypt.hash(email, 10);
+        return context.prisma.createStudent({
+            name: args.name,
+            email: email,
+            mobile: args.mobile,
+            memberships: {
+                create: [membership],
+            },
+            user: {
+                create: {
+                    email: email,
+                    password: hashedPassword,
+                    admin: false,
+                },
+            },
+        });
+    },
     createStudent: async (root, args, context) => {
         const email = toLower(args.email);
         const hashedPassword = await bcrypt.hash(email, 10);
@@ -346,7 +389,6 @@ const adminMutations = {
         const activeNonExpiredCard = find(activeCards, card =>
             isValidDate(card.expirationDate)
         );
-        console.log('activeNonExpiredCard is: ', activeNonExpiredCard);
         activeCards.forEach(async card => {
             if (!isValidDate(card.expirationDate)) {
                 console.log('here with card', card);
