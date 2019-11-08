@@ -1,10 +1,15 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({
+  path: require('path').resolve(__dirname, '../.env'),
+});
 const axios = require('axios');
 const gql = require('graphql-tag');
 const { print } = require('graphql');
 const { get } = require('lodash');
 const fs = require('fs');
-const fileName = '../cronJobLogs/oldCards.json';
+const fileName = require('path').resolve(
+  __dirname,
+  '../cronJobLogs/oldCards.json'
+);
 
 const log = require(fileName);
 const today = new Date();
@@ -33,6 +38,8 @@ const loginMutation = gql`
     }
   }
 `;
+
+console.log('PORTAL_ADMIN_PASSWORD is: ', process.env.PORTAL_ADMIN_PASSWORD);
 
 const loginPayload = {
   operationName: 'Login',
