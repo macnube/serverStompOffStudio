@@ -4,7 +4,7 @@ const gql = require('graphql-tag');
 const { print } = require('graphql');
 const { get } = require('lodash');
 const fs = require('fs');
-const fileName = '../logs/oldCards.json';
+const fileName = '../cronJobLogs/oldCards.json';
 
 const log = require(fileName);
 const today = new Date();
