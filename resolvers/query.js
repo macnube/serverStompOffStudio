@@ -169,6 +169,19 @@ const adminQueries = {
             },
         });
     },
+    oldCards(root, args, context) {
+        const now = new Date();
+        return context.prisma.cards({
+            where: {
+                AND: [
+                    { active: true },
+                    {
+                        expirationDate_lte: now,
+                    },
+                ],
+            },
+        });
+    },
     unlinkedCardPayments(root, args, context) {
         return context.prisma.payments({
             where: {

@@ -502,6 +502,24 @@ const adminMutations = {
             },
         });
     },
+    expireOldCards(root, args, context) {
+        const now = new Date();
+        return context.prisma.updateManyCards({
+            data: {
+                active: false,
+            },
+            where: {
+                AND: [
+                    {
+                        active: true,
+                    },
+                    {
+                        expirationDate_lt: now,
+                    },
+                ],
+            },
+        });
+    },
     createPayment(root, args, context) {
         const payment = {
             student: {

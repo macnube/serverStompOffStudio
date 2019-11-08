@@ -28,6 +28,7 @@ type Query {
     currentUser: User!
     users: [User!]!
     upcomingAbsencesByStudent(id: ID!): [CourseAbsence!]!
+    oldCards: [Card!]!
 }
 
 type Mutation {
@@ -106,6 +107,7 @@ type Mutation {
     logCardParticipation(id: ID!, participantId: ID!): Card
     removeCardParticipation(id: ID!, participantId: ID!): Card
     deactivateCard(id: ID!): Card
+    expireOldCards: BatchPayload!
     createPayment(
         type: PaymentType!
         studentId: ID!
