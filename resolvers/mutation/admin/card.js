@@ -1,3 +1,17 @@
+const { find, filter } = require('lodash');
+const { parse, isBefore, startOfDay } = require('date-fns');
+
+const { sendEmail, cardFinishedText } = require('../utils');
+
+const isValidDate = expirationDate => {
+    const startOfToday = startOfDay(new Date());
+    const parsedExpiration = parse(expirationDate);
+    return isBefore(startOfToday, parsedExpiration);
+};
+
+const getCardActiveStatus = (value, expirationDate) =>
+    value > 0 && isValidDate(expirationDate);
+
 const card = {
     createCard: async (root, args, context) => {
         const activeCards = await context.prisma.cards({
@@ -54,6 +68,27 @@ const card = {
     logCardParticipation: async (root, args, context) => {
         const card = await context.prisma.card({ id: args.id });
         const newValue = card.value - 1;
+        if (newValue === 0) {
+            const student = await context.prisma
+                .card({
+                    id: args.id,
+                })
+                .student();
+            const memberships = await context.prisma
+                .student({ id: student.id })
+                .memberships();
+            const numberOfCourses = filter(
+                memberships,
+                membership => membership.status === 'ACTIVE'
+            ).length;
+            sendEmail({
+                tag: 'CARD_FINISHED',
+                to: [student.email],
+                subject:
+                    'You just used your last class on your dance card! Please make a transfer to receive a new one',
+                text: cardFinishedText(student.name, numberOfCourses),
+            });
+        }
         return context.prisma.updateCard({
             data: {
                 participationHistory: {
