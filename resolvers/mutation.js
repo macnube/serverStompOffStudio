@@ -32,8 +32,6 @@ const unauthenticatedMutations = {
             throw new Error('Invalid Login');
         }
 
-        console.log('here');
-
         const token = jwt.sign(
             {
                 id: user.id,
@@ -694,7 +692,7 @@ const adminMutations = {
             const token = new Buffer.from(
                 `api:${process.env['MAILGUN_API_KEY']}`
             ).toString('base64');
-            const endpoint = `https://api.mailgun.net/v3/${
+            const endpoint = `https://api.eu.mailgun.net/v3/${
                 process.env['MAILGUN_DOMAIN']
             }/messages`;
 
@@ -707,7 +705,7 @@ const adminMutations = {
             }
 
             const form = new FormData();
-            form.append('from', f);
+            form.append('from', 'miss.lana.sedlmayr@gmail.com');
 
             console.log('to is: ', to);
 
@@ -728,7 +726,11 @@ const adminMutations = {
                 },
                 method: 'POST',
                 body: form,
-            }).then(response => response.json());
+            })
+                .then(response => response.json())
+                .catch(e => console.log('error is: ', e));
+
+            console.log('data is: ', data);
 
             return { success: true };
         } catch (e) {

@@ -150,7 +150,6 @@ type Mutation {
     clearCourseAbsence(id: ID!): CourseAbsence
     sendMailgunEmail(
         tag: String!
-        from: String!
         to: [String!]!
         subject: String!
         text: String!
