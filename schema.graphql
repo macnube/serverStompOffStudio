@@ -14,6 +14,7 @@ type Query {
     coursesByStudent(id: ID!): [Course!]!
     students: [Student!]!
     student(id: ID!): Student!
+    studentsWithPastDueCards: [Student!]!
     payments: [Payment!]!
     unlinkedCardPayments: [Payment!]!
     courseInstance(id: ID!): CourseInstance
