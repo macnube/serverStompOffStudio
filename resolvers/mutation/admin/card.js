@@ -1,7 +1,7 @@
-const { find, filter } = require('lodash');
+const { find, filter, map, forEach } = require('lodash');
 const { parse, isBefore, startOfDay } = require('date-fns');
 
-const { sendEmail, cardFinishedText } = require('../utils');
+const { sendEmail, cardFinishedText, cardExpiredText } = require('../utils');
 
 const isValidDate = expirationDate => {
     const startOfToday = startOfDay(new Date());
@@ -159,8 +159,42 @@ const card = {
             },
         });
     },
-    expireOldCards(root, args, context) {
+    expireOldCards: async (root, args, context) => {
         const now = new Date();
+        let studentsWithOldCards = await context.prisma
+            .cards({
+                where: {
+                    AND: [
+                        {
+                            active: true,
+                        },
+                        {
+                            expirationDate_lt: now,
+                        },
+                    ],
+                },
+            })
+            .student();
+        studentsWithOldCards = map(studentsWithOldCards, s => s.student);
+        console.log('studentsWithOldCards are: ', studentsWithOldCards);
+        if (studentsWithOldCards.length > 0) {
+            forEach(studentsWithOldCards, async student => {
+                const memberships = await context.prisma
+                    .student({ id: student.id })
+                    .memberships();
+                const numberOfCourses = filter(
+                    memberships,
+                    membership => membership.status === 'ACTIVE'
+                ).length;
+                sendEmail({
+                    tag: 'CARD_EXPIRED',
+                    to: [student.email],
+                    subject:
+                        'Your card has expired this past week! Please make a transfer to purchase a new one before your next class',
+                    text: cardExpiredText(student.name, numberOfCourses),
+                });
+            });
+        }
         return context.prisma.updateManyCards({
             data: {
                 active: false,

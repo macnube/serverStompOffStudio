@@ -22,6 +22,25 @@ Best,
 Lana
 `;
 
+const cardExpiredText = (name, numberOfClasses) => `
+Hi ${name},
+
+Your card has expired last week! 
+
+Please transfer ${
+    cardPrices[numberOfClasses - 1]
+} euro to get a new ${numberOfClasses} class card before next week's classes.
+
+Transfer Details: 
+
+Svitlana Sedlmayr
+IBAN:  DE40 100100100454526118
+
+Best,
+
+Lana
+`;
+
 const sendEmail = async ({ tag, to, subject, text, recipientVariables }) => {
     if (!process.env['MAILGUN_API_KEY']) {
         console.log('Please provide a valid mailgun secret key!');
@@ -85,4 +104,4 @@ const sendEmail = async ({ tag, to, subject, text, recipientVariables }) => {
     }
 };
 
-module.exports = { sendEmail, cardFinishedText };
+module.exports = { sendEmail, cardFinishedText, cardExpiredText };
