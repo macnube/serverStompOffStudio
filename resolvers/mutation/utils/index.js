@@ -1,3 +1,13 @@
-const { sendEmail, cardFinishedText, cardExpiredText } = require('./email');
+const {
+    sendEmail,
+    cardFinishedText,
+    cardExpiredText,
+    cardOverdueText,
+} = require('./email');
 
-module.exports = { sendEmail, cardFinishedText, cardExpiredText };
+module.exports = {
+    sendEmail,
+    cardFinishedText,
+    cardExpiredText,
+    cardOverdueText,
+};

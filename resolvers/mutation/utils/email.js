@@ -3,6 +3,25 @@ const FormData = require('form-data');
 
 const cardPrices = [100, 185, 230];
 
+const cardOverdueText = (name, numberOfClasses) => `
+Hi ${name},
+
+You've used your current card for 3 classes without payment.  
+
+This is a friendly reminder to please transfer ${
+    cardPrices[numberOfClasses - 1]
+} euro for your current ${numberOfClasses} class card.
+
+Transfer Details: 
+
+Svitlana Sedlmayr
+IBAN:  DE40 100100100454526118
+
+See you in class!
+
+Lana
+`;
+
 const cardFinishedText = (name, numberOfClasses) => `
 Hi ${name},
 
@@ -104,4 +123,9 @@ const sendEmail = async ({ tag, to, subject, text, recipientVariables }) => {
     }
 };
 
-module.exports = { sendEmail, cardFinishedText, cardExpiredText };
+module.exports = {
+    sendEmail,
+    cardFinishedText,
+    cardExpiredText,
+    cardOverdueText,
+};

@@ -14,7 +14,6 @@ type Query {
     coursesByStudent(id: ID!): [Course!]!
     students: [Student!]!
     student(id: ID!): Student!
-    studentsWithPastDueCards: [Student!]!
     payments: [Payment!]!
     unlinkedCardPayments: [Payment!]!
     courseInstance(id: ID!): CourseInstance
@@ -92,6 +91,7 @@ type Mutation {
         mobile: String
         hasReferralBonus: Boolean!
     ): Student
+    notifyPastDueStudents: BatchPayload!
     createMembership(
         studentId: ID!
         courseId: ID!

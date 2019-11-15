@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
-const { toLower } = require('lodash');
+const { toLower, reduce, forEach, filter } = require('lodash');
+
+const { sendEmail, cardOverdueText } = require('../utils');
 
 const student = {
     importStudent: async (root, args, context) => {
@@ -77,6 +79,51 @@ const student = {
         return context.prisma.deleteStudent({
             id: args.id,
         });
+    },
+    notifyPastDueStudents: async (root, args, context) => {
+        const unpaidCards = await context.prisma.cards({
+            where: {
+                paid: false,
+                active: true,
+            },
+        });
+        const unpaidForTwoWeeks = reduce(
+            unpaidCards,
+            (result, card) => {
+                if (card.originalValue - card.value > 2) {
+                    result.push(card.id);
+                    return result;
+                }
+                return result;
+            },
+            []
+        );
+        const pastDueStudents = await context.prisma.students({
+            where: {
+                cards_some: {
+                    id_in: unpaidForTwoWeeks,
+                },
+            },
+        });
+        if (pastDueStudents.length > 0) {
+            forEach(pastDueStudents, async student => {
+                const memberships = await context.prisma
+                    .student({ id: student.id })
+                    .memberships();
+                const numberOfCourses = filter(
+                    memberships,
+                    membership => membership.status === 'ACTIVE'
+                ).length;
+                sendEmail({
+                    tag: 'CARD_PAST_DUE',
+                    to: [student.email],
+                    subject:
+                        'Friendly reminder that your card payment is overdue. Please make a transfer before your next class.',
+                    text: cardOverdueText(student.name, numberOfCourses),
+                });
+            });
+        }
+        return { count: pastDueStudents.length };
     },
 };
 

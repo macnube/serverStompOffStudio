@@ -176,7 +176,6 @@ const card = {
             })
             .student();
         studentsWithOldCards = map(studentsWithOldCards, s => s.student);
-        console.log('studentsWithOldCards are: ', studentsWithOldCards);
         if (studentsWithOldCards.length > 0) {
             forEach(studentsWithOldCards, async student => {
                 const memberships = await context.prisma

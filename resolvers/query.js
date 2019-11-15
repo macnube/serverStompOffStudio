@@ -39,32 +39,6 @@ const studentQueries = {
             id: args.id,
         });
     },
-    studentsWithPastDueCards: async (root, args, context) => {
-        const unpaidCards = await context.prisma.cards({
-            where: {
-                paid: false,
-                active: true,
-            },
-        });
-        const unpaidForTwoWeeks = reduce(
-            unpaidCards,
-            (result, card) => {
-                if (card.originalValue - card.value > 2) {
-                    result.push(card.id);
-                    return result;
-                }
-                return result;
-            },
-            []
-        );
-        return context.prisma.students({
-            where: {
-                cards_some: {
-                    id_in: unpaidForTwoWeeks,
-                },
-            },
-        });
-    },
     unpaidCardsByStudent(root, args, context) {
         return context.prisma.cards({
             where: {
