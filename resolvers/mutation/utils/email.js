@@ -1,7 +1,22 @@
 require('isomorphic-fetch');
+require('dotenv').config();
 const FormData = require('form-data');
 
 const cardPrices = [100, 185, 230];
+
+const resetPasswordText = (email, encryptedEmail, encryptedDate) => `
+Hi,
+
+Please use the following link to reset your password. It will expire in a day.
+
+${
+    process.env.BASE_URL
+}/resetPassword?user=${email}&e=${encryptedEmail}&d=${encryptedDate}
+
+Best,
+
+Lana
+`;
 
 const cardOverdueText = (name, numberOfClasses) => `
 Hi ${name},
@@ -128,4 +143,5 @@ module.exports = {
     cardFinishedText,
     cardExpiredText,
     cardOverdueText,
+    resetPasswordText,
 };

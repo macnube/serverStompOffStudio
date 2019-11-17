@@ -3,6 +3,7 @@ const {
     cardFinishedText,
     cardExpiredText,
     cardOverdueText,
+    resetPasswordText,
 } = require('./email');
 
 module.exports = {
@@ -10,4 +11,5 @@ module.exports = {
     cardFinishedText,
     cardExpiredText,
     cardOverdueText,
+    resetPasswordText,
 };

@@ -37,6 +37,13 @@ type Mutation {
     updateUserEmailPassword(email: String, password: String, id: ID!): User
     deleteUser(id: ID!): User
     toggleUserAdminStatus(id: ID!): User
+    sendResetEmail(email: String!): User
+    resetPassword(
+        email: String!
+        encryptedEmail: String!
+        encryptedDate: String!
+        password: String!
+    ): LoginResponse!
     createTeacher(name: String!, email: String!, mobile: String): Teacher
     deleteTeacher(id: ID!): Teacher
     updateTeacher(
