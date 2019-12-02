@@ -12,6 +12,15 @@ const isValidDate = expirationDate => {
 const getCardActiveStatus = (value, expirationDate) =>
     value > 0 && isValidDate(expirationDate);
 
+const getPrivateLessonLength = value => {
+    if (value >= 24) {
+        return 45;
+    } else if (value >= 16) {
+        return 30;
+    }
+    return 0;
+};
+
 const card = {
     createCard: async (root, args, context) => {
         const activeCards = await context.prisma.cards({
@@ -50,16 +59,23 @@ const card = {
             },
             expirationDate: args.expirationDate,
             value: args.value,
+            privateLessonLength: getPrivateLessonLength(args.value),
             originalValue: args.value,
         });
     },
-    updateCard(root, args, context) {
+    updateCard: async (root, args, context) => {
+        const card = await context.prisma.card({ id: args.id });
+        const data = {
+            expirationDate: args.expirationDate,
+            value: args.value,
+            active: getCardActiveStatus(args.value, args.expirationDate),
+        };
+        if (card.privateLessonLength === 0 && args.privateLessonLength > 0) {
+            data.privateLessonLength = args.privateLessonLength;
+            data.privateLessonUseDate = false;
+        }
         return context.prisma.updateCard({
-            data: {
-                expirationDate: args.expirationDate,
-                value: args.value,
-                active: getCardActiveStatus(args.value, args.expirationDate),
-            },
+            data,
             where: {
                 id: args.id,
             },
@@ -153,6 +169,16 @@ const card = {
         return context.prisma.updateCard({
             data: {
                 paid: false,
+            },
+            where: {
+                id: args.id,
+            },
+        });
+    },
+    markPrivateLessonUsed(root, args, context) {
+        return context.prisma.updateCard({
+            data: {
+                privateLessonUseDate: args.privateLessonUseDate,
             },
             where: {
                 id: args.id,

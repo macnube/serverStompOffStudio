@@ -79,6 +79,8 @@ type Card {
   value: Int!
   originalValue: Int!
   participationHistory(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
+  privateLessonLength: Int!
+  privateLessonUseDate: DateTime
 }
 
 type CardConnection {
@@ -97,6 +99,8 @@ input CardCreateInput {
   value: Int!
   originalValue: Int!
   participationHistory: ParticipantCreateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardCreateManyWithoutStudentInput {
@@ -118,6 +122,8 @@ input CardCreateWithoutPaymentInput {
   value: Int!
   originalValue: Int!
   participationHistory: ParticipantCreateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardCreateWithoutStudentInput {
@@ -129,6 +135,8 @@ input CardCreateWithoutStudentInput {
   value: Int!
   originalValue: Int!
   participationHistory: ParticipantCreateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 type CardEdge {
@@ -153,6 +161,10 @@ enum CardOrderByInput {
   value_DESC
   originalValue_ASC
   originalValue_DESC
+  privateLessonLength_ASC
+  privateLessonLength_DESC
+  privateLessonUseDate_ASC
+  privateLessonUseDate_DESC
 }
 
 type CardPreviousValues {
@@ -164,6 +176,8 @@ type CardPreviousValues {
   paid: Boolean!
   value: Int!
   originalValue: Int!
+  privateLessonLength: Int!
+  privateLessonUseDate: DateTime
 }
 
 input CardScalarWhereInput {
@@ -225,6 +239,22 @@ input CardScalarWhereInput {
   originalValue_lte: Int
   originalValue_gt: Int
   originalValue_gte: Int
+  privateLessonLength: Int
+  privateLessonLength_not: Int
+  privateLessonLength_in: [Int!]
+  privateLessonLength_not_in: [Int!]
+  privateLessonLength_lt: Int
+  privateLessonLength_lte: Int
+  privateLessonLength_gt: Int
+  privateLessonLength_gte: Int
+  privateLessonUseDate: DateTime
+  privateLessonUseDate_not: DateTime
+  privateLessonUseDate_in: [DateTime!]
+  privateLessonUseDate_not_in: [DateTime!]
+  privateLessonUseDate_lt: DateTime
+  privateLessonUseDate_lte: DateTime
+  privateLessonUseDate_gt: DateTime
+  privateLessonUseDate_gte: DateTime
   AND: [CardScalarWhereInput!]
   OR: [CardScalarWhereInput!]
   NOT: [CardScalarWhereInput!]
@@ -257,6 +287,8 @@ input CardUpdateInput {
   value: Int
   originalValue: Int
   participationHistory: ParticipantUpdateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardUpdateManyDataInput {
@@ -265,6 +297,8 @@ input CardUpdateManyDataInput {
   paid: Boolean
   value: Int
   originalValue: Int
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardUpdateManyMutationInput {
@@ -273,6 +307,8 @@ input CardUpdateManyMutationInput {
   paid: Boolean
   value: Int
   originalValue: Int
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardUpdateManyWithoutStudentInput {
@@ -309,6 +345,8 @@ input CardUpdateWithoutPaymentDataInput {
   value: Int
   originalValue: Int
   participationHistory: ParticipantUpdateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardUpdateWithoutStudentDataInput {
@@ -319,6 +357,8 @@ input CardUpdateWithoutStudentDataInput {
   value: Int
   originalValue: Int
   participationHistory: ParticipantUpdateManyInput
+  privateLessonLength: Int
+  privateLessonUseDate: DateTime
 }
 
 input CardUpdateWithWhereUniqueWithoutStudentInput {
@@ -401,6 +441,22 @@ input CardWhereInput {
   participationHistory_every: ParticipantWhereInput
   participationHistory_some: ParticipantWhereInput
   participationHistory_none: ParticipantWhereInput
+  privateLessonLength: Int
+  privateLessonLength_not: Int
+  privateLessonLength_in: [Int!]
+  privateLessonLength_not_in: [Int!]
+  privateLessonLength_lt: Int
+  privateLessonLength_lte: Int
+  privateLessonLength_gt: Int
+  privateLessonLength_gte: Int
+  privateLessonUseDate: DateTime
+  privateLessonUseDate_not: DateTime
+  privateLessonUseDate_in: [DateTime!]
+  privateLessonUseDate_not_in: [DateTime!]
+  privateLessonUseDate_lt: DateTime
+  privateLessonUseDate_lte: DateTime
+  privateLessonUseDate_gt: DateTime
+  privateLessonUseDate_gte: DateTime
   AND: [CardWhereInput!]
   OR: [CardWhereInput!]
   NOT: [CardWhereInput!]

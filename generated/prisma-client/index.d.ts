@@ -697,7 +697,11 @@ export type CardOrderByInput =
   | "value_ASC"
   | "value_DESC"
   | "originalValue_ASC"
-  | "originalValue_DESC";
+  | "originalValue_DESC"
+  | "privateLessonLength_ASC"
+  | "privateLessonLength_DESC"
+  | "privateLessonUseDate_ASC"
+  | "privateLessonUseDate_DESC";
 
 export type DanceRole = "LEADER" | "FOLLOWER" | "SOLO";
 
@@ -1279,6 +1283,8 @@ export interface CardUpdateInput {
   value?: Maybe<Int>;
   originalValue?: Maybe<Int>;
   participationHistory?: Maybe<ParticipantUpdateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface UserUpdateInput {
@@ -1906,6 +1912,8 @@ export interface CardUpdateWithoutStudentDataInput {
   value?: Maybe<Int>;
   originalValue?: Maybe<Int>;
   participationHistory?: Maybe<ParticipantUpdateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface StudioUpdateInput {
@@ -2274,6 +2282,8 @@ export interface CardUpdateWithoutPaymentDataInput {
   value?: Maybe<Int>;
   originalValue?: Maybe<Int>;
   participationHistory?: Maybe<ParticipantUpdateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface StudentCreateOneWithoutUserInput {
@@ -3308,6 +3318,8 @@ export interface CardCreateInput {
   value: Int;
   originalValue: Int;
   participationHistory?: Maybe<ParticipantCreateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface CourseInstanceUpsertWithoutParticipantsInput {
@@ -3486,6 +3498,22 @@ export interface CardScalarWhereInput {
   originalValue_lte?: Maybe<Int>;
   originalValue_gt?: Maybe<Int>;
   originalValue_gte?: Maybe<Int>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonLength_not?: Maybe<Int>;
+  privateLessonLength_in?: Maybe<Int[] | Int>;
+  privateLessonLength_not_in?: Maybe<Int[] | Int>;
+  privateLessonLength_lt?: Maybe<Int>;
+  privateLessonLength_lte?: Maybe<Int>;
+  privateLessonLength_gt?: Maybe<Int>;
+  privateLessonLength_gte?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
+  privateLessonUseDate_not?: Maybe<DateTimeInput>;
+  privateLessonUseDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  privateLessonUseDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  privateLessonUseDate_lt?: Maybe<DateTimeInput>;
+  privateLessonUseDate_lte?: Maybe<DateTimeInput>;
+  privateLessonUseDate_gt?: Maybe<DateTimeInput>;
+  privateLessonUseDate_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
   OR?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
   NOT?: Maybe<CardScalarWhereInput[] | CardScalarWhereInput>;
@@ -3519,6 +3547,8 @@ export interface CardUpdateManyDataInput {
   paid?: Maybe<Boolean>;
   value?: Maybe<Int>;
   originalValue?: Maybe<Int>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface RoomWhereInput {
@@ -3885,6 +3915,8 @@ export interface CardCreateWithoutStudentInput {
   value: Int;
   originalValue: Int;
   participationHistory?: Maybe<ParticipantCreateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface CourseInstanceUpsertWithWhereUniqueWithoutCourseInput {
@@ -3999,6 +4031,8 @@ export interface CardCreateWithoutPaymentInput {
   value: Int;
   originalValue: Int;
   participationHistory?: Maybe<ParticipantCreateManyInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export interface CourseInstanceUpdateManyWithWhereNestedInput {
@@ -4168,6 +4202,22 @@ export interface CardWhereInput {
   participationHistory_every?: Maybe<ParticipantWhereInput>;
   participationHistory_some?: Maybe<ParticipantWhereInput>;
   participationHistory_none?: Maybe<ParticipantWhereInput>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonLength_not?: Maybe<Int>;
+  privateLessonLength_in?: Maybe<Int[] | Int>;
+  privateLessonLength_not_in?: Maybe<Int[] | Int>;
+  privateLessonLength_lt?: Maybe<Int>;
+  privateLessonLength_lte?: Maybe<Int>;
+  privateLessonLength_gt?: Maybe<Int>;
+  privateLessonLength_gte?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
+  privateLessonUseDate_not?: Maybe<DateTimeInput>;
+  privateLessonUseDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  privateLessonUseDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  privateLessonUseDate_lt?: Maybe<DateTimeInput>;
+  privateLessonUseDate_lte?: Maybe<DateTimeInput>;
+  privateLessonUseDate_gt?: Maybe<DateTimeInput>;
+  privateLessonUseDate_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CardWhereInput[] | CardWhereInput>;
   OR?: Maybe<CardWhereInput[] | CardWhereInput>;
   NOT?: Maybe<CardWhereInput[] | CardWhereInput>;
@@ -4202,6 +4252,8 @@ export interface CardUpdateManyMutationInput {
   paid?: Maybe<Boolean>;
   value?: Maybe<Int>;
   originalValue?: Maybe<Int>;
+  privateLessonLength?: Maybe<Int>;
+  privateLessonUseDate?: Maybe<DateTimeInput>;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -4767,6 +4819,8 @@ export interface Card {
   paid: Boolean;
   value: Int;
   originalValue: Int;
+  privateLessonLength: Int;
+  privateLessonUseDate?: DateTimeOutput;
 }
 
 export interface CardPromise extends Promise<Card>, Fragmentable {
@@ -4789,6 +4843,8 @@ export interface CardPromise extends Promise<Card>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  privateLessonLength: () => Promise<Int>;
+  privateLessonUseDate: () => Promise<DateTimeOutput>;
 }
 
 export interface CardSubscription
@@ -4815,6 +4871,8 @@ export interface CardSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  privateLessonLength: () => Promise<AsyncIterator<Int>>;
+  privateLessonUseDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CardNullablePromise
@@ -4839,6 +4897,8 @@ export interface CardNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  privateLessonLength: () => Promise<Int>;
+  privateLessonUseDate: () => Promise<DateTimeOutput>;
 }
 
 export interface AggregateTeacher {
@@ -4912,6 +4972,8 @@ export interface CardPreviousValues {
   paid: Boolean;
   value: Int;
   originalValue: Int;
+  privateLessonLength: Int;
+  privateLessonUseDate?: DateTimeOutput;
 }
 
 export interface CardPreviousValuesPromise
@@ -4925,6 +4987,8 @@ export interface CardPreviousValuesPromise
   paid: () => Promise<Boolean>;
   value: () => Promise<Int>;
   originalValue: () => Promise<Int>;
+  privateLessonLength: () => Promise<Int>;
+  privateLessonUseDate: () => Promise<DateTimeOutput>;
 }
 
 export interface CardPreviousValuesSubscription
@@ -4938,6 +5002,8 @@ export interface CardPreviousValuesSubscription
   paid: () => Promise<AsyncIterator<Boolean>>;
   value: () => Promise<AsyncIterator<Int>>;
   originalValue: () => Promise<AsyncIterator<Int>>;
+  privateLessonLength: () => Promise<AsyncIterator<Int>>;
+  privateLessonUseDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface StudioEdge {

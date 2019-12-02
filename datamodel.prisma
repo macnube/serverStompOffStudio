@@ -128,6 +128,8 @@ type Card {
     value: Int!
     originalValue: Int!
     participationHistory: [Participant]
+    privateLessonLength: Int! @default(value: 0)
+    privateLessonUseDate: DateTime 
 }
 
 enum PaymentType {
@@ -181,4 +183,3 @@ type MailgunEmailPayload {
     id: ID! @id
     success: Boolean!
 }
-
