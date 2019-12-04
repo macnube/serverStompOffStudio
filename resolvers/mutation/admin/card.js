@@ -72,7 +72,6 @@ const card = {
         };
         if (card.privateLessonLength === 0 && args.privateLessonLength > 0) {
             data.privateLessonLength = args.privateLessonLength;
-            data.privateLessonUseDate = false;
         }
         return context.prisma.updateCard({
             data,
