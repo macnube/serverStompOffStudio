@@ -1,5 +1,53 @@
-const { map, includes } = require('lodash');
-const { startOfDay } = require('date-fns');
+const { map, includes, forEach, reduce } = require('lodash');
+const { startOfDay, addDays, getDay } = require('date-fns');
+
+const dayOfWeek = {
+    MON: 1,
+    TUE: 2,
+    WED: 3,
+    THU: 4,
+    FRI: 5,
+    SAT: 6,
+    SUN: 7,
+};
+
+const getNextCardExpirationDate = async (card, context) => {
+    const student = await context.prisma.card({ id: card.id }).student();
+    const activeMemberships = await context.prisma
+        .memberships({
+            where: {
+                status: 'ACTIVE',
+                student: {
+                    cards_some: {
+                        id: card.id,
+                    },
+                },
+            },
+        })
+        .course();
+    if (activeMemberships.length === 1) {
+        return addDays(card.expirationDate, 7);
+    }
+    const currentDayValue = getDay(card.expirationDate);
+    const dateDifference = reduce(
+        activeMemberships,
+        (result, membership) => {
+            const dayValue = dayOfWeek[membership.course.day];
+            let difference;
+            if (dayValue >= currentDayValue) {
+                difference = dayValue - currentDayValue;
+            } else {
+                difference = 7 - dayValue;
+            }
+            if (difference < result && difference > 0) {
+                return difference;
+            }
+            return result;
+        },
+        7
+    );
+    return addDays(card.expirationDate, dateDifference);
+};
 
 const courseInstance = {
     createCourseInstance: async (root, args, context) => {
@@ -79,6 +127,50 @@ const courseInstance = {
                 notes: args.notes,
                 recapUrl: args.recapUrl,
                 date: startOfDay(args.date),
+            },
+            where: { id: args.id },
+        });
+    },
+    cancelCourseInstance: async (root, args, context) => {
+        const courseInstance = await context.prisma.courseInstance({
+            id: args.id,
+        });
+        if (courseInstance.isCancelled) {
+            return courseInstance;
+        }
+        const cards = await context.prisma.cards({
+            where: {
+                student: {
+                    memberships_some: {
+                        course: {
+                            instances_some: {
+                                id: args.id,
+                            },
+                        },
+                    },
+                },
+                active: true,
+            },
+        });
+        forEach(cards, async card => {
+            if (courseInstance.date <= card.expirationDate) {
+                const newExpirationDate = await getNextCardExpirationDate(
+                    card,
+                    context
+                );
+                await context.prisma.updateCard({
+                    data: {
+                        expirationDate: newExpirationDate,
+                    },
+                    where: {
+                        id: card.id,
+                    },
+                });
+            }
+        });
+        return context.prisma.updateCourseInstance({
+            data: {
+                isCancelled: true,
             },
             where: { id: args.id },
         });

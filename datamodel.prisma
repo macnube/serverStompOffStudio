@@ -114,6 +114,7 @@ type CourseInstance {
     notes: String
     participants: [Participant!] @relation(link: TABLE name: "ParticipantByInstance" onDelete: CASCADE)
     recapUrl: String
+    isCancelled: Boolean! @default(value: false)
 }
 
 type Card {

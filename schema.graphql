@@ -151,6 +151,7 @@ type Mutation {
         date: DateTime!
         recapUrl: String
     ): CourseInstance
+    cancelCourseInstance(id: ID!): CourseInstance
     addParticipantToCourseInstance(id: ID!, membershipId: ID!): CourseInstance
     deleteParticipant(id: ID!): Participant
     logParticipantStatus(id: ID!, status: ParticipantStatus!): Participant

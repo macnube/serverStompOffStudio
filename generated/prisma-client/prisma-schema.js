@@ -826,6 +826,7 @@ type CourseInstance {
   notes: String
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
   recapUrl: String
+  isCancelled: Boolean!
 }
 
 type CourseInstanceConnection {
@@ -842,6 +843,7 @@ input CourseInstanceCreateInput {
   notes: String
   participants: ParticipantCreateManyWithoutCourseInstanceInput
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceCreateManyWithoutCourseInput {
@@ -861,6 +863,7 @@ input CourseInstanceCreateWithoutCourseInput {
   notes: String
   participants: ParticipantCreateManyWithoutCourseInstanceInput
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceCreateWithoutParticipantsInput {
@@ -870,6 +873,7 @@ input CourseInstanceCreateWithoutParticipantsInput {
   topic: String
   notes: String
   recapUrl: String
+  isCancelled: Boolean
 }
 
 type CourseInstanceEdge {
@@ -892,6 +896,8 @@ enum CourseInstanceOrderByInput {
   notes_DESC
   recapUrl_ASC
   recapUrl_DESC
+  isCancelled_ASC
+  isCancelled_DESC
 }
 
 type CourseInstancePreviousValues {
@@ -902,6 +908,7 @@ type CourseInstancePreviousValues {
   topic: String
   notes: String
   recapUrl: String
+  isCancelled: Boolean!
 }
 
 input CourseInstanceScalarWhereInput {
@@ -985,6 +992,8 @@ input CourseInstanceScalarWhereInput {
   recapUrl_not_starts_with: String
   recapUrl_ends_with: String
   recapUrl_not_ends_with: String
+  isCancelled: Boolean
+  isCancelled_not: Boolean
   AND: [CourseInstanceScalarWhereInput!]
   OR: [CourseInstanceScalarWhereInput!]
   NOT: [CourseInstanceScalarWhereInput!]
@@ -1015,6 +1024,7 @@ input CourseInstanceUpdateInput {
   notes: String
   participants: ParticipantUpdateManyWithoutCourseInstanceInput
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceUpdateManyDataInput {
@@ -1022,6 +1032,7 @@ input CourseInstanceUpdateManyDataInput {
   topic: String
   notes: String
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceUpdateManyMutationInput {
@@ -1029,6 +1040,7 @@ input CourseInstanceUpdateManyMutationInput {
   topic: String
   notes: String
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceUpdateManyWithoutCourseInput {
@@ -1061,6 +1073,7 @@ input CourseInstanceUpdateWithoutCourseDataInput {
   notes: String
   participants: ParticipantUpdateManyWithoutCourseInstanceInput
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceUpdateWithoutParticipantsDataInput {
@@ -1069,6 +1082,7 @@ input CourseInstanceUpdateWithoutParticipantsDataInput {
   topic: String
   notes: String
   recapUrl: String
+  isCancelled: Boolean
 }
 
 input CourseInstanceUpdateWithWhereUniqueWithoutCourseInput {
@@ -1172,6 +1186,8 @@ input CourseInstanceWhereInput {
   recapUrl_not_starts_with: String
   recapUrl_ends_with: String
   recapUrl_not_ends_with: String
+  isCancelled: Boolean
+  isCancelled_not: Boolean
   AND: [CourseInstanceWhereInput!]
   OR: [CourseInstanceWhereInput!]
   NOT: [CourseInstanceWhereInput!]

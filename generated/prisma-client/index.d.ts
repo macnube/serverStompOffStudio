@@ -795,7 +795,9 @@ export type CourseInstanceOrderByInput =
   | "notes_ASC"
   | "notes_DESC"
   | "recapUrl_ASC"
-  | "recapUrl_DESC";
+  | "recapUrl_DESC"
+  | "isCancelled_ASC"
+  | "isCancelled_DESC";
 
 export type PaymentOrderByInput =
   | "id_ASC"
@@ -1216,6 +1218,7 @@ export interface CourseInstanceCreateWithoutCourseInput {
   notes?: Maybe<String>;
   participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface CourseInstanceSubscriptionWhereInput {
@@ -1989,6 +1992,7 @@ export interface CourseInstanceUpdateInput {
   notes?: Maybe<String>;
   participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface RoomUpdateInput {
@@ -2239,6 +2243,7 @@ export interface CourseInstanceCreateInput {
   notes?: Maybe<String>;
   participants?: Maybe<ParticipantCreateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface CourseCreateOneWithoutMembershipsInput {
@@ -2436,6 +2441,7 @@ export interface CourseInstanceUpdateWithoutParticipantsDataInput {
   topic?: Maybe<String>;
   notes?: Maybe<String>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface CardCreateOneWithoutPaymentInput {
@@ -2795,6 +2801,8 @@ export interface CourseInstanceWhereInput {
   recapUrl_not_starts_with?: Maybe<String>;
   recapUrl_ends_with?: Maybe<String>;
   recapUrl_not_ends_with?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
+  isCancelled_not?: Maybe<Boolean>;
   AND?: Maybe<CourseInstanceWhereInput[] | CourseInstanceWhereInput>;
   OR?: Maybe<CourseInstanceWhereInput[] | CourseInstanceWhereInput>;
   NOT?: Maybe<CourseInstanceWhereInput[] | CourseInstanceWhereInput>;
@@ -3539,6 +3547,7 @@ export interface CourseInstanceCreateWithoutParticipantsInput {
   topic?: Maybe<String>;
   notes?: Maybe<String>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface CardUpdateManyDataInput {
@@ -3830,6 +3839,7 @@ export interface CourseInstanceUpdateWithoutCourseDataInput {
   notes?: Maybe<String>;
   participants?: Maybe<ParticipantUpdateManyWithoutCourseInstanceInput>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface ParticipantUpdateManyMutationInput {
@@ -3878,6 +3888,7 @@ export interface CourseInstanceUpdateManyMutationInput {
   topic?: Maybe<String>;
   notes?: Maybe<String>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export interface ParticipantUpdateWithoutCourseInstanceDataInput {
@@ -4013,6 +4024,8 @@ export interface CourseInstanceScalarWhereInput {
   recapUrl_not_starts_with?: Maybe<String>;
   recapUrl_ends_with?: Maybe<String>;
   recapUrl_not_ends_with?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
+  isCancelled_not?: Maybe<Boolean>;
   AND?: Maybe<
     CourseInstanceScalarWhereInput[] | CourseInstanceScalarWhereInput
   >;
@@ -4127,6 +4140,7 @@ export interface CourseInstanceUpdateManyDataInput {
   topic?: Maybe<String>;
   notes?: Maybe<String>;
   recapUrl?: Maybe<String>;
+  isCancelled?: Maybe<Boolean>;
 }
 
 export type CourseWhereUniqueInput = AtLeastOne<{
@@ -5581,6 +5595,7 @@ export interface CourseInstancePreviousValues {
   topic?: String;
   notes?: String;
   recapUrl?: String;
+  isCancelled: Boolean;
 }
 
 export interface CourseInstancePreviousValuesPromise
@@ -5593,6 +5608,7 @@ export interface CourseInstancePreviousValuesPromise
   topic: () => Promise<String>;
   notes: () => Promise<String>;
   recapUrl: () => Promise<String>;
+  isCancelled: () => Promise<Boolean>;
 }
 
 export interface CourseInstancePreviousValuesSubscription
@@ -5605,6 +5621,7 @@ export interface CourseInstancePreviousValuesSubscription
   topic: () => Promise<AsyncIterator<String>>;
   notes: () => Promise<AsyncIterator<String>>;
   recapUrl: () => Promise<AsyncIterator<String>>;
+  isCancelled: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface MailgunEmailPayloadConnection {
@@ -6900,6 +6917,7 @@ export interface CourseInstance {
   topic?: String;
   notes?: String;
   recapUrl?: String;
+  isCancelled: Boolean;
 }
 
 export interface CourseInstancePromise
@@ -6922,6 +6940,7 @@ export interface CourseInstancePromise
     last?: Int;
   }) => T;
   recapUrl: () => Promise<String>;
+  isCancelled: () => Promise<Boolean>;
 }
 
 export interface CourseInstanceSubscription
@@ -6944,6 +6963,7 @@ export interface CourseInstanceSubscription
     last?: Int;
   }) => T;
   recapUrl: () => Promise<AsyncIterator<String>>;
+  isCancelled: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface CourseInstanceNullablePromise
@@ -6966,6 +6986,7 @@ export interface CourseInstanceNullablePromise
     last?: Int;
   }) => T;
   recapUrl: () => Promise<String>;
+  isCancelled: () => Promise<Boolean>;
 }
 
 export interface StudentPreviousValues {
