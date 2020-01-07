@@ -73,6 +73,7 @@ type Card {
   createdAt: DateTime!
   student: Student!
   payment: Payment
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean!
   paid: Boolean!
@@ -93,6 +94,7 @@ input CardCreateInput {
   id: ID
   student: StudentCreateOneWithoutCardsInput!
   payment: PaymentCreateOneWithoutCardInput
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -116,6 +118,7 @@ input CardCreateOneWithoutPaymentInput {
 input CardCreateWithoutPaymentInput {
   id: ID
   student: StudentCreateOneWithoutCardsInput!
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -129,6 +132,7 @@ input CardCreateWithoutPaymentInput {
 input CardCreateWithoutStudentInput {
   id: ID
   payment: PaymentCreateOneWithoutCardInput
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -151,6 +155,8 @@ enum CardOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  startDate_ASC
+  startDate_DESC
   expirationDate_ASC
   expirationDate_DESC
   active_ASC
@@ -171,6 +177,7 @@ type CardPreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean!
   paid: Boolean!
@@ -211,6 +218,14 @@ input CardScalarWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
   expirationDate: DateTime
   expirationDate_not: DateTime
   expirationDate_in: [DateTime!]
@@ -281,6 +296,7 @@ input CardSubscriptionWhereInput {
 input CardUpdateInput {
   student: StudentUpdateOneRequiredWithoutCardsInput
   payment: PaymentUpdateOneWithoutCardInput
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -292,6 +308,7 @@ input CardUpdateInput {
 }
 
 input CardUpdateManyDataInput {
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -302,6 +319,7 @@ input CardUpdateManyDataInput {
 }
 
 input CardUpdateManyMutationInput {
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -339,6 +357,7 @@ input CardUpdateOneWithoutPaymentInput {
 
 input CardUpdateWithoutPaymentDataInput {
   student: StudentUpdateOneRequiredWithoutCardsInput
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -351,6 +370,7 @@ input CardUpdateWithoutPaymentDataInput {
 
 input CardUpdateWithoutStudentDataInput {
   payment: PaymentUpdateOneWithoutCardInput
+  startDate: DateTime
   expirationDate: DateTime
   active: Boolean
   paid: Boolean
@@ -410,6 +430,14 @@ input CardWhereInput {
   createdAt_gte: DateTime
   student: StudentWhereInput
   payment: PaymentWhereInput
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
   expirationDate: DateTime
   expirationDate_not: DateTime
   expirationDate_in: [DateTime!]

@@ -123,6 +123,7 @@ type Card {
     createdAt: DateTime! @createdAt
     student: Student!
     payment: Payment
+    startDate: DateTime
     expirationDate: DateTime
     active: Boolean! @default(value: true)
     paid: Boolean! @default(value: false)

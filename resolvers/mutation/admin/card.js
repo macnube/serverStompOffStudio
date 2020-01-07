@@ -1,5 +1,14 @@
 const { find, filter, map, forEach } = require('lodash');
-const { parse, isBefore, startOfDay } = require('date-fns');
+const {
+    parse,
+    isBefore,
+    startOfDay,
+    subWeeks,
+    addWeeks,
+    subDays,
+    addDays,
+    getDay,
+} = require('date-fns');
 
 const { sendEmail, cardFinishedText, cardExpiredText } = require('../utils');
 
@@ -21,6 +30,83 @@ const getPrivateLessonLength = value => {
     return 0;
 };
 
+const getOpportunityWeekByActiveMemberships = memberships => {
+    const opportunityWeek = {
+        SUN: 0,
+        MON: 0,
+        TUE: 0,
+        WED: 0,
+        THU: 0,
+        FRI: 0,
+        SAT: 0,
+    };
+    forEach(memberships, m => {
+        opportunityWeek[m.course.day]++;
+    });
+    return opportunityWeek;
+};
+
+const getFutureCancelledInstanceDatesByCourseIds = async (
+    courseIds,
+    startDate,
+    context
+) => {
+    const instances = await context.prisma.courseInstances({
+        where: {
+            isCancelled: true,
+            course: {
+                id_in: courseIds,
+            },
+            date_gte: startOfDay(startDate),
+        },
+    });
+    return map(instances, i => i.date);
+};
+
+const getActiveMembershipCoursesByCard = async (studentId, context) =>
+    await context.prisma
+        .memberships({
+            where: {
+                status: 'ACTIVE',
+                student: {
+                    id: studentId,
+                },
+            },
+        })
+        .course();
+
+const getCardExpirationDate = async (studentId, startDate, context) => {
+    const activeMemberships = await getActiveMembershipCoursesByCard(
+        studentId,
+        context
+    );
+    const opportunityWeek = getOpportunityWeekByActiveMemberships(
+        activeMemberships
+    );
+    const courseIds = map(activeMemberships, m => m.course.id);
+    const cancelledInstanceDates = await getFutureCancelledInstanceDatesByCourseIds(
+        courseIds,
+        startDate,
+        context
+    );
+    let expirationDate = subDays(addWeeks(startDate, 10), 1);
+    let opportunityDeficit = filter(cancelledInstanceDates, d =>
+        isBefore(d, expirationDate)
+    ).length;
+    if (opportunityDeficit === 0) {
+        return expirationDate;
+    }
+    const dayValueToDay = Object.keys(opportunityWeek);
+    while (opportunityDeficit > 0) {
+        expirationDate = addDays(expirationDate, 1);
+        if (!cancelledInstanceDates.includes(expirationDate)) {
+            const dayValue = getDay(expirationDate);
+            opportunityDeficit -= opportunityWeek[dayValueToDay[dayValue]];
+        }
+    }
+    return expirationDate;
+};
+
 const card = {
     createCard: async (root, args, context) => {
         const activeCards = await context.prisma.cards({
@@ -36,7 +122,6 @@ const card = {
         );
         activeCards.forEach(async card => {
             if (!isValidDate(card.expirationDate)) {
-                console.log('here with card', card);
                 await context.prisma.updateCard({
                     data: {
                         active: false,
@@ -57,7 +142,12 @@ const card = {
                     id: args.studentId,
                 },
             },
-            expirationDate: args.expirationDate,
+            startDate: args.startDate,
+            expirationDate: await getCardExpirationDate(
+                args.studentId,
+                args.startDate,
+                context
+            ),
             value: args.value,
             privateLessonLength: getPrivateLessonLength(args.value),
             originalValue: args.value,
@@ -237,4 +327,4 @@ const card = {
     },
 };
 
-module.exports = card;
+module.exports = { card, getCardExpirationDate };

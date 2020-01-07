@@ -1,4 +1,4 @@
-const card = require('./card');
+const { card } = require('./card');
 const course = require('./course');
 const courseInstance = require('./courseInstance');
 const mailgun = require('./mailgun');

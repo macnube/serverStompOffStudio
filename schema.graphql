@@ -107,7 +107,7 @@ type Mutation {
     ): Membership
     deleteMembership(id: ID!): Membership
     updateMembershipStatus(id: ID!, status: MembershipStatus!): Membership
-    createCard(studentId: ID!, value: Int!, expirationDate: DateTime!): Card
+    createCard(studentId: ID!, value: Int!, startDate: DateTime!): Card
     updateCard(
         id: ID!
         value: Int!

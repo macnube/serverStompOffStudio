@@ -688,6 +688,8 @@ export type CardOrderByInput =
   | "updatedAt_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
   | "expirationDate_ASC"
   | "expirationDate_DESC"
   | "active_ASC"
@@ -1280,6 +1282,7 @@ export interface CardSubscriptionWhereInput {
 export interface CardUpdateInput {
   student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
   payment?: Maybe<PaymentUpdateOneWithoutCardInput>;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -1909,6 +1912,7 @@ export interface RoomUpdateWithWhereUniqueWithoutStudioInput {
 
 export interface CardUpdateWithoutStudentDataInput {
   payment?: Maybe<PaymentUpdateOneWithoutCardInput>;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -2281,6 +2285,7 @@ export interface UserCreateOneInput {
 
 export interface CardUpdateWithoutPaymentDataInput {
   student?: Maybe<StudentUpdateOneRequiredWithoutCardsInput>;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -3320,6 +3325,7 @@ export interface CardCreateInput {
   id?: Maybe<ID_Input>;
   student: StudentCreateOneWithoutCardsInput;
   payment?: Maybe<PaymentCreateOneWithoutCardInput>;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -3478,6 +3484,14 @@ export interface CardScalarWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  startDate_not?: Maybe<DateTimeInput>;
+  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_lt?: Maybe<DateTimeInput>;
+  startDate_lte?: Maybe<DateTimeInput>;
+  startDate_gt?: Maybe<DateTimeInput>;
+  startDate_gte?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   expirationDate_not?: Maybe<DateTimeInput>;
   expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3551,6 +3565,7 @@ export interface CourseInstanceCreateWithoutParticipantsInput {
 }
 
 export interface CardUpdateManyDataInput {
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -3920,6 +3935,7 @@ export interface ParticipantUpsertWithWhereUniqueWithoutCourseInstanceInput {
 export interface CardCreateWithoutStudentInput {
   id?: Maybe<ID_Input>;
   payment?: Maybe<PaymentCreateOneWithoutCardInput>;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -4038,6 +4054,7 @@ export interface CourseInstanceScalarWhereInput {
 export interface CardCreateWithoutPaymentInput {
   id?: Maybe<ID_Input>;
   student: StudentCreateOneWithoutCardsInput;
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -4185,6 +4202,14 @@ export interface CardWhereInput {
   createdAt_gte?: Maybe<DateTimeInput>;
   student?: Maybe<StudentWhereInput>;
   payment?: Maybe<PaymentWhereInput>;
+  startDate?: Maybe<DateTimeInput>;
+  startDate_not?: Maybe<DateTimeInput>;
+  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_lt?: Maybe<DateTimeInput>;
+  startDate_lte?: Maybe<DateTimeInput>;
+  startDate_gt?: Maybe<DateTimeInput>;
+  startDate_gte?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   expirationDate_not?: Maybe<DateTimeInput>;
   expirationDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -4261,6 +4286,7 @@ export interface PaymentUpdateManyMutationInput {
 }
 
 export interface CardUpdateManyMutationInput {
+  startDate?: Maybe<DateTimeInput>;
   expirationDate?: Maybe<DateTimeInput>;
   active?: Maybe<Boolean>;
   paid?: Maybe<Boolean>;
@@ -4828,6 +4854,7 @@ export interface Card {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
+  startDate?: DateTimeOutput;
   expirationDate?: DateTimeOutput;
   active: Boolean;
   paid: Boolean;
@@ -4843,6 +4870,7 @@ export interface CardPromise extends Promise<Card>, Fragmentable {
   createdAt: () => Promise<DateTimeOutput>;
   student: <T = StudentPromise>() => T;
   payment: <T = PaymentPromise>() => T;
+  startDate: () => Promise<DateTimeOutput>;
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
   paid: () => Promise<Boolean>;
@@ -4869,6 +4897,7 @@ export interface CardSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   student: <T = StudentSubscription>() => T;
   payment: <T = PaymentSubscription>() => T;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
   paid: () => Promise<AsyncIterator<Boolean>>;
@@ -4897,6 +4926,7 @@ export interface CardNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
   student: <T = StudentPromise>() => T;
   payment: <T = PaymentPromise>() => T;
+  startDate: () => Promise<DateTimeOutput>;
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
   paid: () => Promise<Boolean>;
@@ -4981,6 +5011,7 @@ export interface CardPreviousValues {
   id: ID_Output;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
+  startDate?: DateTimeOutput;
   expirationDate?: DateTimeOutput;
   active: Boolean;
   paid: Boolean;
@@ -4996,6 +5027,7 @@ export interface CardPreviousValuesPromise
   id: () => Promise<ID_Output>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<DateTimeOutput>;
   expirationDate: () => Promise<DateTimeOutput>;
   active: () => Promise<Boolean>;
   paid: () => Promise<Boolean>;
@@ -5011,6 +5043,7 @@ export interface CardPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   expirationDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   active: () => Promise<AsyncIterator<Boolean>>;
   paid: () => Promise<AsyncIterator<Boolean>>;
