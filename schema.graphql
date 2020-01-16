@@ -22,6 +22,7 @@ type Query {
     instancesByStudent(id: ID!): [CourseInstance!]!
     unpaidCardsByStudent(id: ID!): [Card!]!
     unpaidCards: [Card!]!
+    activeCardByStudent(id: ID!): Card
     studentCards(id: ID!): [Card!]!
     card(id: ID!): Card!
     getParticipantByStudent(id: ID!): Participant

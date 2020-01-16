@@ -25,6 +25,18 @@ const studentQueries = {
             id: args.id,
         });
     },
+    activeCardByStudent: async (root, args, context) => {
+        const cards = await context.prisma.cards({
+            where: {
+                student: {
+                    id: args.id,
+                },
+                active: true,
+            },
+            orderBy: 'expirationDate_DESC',
+        });
+        return cards[0] || null;
+    },
     studentCards(root, args, context) {
         return context.prisma.cards({
             where: {
