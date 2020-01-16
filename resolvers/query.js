@@ -32,6 +32,7 @@ const studentQueries = {
                     id: args.id,
                 },
             },
+            orderBy: 'expirationDate_DESC',
         });
     },
     course(root, args, context) {
